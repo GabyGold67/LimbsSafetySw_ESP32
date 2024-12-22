@@ -3,13 +3,13 @@
   * @file	: LimbSafetySw_ESP32.cpp
   * @brief	: Source file for the LimbSafetySw_ESP32 library classes
   *
-  * @details The library implements classes that model Limbs Safety Switch for
+  * @details The library implements classes that models Limbs Safety Switch for
   * industrial production machines.
   *
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date	: Created on: 06/11/2023
-  * 		: Last modification: 08/11/2024
+  * 		: Last modification: 18/12/2024
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -35,68 +35,68 @@ LimbsSftySnglShtSw::LimbsSftySnglShtSw()
 {
 }
 
-LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpPrm, swtchInptHwCfg_t rghtHndInpPrm, swtchInptHwCfg_t ftInpPrm,
+LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptHwCfg_t rghtHndInpCfg, swtchInptHwCfg_t ftInpCfg,
                                        int8_t sftySwActvOtpPin,
-                                       swtchOtptHwCfg_t lftHndOtptPrm, swtchOtptHwCfg_t rghtHndOtptPrm, swtchOtptHwCfg_t ftOtptPrm,
+                                       swtchOtptHwCfg_t lftHndOtptCfg, swtchOtptHwCfg_t rghtHndOtptCfg, swtchOtptHwCfg_t ftOtptCfg,
                                        int8_t hndsSwtchsOkPin)
-:_lftHndInpCfg{lftHndInpPrm}, _rghtHndInpCfg{rghtHndInpPrm}, _ftInpCfg{ftInpPrm},
+:_lftHndInpCfg{lftHndInpCfg}, _rghtHndInpCfg{rghtHndInpCfg}, _ftInpCfg{ftInpCfg},
 _sftySwActvOtpPin{sftySwActvOtpPin}, 
-_lftHndOtptCfg{lftHndOtptPrm}, _rghtHndOtptCfg{rghtHndOtptPrm}, _ftOtptCfg{ftOtptPrm},
+_lftHndOtptCfg{lftHndOtptCfg}, _rghtHndOtptCfg{rghtHndOtptCfg}, _ftOtptCfg{ftOtptCfg},
 _hndsSwtchsOkPin{hndsSwtchsOkPin}
 {
    // Build DbncdMPBttn objects and pointers
-    TmVdblMPBttn _undrlLftHndHTVMPB(_lftHndInpCfg.inptPin, _lftHndSwCfg.hndSwtchVdTm /*_stdTVMPBttnVoidTime*/, _lftHndInpCfg.pulledUp, _lftHndInpCfg.typeNO, _lftHndInpCfg.dbncTime, _lftHndSwCfg.hndSwtchDlyTm/*_stdTVMPBttnDelayTime*/, true);
+    TmVdblMPBttn _undrlLftHndHTVMPB(_lftHndInpCfg.inptPin, _lftHndSwCfg.swtchVdTm, _lftHndInpCfg.pulledUp, _lftHndInpCfg.typeNO, _lftHndInpCfg.dbncTime, _lftHndSwCfg.swtchStrtDlyTm, true);
    _undrlLftHndHTVMPBPtr = &_undrlLftHndHTVMPB;   
-   TmVdblMPBttn _undrlRghtHndHTVMPB (_rghtHndInpCfg.inptPin, _rghtHndSwCfg.hndSwtchVdTm/*_stdTVMPBttnVoidTime*/, _rghtHndInpCfg.pulledUp, _rghtHndInpCfg.typeNO, _rghtHndInpCfg.dbncTime, _rghtHndSwCfg.hndSwtchDlyTm/*_stdTVMPBttnDelayTime*/, true);
+   TmVdblMPBttn _undrlRghtHndHTVMPB (_rghtHndInpCfg.inptPin, _rghtHndSwCfg.swtchVdTm, _rghtHndInpCfg.pulledUp, _rghtHndInpCfg.typeNO, _rghtHndInpCfg.dbncTime, _rghtHndSwCfg.swtchStrtDlyTm, true);
    _undrlRghtHndHTVMPBPtr = &_undrlRghtHndHTVMPB;
-   SnglSrvcVdblMPBttn _undrlFtSSVMPB (_ftInpCfg.inptPin, _ftInpCfg.pulledUp, _ftInpCfg.typeNO, _ftInpCfg.dbncTime, _ftSwCfg.hndSwtchDlyTm /*_stdSSVMPBttnDelayTime*/);
+   SnglSrvcVdblMPBttn _undrlFtSSVMPB (_ftInpCfg.inptPin, _ftInpCfg.pulledUp, _ftInpCfg.typeNO, _ftInpCfg.dbncTime, _ftSwCfg.swtchStrtDlyTm);
    _undrlFtSSVMPBPtr = &_undrlFtSSVMPB;
 
    // Configuration of the isEnabled state of both hands switches. Note: TmVdblMPBttn are instantiated with _isEnabled = true property value
-   if(!_lftHndSwCfg.hndSwtchEnbld)
+   if(!_lftHndSwCfg.swtchIsEnbld)
       _undrlLftHndHTVMPBPtr->disable();
-   if(!_rghtHndSwCfg.hndSwtchEnbld)
+   if(!_rghtHndSwCfg.swtchIsEnbld)
       _undrlRghtHndHTVMPBPtr->disable();
       
-   // Set the output pins to the required states
-   // Altough is expected after a Turn on/Reset that the MCU starts with all
-   // it's GPIO pins configured as Open Drain Input, but for security reasons
-   // the main activation switch output is first set to INPUT "Deactivated"
-   // It must be expressly set to OUTPUT just after configuration and before use
+   /*Set the output pins to the required states
+   Altough is expected after a Turn on/Reset that the MCU starts with all
+   it's GPIO pins configured as Open Drain Input, but for security reasons
+   the main activation switch output is first set to INPUT "Deactivated"
+   It must be expressly set to OUTPUT just after configuration and before use
+   */
    pinMode(_sftySwActvOtpPin.gpioOtptPin, INPUT);
    digitalWrite(_sftySwActvOtpPin.gpioOtptPin, (_sftySwActvOtpPin.gpioOtptActHgh)?LOW:HIGH);
 
    //The rest of te possible connected pins are configured as OUTPUTS, setting it's starting values as LOW/Reset
-   if(_lftHndOtptCfg.isOnOtptPin != _InvalidPinNum){
-      digitalWrite(_lftHndOtptCfg.isOnOtptPin, (_lftHndOtptCfg.isOnOtptActHgh)?LOW:HIGH);  //Deactivate pin
-      pinMode(_lftHndOtptCfg.isOnOtptPin, OUTPUT);
+   if(_lftHndOtptCfg.isOnPin.gpioOtptPin != _InvalidPinNum){
+      digitalWrite(_lftHndOtptCfg.isOnPin.gpioOtptPin, (_lftHndOtptCfg.isOnPin.gpioOtptActHgh)?LOW:HIGH);  //Deactivate pin
+      pinMode(_lftHndOtptCfg.isOnPin.gpioOtptPin, OUTPUT);
    }
-   if(_lftHndOtptCfg.isVddOtptPin != _InvalidPinNum){
-      digitalWrite(_lftHndOtptCfg.isVddOtptPin, (_lftHndOtptCfg.isVddOtptActHgh)?LOW:HIGH); //Deactivate pin
-      pinMode(_lftHndOtptCfg.isVddOtptPin, OUTPUT);
+   if(_lftHndOtptCfg.isVoidedPin.gpioOtptPin != _InvalidPinNum){
+      digitalWrite(_lftHndOtptCfg.isVoidedPin.gpioOtptPin, (_lftHndOtptCfg.isVoidedPin.gpioOtptActHgh)?LOW:HIGH); //Deactivate pin
+      pinMode(_lftHndOtptCfg.isVoidedPin.gpioOtptPin, OUTPUT);
    }
-   if(_lftHndOtptCfg.isEnbldOtptPin != _InvalidPinNum){
-      digitalWrite(_lftHndOtptCfg.isEnbldOtptPin,(_lftHndOtptCfg.isEnabledOtptActHgh)?LOW:HIGH);  //Deactivate pin
-      pinMode(_lftHndOtptCfg.isEnbldOtptPin, OUTPUT);
+   if(_lftHndOtptCfg.isEnabledPin.gpioOtptPin != _InvalidPinNum){
+      digitalWrite(_lftHndOtptCfg.isEnabledPin.gpioOtptPin,(_lftHndOtptCfg.isEnabledPin.gpioOtptActHgh)?LOW:HIGH);  //Deactivate pin
+      pinMode(_lftHndOtptCfg.isEnabledPin.gpioOtptPin, OUTPUT);
    }
    
-   if(_rghtHndOtptCfg.isOnOtptPin != _InvalidPinNum){
-      digitalWrite(_rghtHndOtptCfg.isOnOtptPin,(_rghtHndOtptCfg.isOnOtptActHgh)?LOW:HIGH); //Deactivate pin
-      pinMode(_rghtHndOtptCfg.isOnOtptPin, OUTPUT);
+   if(_rghtHndOtptCfg.isOnPin.gpioOtptPin != _InvalidPinNum){
+      digitalWrite(_rghtHndOtptCfg.isOnPin.gpioOtptPin,(_rghtHndOtptCfg.isOnPin.gpioOtptActHgh)?LOW:HIGH); //Deactivate pin
+      pinMode(_rghtHndOtptCfg.isOnPin.gpioOtptPin, OUTPUT);
    }
-   if(_rghtHndOtptCfg.isVddOtptPin != _InvalidPinNum){
-      digitalWrite(_rghtHndOtptCfg.isVddOtptPin, (_rghtHndOtptCfg.isVddOtptActHgh)?LOW:HIGH);   //Deactivate pin
-      pinMode(_rghtHndOtptCfg.isVddOtptPin, OUTPUT);
+   if(_rghtHndOtptCfg.isVoidedPin.gpioOtptPin != _InvalidPinNum){
+      digitalWrite(_rghtHndOtptCfg.isVoidedPin.gpioOtptPin, (_rghtHndOtptCfg.isVoidedPin.gpioOtptActHgh)?LOW:HIGH);   //Deactivate pin
+      pinMode(_rghtHndOtptCfg.isVoidedPin.gpioOtptPin, OUTPUT);
    }
-   if(_rghtHndOtptCfg.isEnbldOtptPin != _InvalidPinNum){
-      digitalWrite(_rghtHndOtptCfg.isEnbldOtptPin, (_rghtHndOtptCfg.isEnabledOtptActHgh)?LOW:HIGH); //Deactivate pin
-      pinMode(_rghtHndOtptCfg.isEnbldOtptPin, OUTPUT);
+   if(_rghtHndOtptCfg.isEnabledPin.gpioOtptPin != _InvalidPinNum){
+      digitalWrite(_rghtHndOtptCfg.isEnabledPin.gpioOtptPin, (_rghtHndOtptCfg.isEnabledPin.gpioOtptActHgh)?LOW:HIGH); //Deactivate pin
+      pinMode(_rghtHndOtptCfg.isEnabledPin.gpioOtptPin, OUTPUT);
    }
    if(_hndsSwtchsOkPin.gpioOtptPin != _InvalidPinNum){
       digitalWrite(_hndsSwtchsOkPin.gpioOtptPin, (_hndsSwtchsOkPin.gpioOtptActHgh)?LOW:HIGH);   //Deactivate pin
       pinMode(_hndsSwtchsOkPin.gpioOtptPin, OUTPUT);
-   }
-   
+   }   
    pinMode(_sftySwActvOtpPin.gpioOtptPin, OUTPUT); // Setting the main activation output pin to OUTPUT mode
 }
 
@@ -108,13 +108,12 @@ bool LimbsSftySnglShtSw::begin(unsigned long int updtPeriod){
    bool result {false};
 	BaseType_t tmrModResult {pdFAIL};
 
-	if (updtPeriod > 0){
-   // Set the logical underlying MPBttns to start updating it's inputs readings & output states
-      result = _undrlLftHndHTVMPBPtr->begin(20);
+	if (updtPeriod > 0){      
+      result = _undrlLftHndHTVMPBPtr->begin(20);   // Set the underlying left hand MPBttns to start updating it's input readings & output states
       if(result){
-         result = _undrlRghtHndHTVMPBPtr->begin(20);
+         result = _undrlRghtHndHTVMPBPtr->begin(20);  // Set the underlying right hand MPBttns to start updating it's input readings & output states
          if(result){
-            result = _undrlFtSSVMPBPtr->begin(20);
+            result = _undrlFtSSVMPBPtr->begin(20); // Set the underlying foot MPBttns to start updating it's input readings & output states
             if(result){
                if (!_lsssSwtchPollTmrHndl){        
                   _lsssSwtchPollTmrHndl = xTimerCreate(
@@ -139,6 +138,10 @@ bool LimbsSftySnglShtSw::begin(unsigned long int updtPeriod){
 }
 
 void LimbsSftySnglShtSw::clrStatus(){
+   _bothHandsSwOk = false;
+   _rlsMchnsmStrtTm = 0;
+   _dvcActvtnStrtTm = 0;
+   _dvcDeactvtnSgnl = false;
 
    return;
 }
@@ -149,9 +152,49 @@ void LimbsSftySnglShtSw::_clrSttChng(){
    return;
 }
 
+bool LimbsSftySnglShtSw::_cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg){
+   bool result{false};
+   TmVdblMPBttn* hndSwtchToCnf {nullptr};
+
+   if(isLeft)
+      hndSwtchToCnf = _undrlLftHndHTVMPBPtr;
+   else
+      hndSwtchToCnf = _undrlRghtHndHTVMPBPtr;
+
+   if(hndSwtchToCnf->getStrtDelay() != newCfg.swtchStrtDlyTm)
+      hndSwtchToCnf->setStrtDelay(newCfg.swtchStrtDlyTm);
+   
+   if(hndSwtchToCnf->getIsEnabled() != newCfg.swtchIsEnbld){
+      if(newCfg.swtchIsEnbld)
+         hndSwtchToCnf->enable();
+      else
+         hndSwtchToCnf->disable();
+   }
+
+   if(hndSwtchToCnf->getVoidTime() != newCfg.swtchVdTm)
+      hndSwtchToCnf->setVoidTime(newCfg.swtchVdTm);
+
+   return result;
+}
+
+bool LimbsSftySnglShtSw::cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg){
+
+   return _cnfgHndSwtch(true, newCfg);
+}
+
+bool LimbsSftySnglShtSw::cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg){
+
+   return _cnfgHndSwtch(false, newCfg);
+}
+
 bool LimbsSftySnglShtSw::getBothHndsSwOk(){
 
    return ((_undrlLftHndHTVMPBPtr->getIsOn()) && (_undrlRghtHndHTVMPBPtr->getIsOn()));
+}
+
+bool LimbsSftySnglShtSw::getActvCntrlChkpnt(){
+
+   return _actvCntrlChkpntOk;
 }
 
 void LimbsSftySnglShtSw::lsssSwtchPollCb(TimerHandle_t lssTmrCbArg){
@@ -159,21 +202,19 @@ void LimbsSftySnglShtSw::lsssSwtchPollCb(TimerHandle_t lssTmrCbArg){
 	portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 
 	taskENTER_CRITICAL(&mux);
-/**	if(mpbObj->getIsEnabled()){
-		// Input/Output signals update
-		mpbObj->updIsPressed();
-		// Flags/Triggers calculation & update
-		mpbObj->updValidPressesStatus();
-		mpbObj->updValidUnlatchStatus();
-		mpbObj->updWrnngOn();
-		mpbObj->updPilotOn();
-	}
- 	// State machine state update
- 	mpbObj->updFdaState();
+   // Input/Output signals update
+	lsssSwtchObj->_updBothHndsSwState();   
+
+   // Flags/Triggers calculation & update
+/* mpbObj->updValidPressesStatus();
+   mpbObj->updValidUnlatchStatus();
+*/ 
+	// State machine update
+ 	lsssSwtchObj->_updFdaState();
  	taskEXIT_CRITICAL(&mux);
 
 	//Outputs update, function and tasks executions based on outputs changed generated by the State Machine
-	if (mpbObj->getOutputsChange()){
+	/*if (mpbObj->getOutputsChange()){
 		if(mpbObj->getTaskToNotify() != NULL){
 			xTaskNotify(
 				mpbObj->getTaskToNotify(),	//TaskHandle_t of the task receiving notification
@@ -186,7 +227,13 @@ void LimbsSftySnglShtSw::lsssSwtchPollCb(TimerHandle_t lssTmrCbArg){
  */    
 
 	return;
-//}
+}
+
+void LimbsSftySnglShtSw::setActvCntrlChkpnt(const bool &newVal){
+   if(_actvCntrlChkpntOk != newVal)
+      _actvCntrlChkpntOk = newVal;
+
+   return;
 }
 
 void LimbsSftySnglShtSw::_setSttChng(){
@@ -202,6 +249,70 @@ void LimbsSftySnglShtSw::_updBothHndsSwState(){
 }
 
 void LimbsSftySnglShtSw::_updFdaState(){
+   /*
+   ## States description
+   
+Brief: stOffNotBHP
+Meaning: State off, not both hands pressed
+In: 
+   - Clean and reset data and flags
+   - Default: Clear **State Change** flag
+Do:
+   - Check both hands isOn condition: If (_bothHandsSwOk)   
+      - New State: stOffBHPNotFP
+      - Set **State Change** flag
+Out:    
+   - Set BHOn flag (for output signaling purposes)
+   - Set OtpsChng flag and increment OtpsChngCnt
+   - Enable FtMPB
+-------------------------------------------------------->>
+Brief: stOffBHPNotFP
+Meaning: State off, both hands pressed, not Foot press
+In: 
+   - Default: Clear **State Change** flag
+Do:
+   - If (_bothHandsSwOk == false)
+      - Disable FtMPB
+      - Disable BHOn flag
+      - New State: stOffNotBHP
+      - Set **State Change** flag
+   - Else if (flag FtOn = true):
+      - Save lftHndSwtch isEnabled value
+      - Save rghtHndSwtch isEnabled value
+      - Set lftHndSwtch isOnDisabled = false
+      - Set rghtHndSwtch isOnDisabled = false
+      - Set lftHndSwtch isEnabled = false
+      - Set rghtHndSwtch isEnabled = false
+      - New State: stActivated
+      - Set **State Change** flag
+Out:    
+   - N/A
+-------------------------------------------------------->>
+Brief: stActivated
+Meaning: State activate device
+In:
+   - Set Release Mechanism start time
+   - Set Device Activation start time
+   - Reset Deactivation flag
+   - set Release flag
+   - Set OtpsChng flag and increment OtpsChngCnt
+   - Default: Clear **State Change** flag
+Do:
+   - if (Timer == ReleaseTime)
+      - Reset Release flag
+      - Set OtpsChng flag and increment OtpsChngCnt
+      - New State: stActvtdTaSP
+      - Set **State Change** flag
+Out:    
+   - N/A
+-------------------------------------------------------->>
+Brief: stActvtdTaSP
+Meaning: State activated Time and signal pending
+In:
+
+
+
+   */
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 
 	taskENTER_CRITICAL(&mux);
@@ -213,34 +324,38 @@ void LimbsSftySnglShtSw::_updFdaState(){
 				_clrSttChng();
 			}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
-			if(getBothHndsSwOk()){
-				// Set "both hands pressed" attribute flag = true
-            // Set period enabled timer = 0
+			if(_bothHandsSwOk){
             // Enable FtSwitch
-            // If no External Accomplished signal expected, ensure the siganl is set to false
-            _lssFdaState = stBHPNotFP;
+            _undrlFtSSVMPBPtr->enable();
+            _lssFdaState = stOffBHPNotFP;
 				_setSttChng();	//Set flag to execute exiting OUT code
 			}
 			//Out: >>---------------------------------->>
 			if(_sttChng){}	// Execute this code only ONCE, when exiting this state
 			break;
 
-		case stBHPNotFP:
+		case stOffBHPNotFP:
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
-			if(!getBothHndsSwOk()){
+			if(!_bothHandsSwOk){
             _lssFdaState = stOffNotBHP;
             _setSttChng();
          }
          else{
+            // Check the foot switch release signal ok flag
+            if(_swtchRlsOk){
+               _lssFdaState = stActivated;
+               _setSttChng();
+            }
+            // If no External Accomplished signal expected, ensure the signal is set to false
 
          }
 			//Out: >>---------------------------------->>
 			if(_sttChng){}	// Execute this code only ONCE, when exiting this state
 			break;
 
-		case stOn:
+		case stActivated:
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
@@ -250,7 +365,7 @@ void LimbsSftySnglShtSw::_updFdaState(){
 			if(_sttChng){}	// Execute this code only ONCE, when exiting this state
 			break;
 
-		case stOnTaSP:
+		case stActvtdTaSP:
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
@@ -260,7 +375,7 @@ void LimbsSftySnglShtSw::_updFdaState(){
 			if(_sttChng){}	// Execute this code only ONCE, when exiting this state
 			break;
 
-		case stOnToSR:
+		case stActvtdoSR:
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
@@ -336,3 +451,13 @@ bool LimbsSftySnglShtSw::_updOutputs(){
 
 
 //=========================================================================> Class methods delimiter
+
+void setSwtchRlsStrt(){
+
+   return;
+}
+void setSwtchRlsStp(){
+
+   return;
+}
+

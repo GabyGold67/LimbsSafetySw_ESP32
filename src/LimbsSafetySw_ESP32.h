@@ -3,9 +3,10 @@
   * @file	: LimbsSafetySw_ESP32.h
   * @brief	: Header file for the LimbsSafetySw_ESP32 library classes
   *
-  * @details The library implements classes that model a Limbs Safety Switch for
-  * industrial production machines. The LimbsSftySnglShtSw cumpliments the following 
-  * properties:
+  * @details The library implements a class that models a Limbs Safety Switch for
+  * industrial production machines or dangerous devices. The LimbsSftySnglShtSw
+  * cumpliments the following properties:
+  * 
   * - Its input signal is analog to those produced by an MPB, including but not limited to:
   *   - MPBs
   *   - Digital output pressure sensors
@@ -60,15 +61,19 @@
 //=================================================>> END User defined constants
 
 //===================================================>> BEGIN User defined types
-
 /**
  * @struct gpioPinOtptHwCfg_t
- * @brief GPIO Pin Output Hardware Configuration data structure
+ * @brief GPIO Generic Pin for Output Mode Configuration data structure
+ * 
+ * @param gpioOtptPin Pin identified by pin number, to be used in OUTPUT mode
+ * @param gpioOtptActHgh Boolean indicating if the device attached to the pin is activated by a high level signal (true) or a low level signal (false)
  * 
  * Resource to keep the class design flexible to be used with different hardware
- * develpments, this structure holds the output GPIO pin identification and a
- * flag indicating if the device connected to the output pin is activated by a
- * LOW level voltage or a HIGH level voltage.
+ * components, this structure holds the output GPIO pin identification and a
+ * flag indicating if the voltage level needed to activate the device connected 
+ * to the output pin. Polarity connection of leds, CC or CA RGB leds, low or high
+ * level activated relays are examples of where the gpioPinOtptHwCfg_t is a
+ * convenient replacement to simple pin configuration as Output Mode
  */
 struct gpioPinOtptHwCfg_t{
    int8_t gpioOtptPin = _InvalidPinNum;
@@ -80,7 +85,8 @@ struct gpioPinOtptHwCfg_t{
  * @brief Limbs Safety Firmware Configuration parameters
  * 
  * Holds the parameters for the creation and configuration of the Execution Core
- * and Task Execution Priority level for the switch output responses.
+ * (for multicore MCUs) and Task Execution Priority level for the switch status
+ * update code execution.
  * 
  * @attention Software construction related!! The information must be provided by
  * the software developers as it is related to the general develpment parameters.
@@ -97,13 +103,23 @@ struct limbSftyFwConf_t{
  * @struct limbSftySwConf_t
  * @brief Limbs Safety Software Configuration parameters
  * 
- * Holds the default values for a standard LimbsSftySnglShtSw configuration.
- * The provided default values might be modified using the S&G methods provided.
+ * Holds the required set of parameters needed for the configuration of each
+ * of the three DbncdMPBttn subclass switches needed for input (left hand's 
+ * TmVdblMPBttn, right hand's TmVdblMPBttn, foot's SnglSrvcVdblMPBttn)
+ * 
+ * Each parameter has default values assigned for a standard LimbsSftySnglShtSw
+ * configuration. The provided default values are expected to be only used if
+ * no explicit values are provided by the object instantiating software (from
+ * previous) executions configured values.
+ * 
+ * @param swtchStrtDlyTm Corresponds to the DbncdMPBttn subclasses strtDelay constructor parameter
+ * @param swtchIsEnbld Corresponds to the DbncdMPBttn subclasses _isEnabled attribute
+ * @param swtchVdTm Corresponds to the TmVdblMPBttn class voidTime constructor parameter, and will be used as an acivation time limit for the foot controled SnglSrvcMPBttn
  */
 struct limbSftySwCfg_t{
-  unsigned long int hndSwtchDlyTm = 0;
-  bool hndSwtchEnbld = true;
-  unsigned long int hndSwtchVdTm = _stdTVMPBttnVoidTime;
+  unsigned long int swtchStrtDlyTm = 0;
+  bool swtchIsEnbld = true;
+  unsigned long int swtchVdTm = _stdTVMPBttnVoidTime;
 };
 
 /**
@@ -146,17 +162,15 @@ struct swtchInptHwCfg_t{
  * the hardware developers
  */
 struct swtchOtptHwCfg_t{
-   int8_t isOnOtptPin = _InvalidPinNum;
-   bool isOnOtptActHgh = true;
-   int8_t isVddOtptPin = _InvalidPinNum;
-   bool isVddOtptActHgh = true;
-   int8_t isEnbldOtptPin = _InvalidPinNum;
-   bool isEnabledOtptActHgh = true;
+   gpioPinOtptHwCfg_t isOnPin;  
+   gpioPinOtptHwCfg_t isVoidedPin;  
+   gpioPinOtptHwCfg_t isEnabledPin;  
 };
-
 //===================================================>> END User defined types
 
 //======================================>> BEGIN General use function prototypes
+void setSwtchRlsStrt();
+void setSwtchRlsStp();
 //========================================>> END General use function prototypes
 
 //===========================>> BEGIN General use Static variables and constants
@@ -194,12 +208,12 @@ private:
   static TaskHandle_t lssTskToNtfyHndl;
   const unsigned long int _minVoidTime{1000};
   enum fdaLsSwtchStts {
-		stOffNotBHP,   /* State: Switch off, NOT both hands pressed signals isOn state  */
-		stBHPNotFP,    /* State: Switch off, both hands pressed signals isOn state*/
-		stOn,
-		stOnTaSP,
-      stOnToSR,
-      stFailExcepHndl
+		stOffNotBHP,   /*State: Switch off, NOT both hands pressed*/
+		stOffBHPNotFP, /*State: Switch off, both hands pressed, NOT foot press*/
+		stActivated,   /*State: both hands and foot pressed, StarterOn=true and device isOn=true signals*/
+		stActvtdTaSP,  /*State: Device isOn = true, waiting for StarterOn timer and/or isOn timer to be completed and/or deactivation signal receipt*/
+      stActvtdoSR,   /*State: Device isOn, activation time completed or deactivation signal received*/
+      stFailExcepHndl   /*State: Device failed: the deactivation signal mechanism was activated, the signal did not arrived before the activation time was completed. Something went wrong!*/
 	};
 
 protected:
@@ -218,7 +232,9 @@ protected:
    limbSftySwCfg_t _lftHndSwCfg{};
    limbSftySwCfg_t _rghtHndSwCfg{};
 
+   bool _actvCntrlChkpntOk{false};
    bool _bothHandsSwOk{false};
+   bool _swtchRlsOk{false};
    fdaLsSwtchStts _lssFdaState {stOffNotBHP};
    TimerHandle_t _lsssSwtchPollTmrHndl {NULL};   //FreeRTOS returns NULL if creation fails (not nullptr)
    bool _sttChng{true};
@@ -227,12 +243,17 @@ protected:
 	static void lsssSwtchPollCb(TimerHandle_t lssTmrCbArg);
 
    void _clrSttChng();
-   bool _cnfgHndSwtch(bool isLeft, limbSftySwCfg_t newCfg);
+   bool _cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg);
 	void _setSttChng();
    void _updBothHndsSwState();
    void _updFtSwState();
    void _updFdaState();
    bool _updOutputs();
+   unsigned long int _rlsMchnsmStrtTm{0};
+   unsigned long int _dvcActvtnStrtTm{0};
+   unsigned long int _dvcActvtnTtlTm{0};
+   bool _useDeactvtnSgnl{false};
+   bool _dvcDeactvtnSgnl{false};
 
 public:
   /**
@@ -273,9 +294,15 @@ public:
    bool begin(unsigned long int updtPeriod);
    void clrStatus();
    bool getBothHndsSwOk();
+   bool getActvCntrlChkpnt();
+   void setActvCntrlChkpnt(const bool &newVal);
    // bool cnfgFtSwtch();
-   // bool cnfgLftHndSwtch();
-   // bool cnfgRghtHndSwtch();
+   bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
+   bool cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg);
+   void setUseDeactvnSgnl(const bool &newVal);
+   bool getUsegDeactvnSgnl();
+   void setDeactvnSgnl();
+   void resetDeactvnSgnl();
    // bool end();
    // fncPtrType getFnWhnTrnOff();
 	// fncPtrType getFnWhnTrnOn();
