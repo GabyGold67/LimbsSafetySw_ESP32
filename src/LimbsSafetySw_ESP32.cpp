@@ -36,13 +36,12 @@ LimbsSftySnglShtSw::LimbsSftySnglShtSw()
 }
 
 LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptHwCfg_t rghtHndInpCfg, swtchInptHwCfg_t ftInpCfg,
-                                       int8_t sftySwActvOtpPin,
-                                       swtchOtptHwCfg_t lftHndOtptCfg, swtchOtptHwCfg_t rghtHndOtptCfg, swtchOtptHwCfg_t ftOtptCfg,
-                                       int8_t hndsSwtchsOkPin)
+                                       gpioPinOtptHwCfg_t ltchRlsActvOtpPin, gpioPinOtptHwCfg_t prdCyclActvOtpPin,
+                                       swtchOtptHwCfg_t lftHndOtptCfg, swtchOtptHwCfg_t rghtHndOtptCfg, swtchOtptHwCfg_t ftOtptCfg
+                                       )
 :_lftHndInpCfg{lftHndInpCfg}, _rghtHndInpCfg{rghtHndInpCfg}, _ftInpCfg{ftInpCfg},
-_sftySwActvOtpPin{sftySwActvOtpPin}, 
-_lftHndOtptCfg{lftHndOtptCfg}, _rghtHndOtptCfg{rghtHndOtptCfg}, _ftOtptCfg{ftOtptCfg},
-_hndsSwtchsOkPin{hndsSwtchsOkPin}
+_ltchRlsActvOtpPin{ltchRlsActvOtpPin}, _prdCyclActvOtpPin{prdCyclActvOtpPin},
+_lftHndOtptCfg{lftHndOtptCfg}, _rghtHndOtptCfg{rghtHndOtptCfg}, _ftOtptCfg{ftOtptCfg}
 {
    // Build DbncdMPBttn objects and pointers
     TmVdblMPBttn _undrlLftHndHTVMPB(_lftHndInpCfg.inptPin, _lftHndSwCfg.swtchVdTm, _lftHndInpCfg.pulledUp, _lftHndInpCfg.typeNO, _lftHndInpCfg.dbncTime, _lftHndSwCfg.swtchStrtDlyTm, true);
@@ -64,8 +63,11 @@ _hndsSwtchsOkPin{hndsSwtchsOkPin}
    the main activation switch output is first set to INPUT "Deactivated"
    It must be expressly set to OUTPUT just after configuration and before use
    */
-   pinMode(_sftySwActvOtpPin.gpioOtptPin, INPUT);
-   digitalWrite(_sftySwActvOtpPin.gpioOtptPin, (_sftySwActvOtpPin.gpioOtptActHgh)?LOW:HIGH);
+   pinMode(_ltchRlsActvOtpPin.gpioOtptPin, INPUT);
+   digitalWrite(_ltchRlsActvOtpPin.gpioOtptPin, (_ltchRlsActvOtpPin.gpioOtptActHgh)?LOW:HIGH);
+
+   pinMode(_prdCyclActvOtpPin.gpioOtptPin, INPUT);
+   digitalWrite(_prdCyclActvOtpPin.gpioOtptPin, (_prdCyclActvOtpPin.gpioOtptActHgh)?LOW:HIGH);
 
    //The rest of te possible connected pins are configured as OUTPUTS, setting it's starting values as LOW/Reset
    if(_lftHndOtptCfg.isOnPin.gpioOtptPin != _InvalidPinNum){
@@ -93,11 +95,9 @@ _hndsSwtchsOkPin{hndsSwtchsOkPin}
       digitalWrite(_rghtHndOtptCfg.isEnabledPin.gpioOtptPin, (_rghtHndOtptCfg.isEnabledPin.gpioOtptActHgh)?LOW:HIGH); //Deactivate pin
       pinMode(_rghtHndOtptCfg.isEnabledPin.gpioOtptPin, OUTPUT);
    }
-   if(_hndsSwtchsOkPin.gpioOtptPin != _InvalidPinNum){
-      digitalWrite(_hndsSwtchsOkPin.gpioOtptPin, (_hndsSwtchsOkPin.gpioOtptActHgh)?LOW:HIGH);   //Deactivate pin
-      pinMode(_hndsSwtchsOkPin.gpioOtptPin, OUTPUT);
-   }   
-   pinMode(_sftySwActvOtpPin.gpioOtptPin, OUTPUT); // Setting the main activation output pin to OUTPUT mode
+
+   pinMode(_ltchRlsActvOtpPin.gpioOtptPin, OUTPUT); // Setting the main activation output pin to OUTPUT mode
+   pinMode(_prdCyclActvOtpPin.gpioOtptPin, OUTPUT); // Setting the main activation output pin to OUTPUT mode
 }
 
 LimbsSftySnglShtSw::~LimbsSftySnglShtSw()
@@ -138,11 +138,8 @@ bool LimbsSftySnglShtSw::begin(unsigned long int updtPeriod){
 }
 
 void LimbsSftySnglShtSw::clrStatus(){
-   _bothHandsSwOk = false;
-   _rlsMchnsmStrtTm = 0;
-   _dvcActvtnStrtTm = 0;
-   _dvcDeactvtnSgnl = false;
-
+   _bothHandsSwIsOn = false;
+   _prdCyclTmrStrt = 0;
    return;
 }
 
@@ -151,6 +148,8 @@ void LimbsSftySnglShtSw::_clrSttChng(){
 
    return;
 }
+
+Gaby Verified to this point, check the unneeded get before set por the parameters, as methods include failsafe and unneeded change in code
 
 bool LimbsSftySnglShtSw::_cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg){
    bool result{false};
@@ -192,11 +191,6 @@ bool LimbsSftySnglShtSw::getBothHndsSwOk(){
    return ((_undrlLftHndHTVMPBPtr->getIsOn()) && (_undrlRghtHndHTVMPBPtr->getIsOn()));
 }
 
-bool LimbsSftySnglShtSw::getActvCntrlChkpnt(){
-
-   return _actvCntrlChkpntOk;
-}
-
 void LimbsSftySnglShtSw::lsssSwtchPollCb(TimerHandle_t lssTmrCbArg){
    LimbsSftySnglShtSw* lsssSwtchObj = (LimbsSftySnglShtSw*)pvTimerGetTimerID(lssTmrCbArg);
 	portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
@@ -229,11 +223,36 @@ void LimbsSftySnglShtSw::lsssSwtchPollCb(TimerHandle_t lssTmrCbArg){
 	return;
 }
 
-void LimbsSftySnglShtSw::setActvCntrlChkpnt(const bool &newVal){
-   if(_actvCntrlChkpntOk != newVal)
-      _actvCntrlChkpntOk = newVal;
+bool LimbsSftySnglShtSw::setLtchRlsTm(const unsigned long int &newVal){
+   bool result{false};
 
-   return;
+   if (_ltchRlsTtlTm != newVal){
+      if((newVal > 0) && (newVal <= _prdCyclTtlTm)){
+         _ltchRlsTtlTm = newVal;
+         result = true;
+      }
+   }
+   else{
+      result = true;
+   }
+
+   return result;
+}
+
+bool LimbsSftySnglShtSw::setPrdCyclTm(const unsigned long int &newVal){
+   bool result{false};
+
+   if(_prdCyclTtlTm != newVal){
+      if((newVal > 0) && (newVal >= _ltchRlsTtlTm)){
+         _prdCyclTtlTm = newVal;
+         result = true;
+      }
+   }
+   else{
+      result = true;
+   }
+   
+   return result;
 }
 
 void LimbsSftySnglShtSw::_setSttChng(){
@@ -243,7 +262,7 @@ void LimbsSftySnglShtSw::_setSttChng(){
 }
 
 void LimbsSftySnglShtSw::_updBothHndsSwState(){
-   _bothHandsSwOk = getBothHndsSwOk();
+   _bothHandsSwIsOn = getBothHndsSwOk();
 
    return;
 }
@@ -258,7 +277,7 @@ In:
    - Clean and reset data and flags
    - Default: Clear **State Change** flag
 Do:
-   - Check both hands isOn condition: If (_bothHandsSwOk)   
+   - Check both hands isOn condition: If (_bothHandsSwIsOn)   
       - New State: stOffBHPNotFP
       - Set **State Change** flag
 Out:    
@@ -271,7 +290,7 @@ Meaning: State off, both hands pressed, not Foot press
 In: 
    - Default: Clear **State Change** flag
 Do:
-   - If (_bothHandsSwOk == false)
+   - If (_bothHandsSwIsOn == false)
       - Disable FtMPB
       - Disable BHOn flag
       - New State: stOffNotBHP
@@ -283,12 +302,12 @@ Do:
       - Set rghtHndSwtch isOnDisabled = false
       - Set lftHndSwtch isEnabled = false
       - Set rghtHndSwtch isEnabled = false
-      - New State: stActivated
+      - New State: stStrtRlsStrtCycl
       - Set **State Change** flag
 Out:    
    - N/A
 -------------------------------------------------------->>
-Brief: stActivated
+Brief: stStrtRlsStrtCycl
 Meaning: State activate device
 In:
    - Set Release Mechanism start time
@@ -301,12 +320,12 @@ Do:
    - if (Timer == ReleaseTime)
       - Reset Release flag
       - Set OtpsChng flag and increment OtpsChngCnt
-      - New State: stActvtdTaSP
+      - New State: stEndRls
       - Set **State Change** flag
 Out:    
    - N/A
 -------------------------------------------------------->>
-Brief: stActvtdTaSP
+Brief: stEndRls
 Meaning: State activated Time and signal pending
 In:
 
@@ -316,7 +335,7 @@ In:
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 
 	taskENTER_CRITICAL(&mux);
-	switch(_lssFdaState){
+	switch(_lsssSwtchFdaState){
 		case stOffNotBHP:
 			//In: >>---------------------------------->>
 			if(_sttChng){
@@ -324,10 +343,10 @@ In:
 				_clrSttChng();
 			}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
-			if(_bothHandsSwOk){
+			if(_bothHandsSwIsOn){
             // Enable FtSwitch
             _undrlFtSSVMPBPtr->enable();
-            _lssFdaState = stOffBHPNotFP;
+            _lsssSwtchFdaState = stOffBHPNotFP;
 				_setSttChng();	//Set flag to execute exiting OUT code
 			}
 			//Out: >>---------------------------------->>
@@ -338,14 +357,14 @@ In:
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
-			if(!_bothHandsSwOk){
-            _lssFdaState = stOffNotBHP;
+			if(!_bothHandsSwIsOn){
+            _lsssSwtchFdaState = stOffNotBHP;
             _setSttChng();
          }
          else{
             // Check the foot switch release signal ok flag
-            if(_swtchRlsOk){
-               _lssFdaState = stActivated;
+            if(_ltchRlsOIsOn){
+               _lsssSwtchFdaState = stStrtRlsStrtCycl;
                _setSttChng();
             }
             // If no External Accomplished signal expected, ensure the signal is set to false
@@ -355,7 +374,7 @@ In:
 			if(_sttChng){}	// Execute this code only ONCE, when exiting this state
 			break;
 
-		case stActivated:
+		case stStrtRlsStrtCycl:
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
@@ -365,7 +384,7 @@ In:
 			if(_sttChng){}	// Execute this code only ONCE, when exiting this state
 			break;
 
-		case stActvtdTaSP:
+		case stEndRls:
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
@@ -375,7 +394,7 @@ In:
 			if(_sttChng){}	// Execute this code only ONCE, when exiting this state
 			break;
 
-		case stActvtdoSR:
+		case stEndCycl:
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
@@ -385,7 +404,7 @@ In:
 			if(_sttChng){}	// Execute this code only ONCE, when exiting this state
 			break;
 
-		case stFailExcepHndl:
+		case stEmrgncyExcpHndl:
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>

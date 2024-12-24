@@ -7,21 +7,18 @@
   * industrial production machines or dangerous devices. The LimbsSftySnglShtSw
   * cumpliments the following properties:
   * 
-  * - Its input signal is analog to those produced by an MPB, including but not limited to:
+  * - Its input signals are analog to those produced by an MPB, including but not limited to:
   *   - MPBs
   *   - Digital output pressure sensors
   *   - Proximity sensors
   *   - Infrared U-Slot Photoelectric Sensor
   * - Its main output signal will be limited to:
-  *   - On/Pressed/OK/High
-  *   - Off/Not Pressed/Not-OK/Low
+  *   - Release|OK/Latch|Not-OK
   * - Its secondary outputs signals will be limited to:
   *   - Enabled|Disabled
   *   - Valid|Voided
   *   - Pressed|Non-pressed
-  *   - Hands OK (Ready for foot switch)
-  *   - lssIsOn
-  *   - timerExceptionFlag
+  *   - Both Hands OK (Ready for foot switch)
   *
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
@@ -41,7 +38,7 @@
   * 
   * @warning **Use of this library is under your own responsibility**
   ******************************************************************************
-  */
+*/
 
 #ifndef _LIMBSSAFETYSW_ESP32_H_
 #define _LIMBSSAFETYSW_ESP32_H_
@@ -53,6 +50,8 @@
 //==============================================>> BEGIN User defined constants
 #ifndef _InvalidPinNum
    #define _InvalidPinNum GPIO_NUM_NC  //Not Connected pin number = -1, so a signed numeric type must be used!
+#endif
+#ifndef _maxValidPinNum
    #define _maxValidPinNum GPIO_NUM_MAX-1
 #endif
 #define _stdTVMPBttnVoidTime 10000UL
@@ -210,35 +209,41 @@ private:
   enum fdaLsSwtchStts {
 		stOffNotBHP,   /*State: Switch off, NOT both hands pressed*/
 		stOffBHPNotFP, /*State: Switch off, both hands pressed, NOT foot press*/
-		stActivated,   /*State: both hands and foot pressed, StarterOn=true and device isOn=true signals*/
-		stActvtdTaSP,  /*State: Device isOn = true, waiting for StarterOn timer and/or isOn timer to be completed and/or deactivation signal receipt*/
-      stActvtdoSR,   /*State: Device isOn, activation time completed or deactivation signal received*/
-      stFailExcepHndl   /*State: Device failed: the deactivation signal mechanism was activated, the signal did not arrived before the activation time was completed. Something went wrong!*/
+		stStrtRlsStrtCycl,   /*State: Both hands and foot pressed, start Production Cycle*/
+		stEndRls,  /*State: end latch released phase */
+      stEndCycl,   /*State: End production cycle, restart FDA*/
+      stEmrgncyExcpHndl   /*State: Handle received Emergency Exception signal*/
 	};
 
 protected:
-   TmVdblMPBttn* _undrlLftHndHTVMPBPtr{nullptr};
-   TmVdblMPBttn* _undrlRghtHndHTVMPBPtr{nullptr};
-   SnglSrvcVdblMPBttn* _undrlFtSSVMPBPtr;   
    swtchInptHwCfg_t _lftHndInpCfg;
    swtchInptHwCfg_t _rghtHndInpCfg;
    swtchInptHwCfg_t _ftInpCfg;
-   gpioPinOtptHwCfg_t _sftySwActvOtpPin{};
+   gpioPinOtptHwCfg_t _ltchRlsActvOtpPin{};
+   gpioPinOtptHwCfg_t _prdCyclActvOtpPin{};
    swtchOtptHwCfg_t _lftHndOtptCfg;
    swtchOtptHwCfg_t _rghtHndOtptCfg;
    swtchOtptHwCfg_t _ftOtptCfg;
    gpioPinOtptHwCfg_t _hndsSwtchsOkPin{};
+
    limbSftySwCfg_t _ftSwCfg{};
    limbSftySwCfg_t _lftHndSwCfg{};
    limbSftySwCfg_t _rghtHndSwCfg{};
+   SnglSrvcVdblMPBttn* _undrlFtSSVMPBPtr;   
+   TmVdblMPBttn* _undrlLftHndHTVMPBPtr{nullptr};
+   TmVdblMPBttn* _undrlRghtHndHTVMPBPtr{nullptr};
 
-   bool _actvCntrlChkpntOk{false};
-   bool _bothHandsSwOk{false};
-   bool _swtchRlsOk{false};
-   fdaLsSwtchStts _lssFdaState {stOffNotBHP};
+   unsigned long int _prdCyclTmrStrt{0};
+   unsigned long int _prdCyclTtlTm{0};
+   unsigned long int _ltchRlsTtlTm{0};
+
+   bool _bothHandsSwIsOn{false};
+   fdaLsSwtchStts _lsssSwtchFdaState {stOffNotBHP};
    TimerHandle_t _lsssSwtchPollTmrHndl {NULL};   //FreeRTOS returns NULL if creation fails (not nullptr)
+   bool _ltchRlsOIsOn{false};
+   bool _prdCyclIsOn{false};
    bool _sttChng{true};
-   String _swtchPollTmrName{"lmbSftySwtch-01"};
+   String _swtchPollTmrName{"lsssSwtch-01"};
 
 	static void lsssSwtchPollCb(TimerHandle_t lssTmrCbArg);
 
@@ -249,11 +254,6 @@ protected:
    void _updFtSwState();
    void _updFdaState();
    bool _updOutputs();
-   unsigned long int _rlsMchnsmStrtTm{0};
-   unsigned long int _dvcActvtnStrtTm{0};
-   unsigned long int _dvcActvtnTtlTm{0};
-   bool _useDeactvtnSgnl{false};
-   bool _dvcDeactvtnSgnl{false};
 
 public:
   /**
@@ -275,34 +275,31 @@ public:
    * @param lftHndInpPrm A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn
    * @param rghtHndInpPrm A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn
    * @param ftInpPrm A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn
-   * @param sftySwActvOtpPin (Optional) GPIO pin assigned to attach a device (indicator or other) to be activated when the switch signals ON. 
+   * @param ltchRlsActvOtpPin (Optional) GPIO pin assigned to attach a device (indicator or other) to be activated when the switch signals ON. 
    * @param lftHndOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the left hand output indicators for isOn, isEnabled and isVoided attributes flags
    * @param rghtHndOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the right hand output indicators for isOn, isEnabled and isVoided attributes flags
    * @param ftOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the foot switch output indicators for isOn attribute flag
    * @param hndsSwtchsOkPin (Optional) GPIO pin assigned to attach a device (indicator or other) activated when the hands safety protocol is cumplimented
    */
-  LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpPrm,
-                    swtchInptHwCfg_t rghtHndInpPrm,
-                    swtchInptHwCfg_t ftInpPrm,
-                    int8_t sftySwActvOtpPin,
-                    swtchOtptHwCfg_t lftHndOtptPrm,
-                    swtchOtptHwCfg_t rghtHndOtptPrm,
-                    swtchOtptHwCfg_t ftOtptPrm,
-                    int8_t hndsSwtchsOkPin = _InvalidPinNum
+  LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg,
+                    swtchInptHwCfg_t rghtHndInpCfg,
+                    swtchInptHwCfg_t ftInpCfg,
+                    gpioPinOtptHwCfg_t ltchRlsActvOtpPin,
+                    gpioPinOtptHwCfg_t prdCyclActvOtpPin,
+                    swtchOtptHwCfg_t lftHndOtptcfg,
+                    swtchOtptHwCfg_t rghtHndOtptCfg,
+                    swtchOtptHwCfg_t ftOtptCfg
                     );
    ~LimbsSftySnglShtSw();
    bool begin(unsigned long int updtPeriod);
    void clrStatus();
    bool getBothHndsSwOk();
-   bool getActvCntrlChkpnt();
-   void setActvCntrlChkpnt(const bool &newVal);
    // bool cnfgFtSwtch();
    bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
    bool cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg);
-   void setUseDeactvnSgnl(const bool &newVal);
-   bool getUsegDeactvnSgnl();
-   void setDeactvnSgnl();
-   void resetDeactvnSgnl();
+   bool setLtchRlsTm(const unsigned long int &newVal);
+   bool setPrdCyclTm(const unsigned long int &newVal);
+
    // bool end();
    // fncPtrType getFnWhnTrnOff();
 	// fncPtrType getFnWhnTrnOn();
