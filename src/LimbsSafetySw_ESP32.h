@@ -23,7 +23,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date	: Created on: 11/11/2024
-  * 		   : Last updated: 11/12/2024
+  * 		   : Last updated: 25/12/2024
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -39,7 +39,6 @@
   * @warning **Use of this library is under your own responsibility**
   ******************************************************************************
 */
-
 #ifndef _LIMBSSAFETYSW_ESP32_H_
 #define _LIMBSSAFETYSW_ESP32_H_
 
@@ -57,6 +56,7 @@
 #define _stdTVMPBttnVoidTime 10000UL
 #define _stdTVMPBttnDelayTime 0UL
 #define _stdSSVMPBttnDelayTime 0UL
+#define _dfltPollDelay 20UL
 //=================================================>> END User defined constants
 
 //===================================================>> BEGIN User defined types
@@ -168,8 +168,6 @@ struct swtchOtptHwCfg_t{
 //===================================================>> END User defined types
 
 //======================================>> BEGIN General use function prototypes
-void setSwtchRlsStrt();
-void setSwtchRlsStp();
 //========================================>> END General use function prototypes
 
 //===========================>> BEGIN General use Static variables and constants
@@ -219,39 +217,45 @@ protected:
    swtchInptHwCfg_t _lftHndInpCfg;
    swtchInptHwCfg_t _rghtHndInpCfg;
    swtchInptHwCfg_t _ftInpCfg;
-   gpioPinOtptHwCfg_t _ltchRlsActvOtpPin{};
-   gpioPinOtptHwCfg_t _prdCyclActvOtpPin{};
-   swtchOtptHwCfg_t _lftHndOtptCfg;
-   swtchOtptHwCfg_t _rghtHndOtptCfg;
-   swtchOtptHwCfg_t _ftOtptCfg;
-   gpioPinOtptHwCfg_t _hndsSwtchsOkPin{};
 
-   limbSftySwCfg_t _ftSwCfg{};
    limbSftySwCfg_t _lftHndSwCfg{};
    limbSftySwCfg_t _rghtHndSwCfg{};
-   SnglSrvcVdblMPBttn* _undrlFtSSVMPBPtr;   
+   limbSftySwCfg_t _ftSwCfg{};
+
+   SnglSrvcVdblMPBttn* _undrlFtSSVMPBPtr{nullptr};   
    TmVdblMPBttn* _undrlLftHndHTVMPBPtr{nullptr};
    TmVdblMPBttn* _undrlRghtHndHTVMPBPtr{nullptr};
 
+   MpbOtpts_t _lftHndSwtchStts{0};
+   MpbOtpts_t _rghtHndSwtchStts{0};
+   MpbOtpts_t _ftSwtchStts{0};
+
+   unsigned long int _undrlSwtchsPollDelay{_dfltPollDelay};
+
+   unsigned long int _curTime{0};
    unsigned long int _prdCyclTmrStrt{0};
    unsigned long int _prdCyclTtlTm{0};
    unsigned long int _ltchRlsTtlTm{0};
 
-   bool _bothHandsSwIsOn{false};
-   fdaLsSwtchStts _lsssSwtchFdaState {stOffNotBHP};
-   TimerHandle_t _lsssSwtchPollTmrHndl {NULL};   //FreeRTOS returns NULL if creation fails (not nullptr)
-   bool _ltchRlsOIsOn{false};
+   bool _bthHndsSwArOn{false};
+   bool _ltchRlsIsOn{false};
    bool _prdCyclIsOn{false};
-   bool _sttChng{true};
-   String _swtchPollTmrName{"lsssSwtch-01"};
 
-	static void lsssSwtchPollCb(TimerHandle_t lssTmrCbArg);
+   fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};
+   TimerHandle_t _lsSwtchPollTmrHndl {NULL};   //FreeRTOS returns NULL if creation fails (not nullptr)
+   bool _outputsChange{false};
+   uint32_t _outputsChangeCnt{0};
+   bool _sttChng{true};
+   String _swtchPollTmrName{"lsSwtch-01"};
+
+	static void lsSwtchPollCb(TimerHandle_t lssTmrCbArg);
 
    void _clrSttChng();
    bool _cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg);
 	void _setSttChng();
    void _updBothHndsSwState();
-   void _updFtSwState();
+   void _updCurTime();
+   void _updUndrlSwState();
    void _updFdaState();
    bool _updOutputs();
 
@@ -283,23 +287,27 @@ public:
    */
   LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg,
                     swtchInptHwCfg_t rghtHndInpCfg,
-                    swtchInptHwCfg_t ftInpCfg,
-                    gpioPinOtptHwCfg_t ltchRlsActvOtpPin,
-                    gpioPinOtptHwCfg_t prdCyclActvOtpPin,
-                    swtchOtptHwCfg_t lftHndOtptcfg,
-                    swtchOtptHwCfg_t rghtHndOtptCfg,
-                    swtchOtptHwCfg_t ftOtptCfg
+                    swtchInptHwCfg_t ftInpCfg
                     );
    ~LimbsSftySnglShtSw();
    bool begin(unsigned long int updtPeriod);
    void clrStatus();
    bool getBothHndsSwOk();
-   // bool cnfgFtSwtch();
+   const bool getOutputsChange() const;
+   bool cnfgFtSwtch(const limbSftySwCfg_t &newCfg);
    bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
    bool cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg);
    bool setLtchRlsTm(const unsigned long int &newVal);
+   /**
+	 * @brief Sets the value of the attribute flag indicating if a change took place in any of the output attribute flags (IsOn included).
+	 *
+	 * The usual path for the **outputsChange** flag is to be set by any method changing an output attribute flag, the callback function signaled to take care of the hardware actions because of this changes clears back **outputsChange** after taking care of them. In the unusual case the developer wants to "intercept" this sequence, this method is provided to set (true) or clear (false) outputsChange value.
+    *
+    * @param newOutputChange The new value to set the **outputsChange** flag to.
+    */
+	void setOutputsChange(bool newOutputsChange);
    bool setPrdCyclTm(const unsigned long int &newVal);
-
+   bool setUndrlSwtchPollDelay(DbncdMPBttn* undrlSwtch, const unsigned long int &newVal);
    // bool end();
    // fncPtrType getFnWhnTrnOff();
 	// fncPtrType getFnWhnTrnOn();
@@ -313,4 +321,51 @@ public:
 	// void setTaskToNotify(const TaskHandle_t &newTaskHandle);    
 };
 //=============================================================>
+
+class LimbsSftySnglShtSwHI{
+private:
+
+protected:
+   swtchOtptHwCfg_t _lftHndOtptCfg;
+   swtchOtptHwCfg_t _rghtHndOtptCfg;
+   swtchOtptHwCfg_t _ftOtptCfg;
+
+   gpioPinOtptHwCfg_t _hndsSwtchsOkPin{};
+   gpioPinOtptHwCfg_t _ltchRlsActvOtpPin{};
+   gpioPinOtptHwCfg_t _prdCyclActvOtpPin{};
+
+public:
+  /**
+   * @brief Class default constructor
+   * 
+   */
+  LimbsSftySnglShtSwHI();
+  /**
+   * @brief Class constructor
+   * 
+   * The class models a Limbs Safety Single Shot switch, a switch that gives an
+   * activation signal to a machine or device when some independent switches
+   * activated in a designated pattern ensures no risk for the operator limbs is
+   * completed.
+   * The constructor must instantiate the DbncdMPBttn subclasses objects that 
+   * compose the Limbs Safety Single Shot switch, i.e. the left hand 
+   * TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn
+   * 
+   * @param ltchRlsActvOtpPin (Optional) GPIO pin assigned to attach a device (indicator or other) to be activated when the switch signals ON. 
+   * @param lftHndOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the left hand output indicators for isOn, isEnabled and isVoided attributes flags
+   * @param rghtHndOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the right hand output indicators for isOn, isEnabled and isVoided attributes flags
+   * @param ftOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the foot switch output indicators for isOn attribute flag
+   * @param hndsSwtchsOkPin (Optional) GPIO pin assigned to attach a device (indicator or other) activated when the hands safety protocol is cumplimented
+   */
+  LimbsSftySnglShtSwHI(gpioPinOtptHwCfg_t ltchRlsActvOtpPin,
+                    gpioPinOtptHwCfg_t prdCyclActvOtpPin,
+                    swtchOtptHwCfg_t lftHndOtptcfg,
+                    swtchOtptHwCfg_t rghtHndOtptCfg,
+                    swtchOtptHwCfg_t ftOtptCfg
+                    );
+~LimbsSftySnglShtSwHI();
+};
+//===================================================>> END Classes declarations
+
+
 #endif   //_LIMBSSAFETYSW_ESP32_H_
