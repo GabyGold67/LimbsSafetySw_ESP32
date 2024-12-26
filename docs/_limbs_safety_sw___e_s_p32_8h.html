@@ -140,13 +140,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Switch Output Hardware Configuration data structure.  <a href="structswtch_otpt_hw_cfg__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_limbs_sfty_sngl_sht_sw.html">LimbsSftySnglShtSw</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Models a Limbs Safety Single Shot Switch (<a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw)">LimbsSftySnglShtSw</a>)  <a href="class_limbs_sfty_sngl_sht_sw.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Models a Limbs Safety Single Shot Switch (<a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a>) for safely activation of <b>"launch and forget" cycle machines</b> and devices.  <a href="class_limbs_sfty_sngl_sht_sw.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>: Header file for the LimbsSafetySw_ESP32 library classes </p>
-<p>The library implements classes that model a Limbs Safety Switch for industrial production machines. The <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw)">LimbsSftySnglShtSw</a> cumpliments the following properties:</p><ul>
-<li>Its input signal is analog to those produced by an MPB, including but not limited to:<ul>
+<p>The library implements a class that models a Limbs Safety Switch for industrial production machines or dangerous devices. The <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a> cumpliments the following properties:</p>
+<ul>
+<li>Its input signals are analog to those produced by an MPB, including but not limited to:<ul>
 <li>MPBs</li>
 <li>Digital output pressure sensors</li>
 <li>Proximity sensors</li>
@@ -154,23 +155,20 @@ Classes</h2></td></tr>
 </ul>
 </li>
 <li>Its main output signal will be limited to:<ul>
-<li>On/Pressed/OK/High</li>
-<li>Off/Not Pressed/Not-OK/Low</li>
+<li>Release|OK/Latch|Not-OK</li>
 </ul>
 </li>
 <li>Its secondary outputs signals will be limited to:<ul>
 <li>Enabled|Disabled</li>
 <li>Valid|Voided</li>
 <li>Pressed|Non-pressed</li>
-<li>Hands OK (Ready for foot switch)</li>
-<li>lssIsOn</li>
-<li>timerExceptionFlag</li>
+<li>Both Hands OK (Ready for foot switch)</li>
 </ul>
 </li>
 </ul>
 <dl class="section author"><dt>Author</dt><dd>: Gabriel D. Goldman </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>v1.0.0 </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>: Created on: 11/11/2024 : Last updated: 11/12/2024 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>: Created on: 11/11/2024 : Last updated: 25/12/2024 </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>GPL-3.0 license</dd></dl>
 <dl class="section attention"><dt>Attention</dt><dd>This library was developed as part of the refactoring process for an industrial machines safety enforcement and productivity control (hardware &amp; firmware update). As such every class included complies <b>AT LEAST</b> with the provision of the attributes and methods to make the hardware &amp; firmware replacement transparent to the controlled machines. Generic use attribute and methods were added to extend the usability to other projects and application environments, but no fitness nor completeness of those are given but for the intended refactoring project.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd><b>Use of this library is under your own responsibility</b> </dd></dl>

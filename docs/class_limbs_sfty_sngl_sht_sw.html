@@ -104,7 +104,7 @@ $(function(){initNavTree('class_limbs_sfty_sngl_sht_sw.html',''); initResizable(
 </div><!--header-->
 <div class="contents">
 
-<p>Models a Limbs Safety Single Shot Switch (<a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw)">LimbsSftySnglShtSw</a>)  
+<p>Models a Limbs Safety Single Shot Switch (<a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a>) for safely activation of <b>"launch and forget" cycle machines</b> and devices.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_limbs_safety_sw___e_s_p32_8h_source.html">LimbsSafetySw_ESP32.h</a>&gt;</code></p>
@@ -113,14 +113,9 @@ Collaboration diagram for LimbsSftySnglShtSw:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_limbs_sfty_sngl_sht_sw__coll__graph.png" border="0" usemap="#a_limbs_sfty_sngl_sht_sw_coll__map" alt="Collaboration graph"/></div>
 <map name="a_limbs_sfty_sngl_sht_sw_coll__map" id="a_limbs_sfty_sngl_sht_sw_coll__map">
-<area shape="rect" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw)" alt="" coords="111,256,256,283"/>
-<area shape="rect" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure." alt="" coords="5,131,136,157"/>
-<area shape="poly" title=" " alt="" coords="66,173,65,203,68,217,75,230,92,245,112,256,110,260,89,250,71,234,63,219,60,203,61,172"/>
-<area shape="rect" href="structgpio_pin_otpt_hw_cfg__t.html" title="GPIO Generic Pin for Output Mode Configuration data structure." alt="" coords="134,5,276,32"/>
-<area shape="poly" title=" " alt="" coords="205,48,198,128,187,256,182,255,193,128,200,48"/>
-<area shape="rect" href="structswtch_otpt_hw_cfg__t.html" title="Switch Output Hardware Configuration data structure." alt="" coords="326,131,460,157"/>
-<area shape="poly" title=" " alt="" coords="239,39,376,128,373,132,236,43"/>
-<area shape="poly" title=" " alt="" coords="360,168,206,258,204,253,357,163"/>
+<area shape="rect" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo..." alt="" coords="5,128,151,155"/>
+<area shape="rect" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure." alt="" coords="13,5,143,32"/>
+<area shape="poly" title=" " alt="" coords="81,48,81,127,75,127,75,48"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -130,21 +125,33 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>LimbsSftySnglShtSw</b> ()</td></tr>
 <tr class="memdesc:acc8aba21379674d61e278c3a0221879c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class default constructor. <br /></td></tr>
 <tr class="separator:acc8aba21379674d61e278c3a0221879c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17b41df65b0003e644fd6250fb90d4a0" id="r_a17b41df65b0003e644fd6250fb90d4a0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17b41df65b0003e644fd6250fb90d4a0">LimbsSftySnglShtSw</a> (<a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> lftHndInpPrm, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> rghtHndInpPrm, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> ftInpPrm, int8_t sftySwActvOtpPin, <a class="el" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> lftHndOtptPrm, <a class="el" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> rghtHndOtptPrm, <a class="el" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> ftOtptPrm, int8_t hndsSwtchsOkPin=_InvalidPinNum)</td></tr>
-<tr class="memdesc:a17b41df65b0003e644fd6250fb90d4a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class constructor.  <br /></td></tr>
-<tr class="separator:a17b41df65b0003e644fd6250fb90d4a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44c1adfc80afa93065faa3fca2bab15c" id="r_a44c1adfc80afa93065faa3fca2bab15c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44c1adfc80afa93065faa3fca2bab15c">LimbsSftySnglShtSw</a> (<a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> lftHndInpCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> rghtHndInpCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> ftInpCfg)</td></tr>
+<tr class="memdesc:a44c1adfc80afa93065faa3fca2bab15c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class constructor.  <br /></td></tr>
+<tr class="separator:a44c1adfc80afa93065faa3fca2bab15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c47788ea6a4a20faa846df78234abb3" id="r_a7c47788ea6a4a20faa846df78234abb3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c47788ea6a4a20faa846df78234abb3">begin</a> (unsigned long int updtPeriod=_minPollDelay)</td></tr>
+<tr class="memdesc:a7c47788ea6a4a20faa846df78234abb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attaches the instantiated object to a timer that monitors the input pins and updates the object status.  <br /></td></tr>
+<tr class="separator:a7c47788ea6a4a20faa846df78234abb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3e6eded50bf524623fbb2999fbe161b" id="r_ab3e6eded50bf524623fbb2999fbe161b"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3e6eded50bf524623fbb2999fbe161b">getLtchRlsIsOn</a> () const</td></tr>
+<tr class="memdesc:ab3e6eded50bf524623fbb2999fbe161b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get value the ltchRlsIsOn object's attribute flag.  <br /></td></tr>
+<tr class="separator:ab3e6eded50bf524623fbb2999fbe161b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f5268136b51436483e8de054e98ec02" id="r_a0f5268136b51436483e8de054e98ec02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f5268136b51436483e8de054e98ec02">setOutputsChange</a> (bool newOutputsChange)</td></tr>
+<tr class="memdesc:a0f5268136b51436483e8de054e98ec02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of the attribute flag indicating if a change took place in any of the output attribute flags (IsOn included).  <br /></td></tr>
+<tr class="separator:a0f5268136b51436483e8de054e98ec02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5d1888fdd0875b83a383d97df8e0e66" id="r_aa5d1888fdd0875b83a383d97df8e0e66"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5d1888fdd0875b83a383d97df8e0e66">setUndrlSwtchPollDelay</a> (const unsigned long int &amp;newVal)</td></tr>
+<tr class="memdesc:aa5d1888fdd0875b83a383d97df8e0e66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the update period lenght for the DbncdMPBttn subclasses objects used as input by the <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a>.  <br /></td></tr>
+<tr class="separator:aa5d1888fdd0875b83a383d97df8e0e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Models a Limbs Safety Single Shot Switch (<a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw)">LimbsSftySnglShtSw</a>) </p>
-<p>This industry grade machinery oriented switch enforces conditioned activation of several switches to ensure limbs security. This enforced conditions include sequenced pressing order and timings as main parameters. The most basic configuration requires each hand pressing simultaneously two switches to enable a foot switch. The enabled foot switch activates the machinery action. <br  />
+<div class="textblock"><p>Models a Limbs Safety Single Shot Switch (<a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a>) for safely activation of <b>"launch and forget" cycle machines</b> and devices. </p>
+<p>This industry grade machinery oriented switch enforces conditioned activation of several switches to ensure limbs security. This enforced conditions include sequenced pressing order and timings as main parameters. The most basic configuration requires each hand pressing simultaneously two switches to enable a foot switch. The enabled foot switch activates the machine action. <br  />
  Operators' or production managers' needs and criteria often end with regular security switches tampered, played down, rigged or other actions that degrade the security provided by regular switches, far below the real needs and the standards. The switches modeled by this class ensures the required enforced security practices, while letting some aspects to be configured for specific production tasks on the machine, or to adapt the switch to machines with different security needs.</p>
 <p>This class relies on ButtonToSwitch_ESP32 class objects:</p><ul>
 <li>A TmVdblMPBttn object for each hand switch</li>
 <li>A SnglSrvcVdblMPBttn object for the foot switch </li>
 </ul>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a17b41df65b0003e644fd6250fb90d4a0" name="a17b41df65b0003e644fd6250fb90d4a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17b41df65b0003e644fd6250fb90d4a0">&#9670;&#160;</a></span>LimbsSftySnglShtSw()</h2>
+<a id="a44c1adfc80afa93065faa3fca2bab15c" name="a44c1adfc80afa93065faa3fca2bab15c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44c1adfc80afa93065faa3fca2bab15c">&#9670;&#160;</a></span>LimbsSftySnglShtSw()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -152,61 +159,155 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">LimbsSftySnglShtSw::LimbsSftySnglShtSw </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>lftHndInpPrm</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>lftHndInpCfg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>rghtHndInpPrm</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>rghtHndInpCfg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>ftInpPrm</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int8_t</td>          <td class="paramname"><span class="paramname"><em>sftySwActvOtpPin</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>lftHndOtptPrm</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>rghtHndOtptPrm</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>ftOtptPrm</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int8_t</td>          <td class="paramname"><span class="paramname"><em>hndsSwtchsOkPin</em></span><span class="paramdefsep"> = </span><span class="paramdefval">_InvalidPinNum</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>ftInpCfg</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Class constructor. </p>
-<p>The class models a Limbs Safety Single Shot switch, a switch that gives an activation signal to a machine or device when some independent switches activated in a designated pattern ensures no risk for the operator limbs is completed. The constructor must instantiate the DbncdMPBttn subclasses objects that compose the Limbs Safety Single Shot switch, i.e. the left hand TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn</p>
+<p>The class models a Limbs Safety Single Shot switch, a switch that gives an activation signal to a machine or device when some independent switches activated in a designated pattern ensures no risk for the operator limbs is completed. The constructor instantiates the DbncdMPBttn subclasses objects that compose the Limbs Safety Single Shot switch, i.e. the left hand TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lftHndInpPrm</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn </td></tr>
-    <tr><td class="paramname">rghtHndInpPrm</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn </td></tr>
-    <tr><td class="paramname">ftInpPrm</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn </td></tr>
-    <tr><td class="paramname">sftySwActvOtpPin</td><td>(Optional) GPIO pin assigned to attach a device (indicator or other) to be activated when the switch signals ON. </td></tr>
-    <tr><td class="paramname">lftHndOtptPrm</td><td>A <a class="el" href="structswtch_otpt_hw_cfg__t.html" title="Switch Output Hardware Configuration data structure.">swtchOtptHwCfg_t</a> structure containing the hardware implemented characteristics for the left hand output indicators for isOn, isEnabled and isVoided attributes flags </td></tr>
-    <tr><td class="paramname">rghtHndOtptPrm</td><td>A <a class="el" href="structswtch_otpt_hw_cfg__t.html" title="Switch Output Hardware Configuration data structure.">swtchOtptHwCfg_t</a> structure containing the hardware implemented characteristics for the right hand output indicators for isOn, isEnabled and isVoided attributes flags </td></tr>
-    <tr><td class="paramname">ftOtptPrm</td><td>A <a class="el" href="structswtch_otpt_hw_cfg__t.html" title="Switch Output Hardware Configuration data structure.">swtchOtptHwCfg_t</a> structure containing the hardware implemented characteristics for the foot switch output indicators for isOn attribute flag </td></tr>
-    <tr><td class="paramname">hndsSwtchsOkPin</td><td>(Optional) GPIO pin assigned to attach a device (indicator or other) activated when the hands safety protocol is cumplimented </td></tr>
+    <tr><td class="paramname">lftHndInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn </td></tr>
+    <tr><td class="paramname">rghtHndInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn </td></tr>
+    <tr><td class="paramname">ftInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7c47788ea6a4a20faa846df78234abb3" name="a7c47788ea6a4a20faa846df78234abb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c47788ea6a4a20faa846df78234abb3">&#9670;&#160;</a></span>begin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool LimbsSftySnglShtSw::begin </td>
+          <td>(</td>
+          <td class="paramtype">unsigned long int</td>          <td class="paramname"><span class="paramname"><em>updtPeriod</em></span><span class="paramdefsep"> = </span><span class="paramdefval">_minPollDelay</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attaches the instantiated object to a timer that monitors the input pins and updates the object status. </p>
+<p>The frequency of the periodic monitoring is passed as a parameter in milliseconds, and is a value that must be small (frequent) enough to keep the object updated, but not so frequent that wastes resources from other tasks. As the DbncdMPBttn objects components of the switch have a minimum default value, the same is provided for this method, as it makes no sense to check for changes in objects that refresh themselves slower than the checking lenght period.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">updtPeriod</td><td>(Optional) unsigned long integer (ulong), the time between status updates in milliseconds. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The success in starting the updating timer with the provided update time </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>Timer starting operation succes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>false Timer starting operation failure </dd></dl>
+
+</div>
+</div>
+<a id="ab3e6eded50bf524623fbb2999fbe161b" name="ab3e6eded50bf524623fbb2999fbe161b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3e6eded50bf524623fbb2999fbe161b">&#9670;&#160;</a></span>getLtchRlsIsOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const bool LimbsSftySnglShtSw::getLtchRlsIsOn </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get value the ltchRlsIsOn object's attribute flag. </p>
+<p>The ltchRlsIsOn attribute flag indicates if the object is in the latch release state.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>The object is in the latch release state </td></tr>
+    <tr><td class="paramname">false</td><td>The object is not in the latch release state </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0f5268136b51436483e8de054e98ec02" name="a0f5268136b51436483e8de054e98ec02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f5268136b51436483e8de054e98ec02">&#9670;&#160;</a></span>setOutputsChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LimbsSftySnglShtSw::setOutputsChange </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>newOutputsChange</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the value of the attribute flag indicating if a change took place in any of the output attribute flags (IsOn included). </p>
+<p>The usual path for the <b>outputsChange</b> flag is to be set by any method changing an output attribute flag, the callback function signaled to take care of the hardware actions because of this changes clears back <b>outputsChange</b> after taking care of them. In the unusual case the developer wants to "intercept" this sequence, this method is provided to set (true) or clear (false) outputsChange value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newOutputChange</td><td>The new value to set the <b>outputsChange</b> flag to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa5d1888fdd0875b83a383d97df8e0e66" name="aa5d1888fdd0875b83a383d97df8e0e66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5d1888fdd0875b83a383d97df8e0e66">&#9670;&#160;</a></span>setUndrlSwtchPollDelay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool LimbsSftySnglShtSw::setUndrlSwtchPollDelay </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned long int &amp;</td>          <td class="paramname"><span class="paramname"><em>newVal</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the update period lenght for the DbncdMPBttn subclasses objects used as input by the <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a>. </p>
+<p>Sets the periodic timer used to check the inputs and calculate the state of the object, time period value set in milliseconds.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newVal</td><td>Value to set for the update period, the period must be greater than the minimum debounce default value. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The success in setting the new value to be used to start the DbncdMPBttn subclasses state updates </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>The value was in the accepted range and successfuly changed </td></tr>
+    <tr><td class="paramname">false</td><td>The value was not in the accepted range and successfuly changed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>After the <a class="el" href="#a7c47788ea6a4a20faa846df78234abb3" title="Attaches the instantiated object to a timer that monitors the input pins and updates the object statu...">begin(unsigned long int)</a> method is executed no other method is implemented to change the periodic update time, so this method must be used -if there's intention of using a non default value- <b>before</b> the <a class="el" href="#a7c47788ea6a4a20faa846df78234abb3" title="Attaches the instantiated object to a timer that monitors the input pins and updates the object statu...">begin(unsigned long int)</a>. Changing the value of the update period after executing the begin method will have no effect on the object's behavior. <br  />
+ </dd></dl>
 
 </div>
 </div>

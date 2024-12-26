@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gpiopinotpthwcfg_5ft_0',['gpioPinOtptHwCfg_t',['../structgpio_pin_otpt_hw_cfg__t.html',1,'']]]
+  ['begin_0',['begin',['../class_limbs_sfty_sngl_sht_sw.html#a7c47788ea6a4a20faa846df78234abb3',1,'LimbsSftySnglShtSw']]]
 ];

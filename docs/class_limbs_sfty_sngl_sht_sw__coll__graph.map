@@ -1,10 +1,5 @@
 <map id="LimbsSftySnglShtSw" name="LimbsSftySnglShtSw">
-<area shape="rect" id="Node000001" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw)" alt="" coords="111,256,256,283"/>
-<area shape="rect" id="Node000002" href="$structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure." alt="" coords="5,131,136,157"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="66,173,65,203,68,217,75,230,92,245,112,256,110,260,89,250,71,234,63,219,60,203,61,172"/>
-<area shape="rect" id="Node000003" href="$structgpio_pin_otpt_hw_cfg__t.html" title="GPIO Generic Pin for Output Mode Configuration data structure." alt="" coords="134,5,276,32"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,48,198,128,187,256,182,255,193,128,200,48"/>
-<area shape="rect" id="Node000004" href="$structswtch_otpt_hw_cfg__t.html" title="Switch Output Hardware Configuration data structure." alt="" coords="326,131,460,157"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="239,39,376,128,373,132,236,43"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="360,168,206,258,204,253,357,163"/>
+<area shape="rect" id="Node000001" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo..." alt="" coords="5,128,151,155"/>
+<area shape="rect" id="Node000002" href="$structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure." alt="" coords="13,5,143,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,48,81,127,75,127,75,48"/>
 </map>

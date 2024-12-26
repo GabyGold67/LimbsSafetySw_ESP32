@@ -101,21 +101,24 @@ $(function(){initNavTree('_limbs_safety_sw___e_s_p32_8h_source.html',''); initRe
 </div><!--header-->
 <div class="contents">
 <a href="_limbs_safety_sw___e_s_p32_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#ifndef _LIMBSSAFETYSW_ESP32_H_</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define _LIMBSSAFETYSW_ESP32_H_</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &lt;ButtonToSwitch_ESP32.h&gt;</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="comment">//==============================================&gt;&gt; BEGIN User defined constants</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#ifndef _InvalidPinNum</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">   #define _InvalidPinNum GPIO_NUM_NC  </span><span class="comment">//Not Connected pin number = -1, so a signed numeric type must be used!</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">   #define _maxValidPinNum GPIO_NUM_MAX-1</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#define _stdTVMPBttnVoidTime 10000UL</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#define _stdTVMPBttnDelayTime 0UL</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#define _stdSSVMPBttnDelayTime 0UL</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#ifndef _LIMBSSAFETYSW_ESP32_H_</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#define _LIMBSSAFETYSW_ESP32_H_</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &lt;ButtonToSwitch_ESP32.h&gt;</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">//==============================================&gt;&gt; BEGIN User defined constants</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#ifndef _InvalidPinNum</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">   #define _InvalidPinNum GPIO_NUM_NC  </span><span class="comment">//Not Connected pin number = -1, so a signed numeric type must be used!</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#ifndef _maxValidPinNum</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">   #define _maxValidPinNum GPIO_NUM_MAX-1</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#define _stdTVMPBttnVoidTime 10000UL</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#define _stdTVMPBttnDelayTime 0UL</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#define _stdSSVMPBttnDelayTime 0UL</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#define _minPollDelay 20UL</span></div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">//=================================================&gt;&gt; END User defined constants</span></div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">//===================================================&gt;&gt; BEGIN User defined types</span></div>
@@ -155,113 +158,167 @@ $(function(){initNavTree('_limbs_safety_sw___e_s_p32_8h_source.html',''); initRe
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>   <a class="code hl_struct" href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a> isEnabledPin;  </div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>};</div>
 </div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="comment">//===================================================&gt;&gt; END User defined types</span></div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span><span class="comment">//======================================&gt;&gt; BEGIN General use function prototypes</span></div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="keywordtype">void</span> setSwtchRlsStrt();</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="keywordtype">void</span> setSwtchRlsStp();</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="comment">//========================================&gt;&gt; END General use function prototypes</span></div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="comment">//===========================&gt;&gt; BEGIN General use Static variables and constants</span></div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="keyword">static</span> <span class="keyword">const</span> uint8_t _exePrty = 1;   <span class="comment">//Execution priority of the updating Task</span></div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> app_cpu = xPortGetCoreID();</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="keyword">static</span> BaseType_t rc;</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="comment">//=============================&gt;&gt; END General use Static variables and constants</span></div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="comment">//=================================================&gt;&gt; BEGIN Classes declarations</span></div>
-<div class="foldopen" id="foldopen00205" data-start="{" data-end="};">
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="class_limbs_sfty_sngl_sht_sw.html">  205</a></span><span class="keyword">class </span><a class="code hl_class" href="class_limbs_sfty_sngl_sht_sw.html">LimbsSftySnglShtSw</a>{</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>  <span class="keyword">static</span> TaskHandle_t lssTskToNtfyHndl;</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>  <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _minVoidTime{1000};</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>  <span class="keyword">enum</span> fdaLsSwtchStts {</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>      stOffNotBHP,   <span class="comment">/*State: Switch off, NOT both hands pressed*/</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>      stOffBHPNotFP,    <span class="comment">/*State: Switch off, both hands pressed, NOT foot press*/</span></div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>      stActivated,   <span class="comment">/*State: Device activation signal generation started*/</span></div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>      stActvtdTaSP,  <span class="comment">/*State: Device activation signal on, activation time not completed and deactivation signal not received*/</span></div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>      stActvtdoSR,   <span class="comment">/*State: Device activation signal on, activation time completed or deactivation signal received*/</span></div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      stFailExcepHndl   <span class="comment">/*State: Device failed: the deactivation signal mechanism was activated, the signal did not arrived before the activation time was completed. Something went wrong!*/</span></div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>   };</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span><span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>   TmVdblMPBttn* _undrlLftHndHTVMPBPtr{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>   TmVdblMPBttn* _undrlRghtHndHTVMPBPtr{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>   SnglSrvcVdblMPBttn* _undrlFtSSVMPBPtr;   </div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>   <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> _lftHndInpCfg;</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>   <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> _rghtHndInpCfg;</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>   <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> _ftInpCfg;</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>   <a class="code hl_struct" href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a> _sftySwActvOtpPin{};</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>   <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> _lftHndOtptCfg;</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>   <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> _rghtHndOtptCfg;</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>   <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> _ftOtptCfg;</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>   <a class="code hl_struct" href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a> _hndsSwtchsOkPin{};</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>   limbSftySwCfg_t _ftSwCfg{};</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>   limbSftySwCfg_t _lftHndSwCfg{};</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>   limbSftySwCfg_t _rghtHndSwCfg{};</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>   <span class="keywordtype">bool</span> _actvCntrlChkpntOk{<span class="keyword">false</span>};</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>   <span class="keywordtype">bool</span> _bothHandsSwOk{<span class="keyword">false</span>};</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>   <span class="keywordtype">bool</span> _swtchRlsOk{<span class="keyword">false</span>};</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>   fdaLsSwtchStts _lssFdaState {stOffNotBHP};</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>   TimerHandle_t _lsssSwtchPollTmrHndl {NULL};   <span class="comment">//FreeRTOS returns NULL if creation fails (not nullptr)</span></div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>   <span class="keywordtype">bool</span> _sttChng{<span class="keyword">true</span>};</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>   String _swtchPollTmrName{<span class="stringliteral">&quot;lmbSftySwtch-01&quot;</span>};</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> lsssSwtchPollCb(TimerHandle_t lssTmrCbArg);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keyword">struct </span>lsSwtchOtpts_t{</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>   <span class="keywordtype">bool</span> bthHndsSwArOn;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>   <span class="keywordtype">bool</span> ltchRlsIsOn;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>   <span class="keywordtype">bool</span> prdCyclIsOn;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>};</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="comment">//===================================================&gt;&gt; END User defined types</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="comment">//======================================&gt;&gt; BEGIN General use class prototypes</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="keyword">class </span>LimbsSftySnglShtSwHI;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="comment">//========================================&gt;&gt; END General use class prototypes</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="comment">//======================================&gt;&gt; BEGIN General use function prototypes</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="comment">//========================================&gt;&gt; END General use function prototypes</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="comment">//===========================&gt;&gt; BEGIN General use Static variables and constants</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="keyword">static</span> <span class="keyword">const</span> uint8_t _exePrty = 1;   <span class="comment">//Execution priority of the updating Task</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> app_cpu = xPortGetCoreID();</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="keyword">static</span> BaseType_t rc;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="comment">//=============================&gt;&gt; END General use Static variables and constants</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="comment">//=================================================&gt;&gt; BEGIN Classes declarations</span></div>
+<div class="foldopen" id="foldopen00214" data-start="{" data-end="};">
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno"><a class="line" href="class_limbs_sfty_sngl_sht_sw.html">  214</a></span><span class="keyword">class </span><a class="code hl_class" href="class_limbs_sfty_sngl_sht_sw.html">LimbsSftySnglShtSw</a>{</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>  <span class="keyword">static</span> TaskHandle_t lssTskToNtfyHndl;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>  <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _minVoidTime{1000};</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>  <span class="keyword">enum</span> fdaLsSwtchStts {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>      stOffNotBHP,   <span class="comment">/*State: Switch off, NOT both hands pressed*/</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>      stOffBHPNotFP, <span class="comment">/*State: Switch off, both hands pressed, NOT foot press*/</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>      stStrtRlsStrtCycl,   <span class="comment">/*State: Both hands and foot pressed, start Production Cycle*/</span></div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>      stEndRls,  <span class="comment">/*State: end latch released phase */</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>      stEndCycl,   <span class="comment">/*State: End production cycle, restart FDA*/</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>      stEmrgncyExcpHndl   <span class="comment">/*State: Handle received Emergency Exception signal*/</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>   };</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>   <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> _lftHndInpCfg;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>   <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> _rghtHndInpCfg;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>   <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> _ftInpCfg;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span> </div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>   limbSftySwCfg_t _lftHndSwCfg{};</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>   limbSftySwCfg_t _rghtHndSwCfg{};</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>   limbSftySwCfg_t _ftSwCfg{};</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>   SnglSrvcVdblMPBttn* _undrlFtSSVMPBPtr{<span class="keyword">nullptr</span>};   </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>   TmVdblMPBttn* _undrlLftHndHTVMPBPtr{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>   TmVdblMPBttn* _undrlRghtHndHTVMPBPtr{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>   MpbOtpts_t _lftHndSwtchStts{0};</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>   MpbOtpts_t _rghtHndSwtchStts{0};</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>   MpbOtpts_t _ftSwtchStts{0};</div>
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>   <span class="keywordtype">void</span> _clrSttChng();</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>   <span class="keywordtype">bool</span> _cnfgHndSwtch(<span class="keyword">const</span> <span class="keywordtype">bool</span> &amp;isLeft, <span class="keyword">const</span> limbSftySwCfg_t &amp;newCfg);</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>   <span class="keywordtype">void</span> _setSttChng();</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>   <span class="keywordtype">void</span> _updBothHndsSwState();</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>   <span class="keywordtype">void</span> _updFtSwState();</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>   <span class="keywordtype">void</span> _updFdaState();</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>   <span class="keywordtype">bool</span> _updOutputs();</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _rlsMchnsmStrtTm{0};</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _dvcActvtnStrtTm{0};</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _dvcActvtnTtlTm{0};</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>   <span class="keywordtype">bool</span> _useDeactvtnSgnl{<span class="keyword">false</span>};</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>   <span class="keywordtype">bool</span> _dvcDeactvtnSgnl{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>   LimbsSftySnglShtSwHI* _pnOtHWUpdtrPtr{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _undrlSwtchsPollDelay{_minPollDelay};</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _curTimeMs{0};</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _prdCyclTmrStrt{0};</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _prdCyclTtlTm{0};</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> _ltchRlsTtlTm{0};</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>   <span class="keywordtype">bool</span> _bthHndsSwArOn{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>   <span class="keywordtype">bool</span> _ltchRlsIsOn{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>   <span class="keywordtype">bool</span> _prdCyclIsOn{<span class="keyword">false</span>};</div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>  <a class="code hl_function" href="class_limbs_sfty_sngl_sht_sw.html#acc8aba21379674d61e278c3a0221879c">LimbsSftySnglShtSw</a>();</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>  <a class="code hl_function" href="class_limbs_sfty_sngl_sht_sw.html#acc8aba21379674d61e278c3a0221879c">LimbsSftySnglShtSw</a>(<a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> lftHndInpPrm,</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                    <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> rghtHndInpPrm,</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>                    <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> ftInpPrm,</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>                    int8_t sftySwActvOtpPin,</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>                    <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> lftHndOtptPrm,</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                    <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> rghtHndOtptPrm,</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>                    <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> ftOtptPrm,</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>                    int8_t hndsSwtchsOkPin = _InvalidPinNum</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>                    );</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>   <a class="code hl_class" href="class_limbs_sfty_sngl_sht_sw.html">~LimbsSftySnglShtSw</a>();</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>   <span class="keywordtype">bool</span> begin(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> updtPeriod);</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>   <span class="keywordtype">void</span> clrStatus();</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>   <span class="keywordtype">bool</span> getBothHndsSwOk();</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>   <span class="keywordtype">bool</span> getActvCntrlChkpnt();</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>   <span class="keywordtype">void</span> setActvCntrlChkpnt(<span class="keyword">const</span> <span class="keywordtype">bool</span> &amp;newVal);</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>   <span class="comment">// bool cnfgFtSwtch();</span></div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>   <span class="keywordtype">bool</span> cnfgLftHndSwtch(<span class="keyword">const</span> limbSftySwCfg_t &amp;newCfg);</div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>   <span class="keywordtype">bool</span> cnfgRghtHndSwtch(<span class="keyword">const</span> limbSftySwCfg_t &amp;newCfg);</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>   <span class="keywordtype">void</span> setUseDeactvnSgnl(<span class="keyword">const</span> <span class="keywordtype">bool</span> &amp;newVal);</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>   <span class="keywordtype">bool</span> getUsegDeactvnSgnl();</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>   <span class="keywordtype">void</span> setDeactvnSgnl();</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>   <span class="keywordtype">void</span> resetDeactvnSgnl();</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>   <span class="comment">// bool end();</span></div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>   <span class="comment">// fncPtrType getFnWhnTrnOff();</span></div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>   <span class="comment">// fncPtrType getFnWhnTrnOn();</span></div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>   <span class="comment">// bool getIsOn();</span></div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>   <span class="comment">// const TaskHandle_t getTaskToNotify() const;</span></div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>   <span class="comment">// bool pause();</span></div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>   <span class="comment">// void resetFda();</span></div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>   <span class="comment">// bool resume();</span></div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>   <span class="comment">// void setFnWhnTrnOffPtr(void(*newFnWhnTrnOff)());</span></div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>   <span class="comment">// void setFnWhnTrnOnPtr(void (*newFnWhnTrnOn)());</span></div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>   <span class="comment">// void setTaskToNotify(const TaskHandle_t &amp;newTaskHandle);    </span></div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>};</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>   fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>   TimerHandle_t _lsSwtchPollTmrHndl {NULL};   <span class="comment">//FreeRTOS returns NULL if creation fails (not nullptr)</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>   <span class="keywordtype">bool</span> _outputsChange{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>   uint32_t _outputsChangeCnt{0};</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>   <span class="keywordtype">bool</span> _sttChng{<span class="keyword">true</span>};</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>   String _swtchPollTmrName{<span class="stringliteral">&quot;lsSwtch-01&quot;</span>};</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>   <span class="keyword">static</span> <span class="keywordtype">void</span> lsSwtchPollCb(TimerHandle_t lssTmrCbArg);</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>   <span class="keywordtype">void</span> _clrSttChng();</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>   <span class="keywordtype">bool</span> _cnfgHndSwtch(<span class="keyword">const</span> <span class="keywordtype">bool</span> &amp;isLeft, <span class="keyword">const</span> limbSftySwCfg_t &amp;newCfg);</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>   <span class="keywordtype">void</span> _setSttChng();</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>   <span class="keywordtype">void</span> _turnOffLtchRls();</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>   <span class="keywordtype">void</span> _turnOnLtchRls();</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>   <span class="keywordtype">void</span> _turnOffPrdCycl();</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>   <span class="keywordtype">void</span> _turnOnPrdCycl();</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>   <span class="keywordtype">void</span> _updBothHndsSwState();</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>   <span class="keywordtype">void</span> _updCurTimeMs();</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>   <span class="keywordtype">void</span> _updUndrlSwState();</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>   <span class="keywordtype">void</span> _updFdaState();</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>   <span class="keywordtype">bool</span> _updOutputs();</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>  <a class="code hl_function" href="class_limbs_sfty_sngl_sht_sw.html#acc8aba21379674d61e278c3a0221879c">LimbsSftySnglShtSw</a>();</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>  <a class="code hl_function" href="class_limbs_sfty_sngl_sht_sw.html#acc8aba21379674d61e278c3a0221879c">LimbsSftySnglShtSw</a>(<a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> lftHndInpCfg,</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                    <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> rghtHndInpCfg,</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                    <a class="code hl_struct" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> ftInpCfg</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>                    );</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>   <a class="code hl_class" href="class_limbs_sfty_sngl_sht_sw.html">~LimbsSftySnglShtSw</a>();</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>   <span class="keywordtype">bool</span> <a class="code hl_function" href="class_limbs_sfty_sngl_sht_sw.html#a7c47788ea6a4a20faa846df78234abb3">begin</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> updtPeriod = _minPollDelay);</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>   <span class="keywordtype">void</span> clrStatus();</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>   <span class="keywordtype">bool</span> getBothHndsSwOk();</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>   <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="class_limbs_sfty_sngl_sht_sw.html#ab3e6eded50bf524623fbb2999fbe161b">getLtchRlsIsOn</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>   <span class="keyword">const</span> <span class="keywordtype">bool</span> getPrdCyclIsOn() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>   <span class="keyword">const</span> <span class="keywordtype">bool</span> getOutputsChange() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>   <span class="keywordtype">void</span> cnfgFtSwtch(<span class="keyword">const</span> limbSftySwCfg_t &amp;newCfg);</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>   <span class="keywordtype">bool</span> cnfgLftHndSwtch(<span class="keyword">const</span> limbSftySwCfg_t &amp;newCfg);</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>   <span class="keywordtype">bool</span> cnfgRghtHndSwtch(<span class="keyword">const</span> limbSftySwCfg_t &amp;newCfg);</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>   <span class="keywordtype">bool</span> setLtchRlsTm(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> &amp;newVal);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>   <span class="keywordtype">void</span> <a class="code hl_function" href="class_limbs_sfty_sngl_sht_sw.html#a0f5268136b51436483e8de054e98ec02">setOutputsChange</a>(<span class="keywordtype">bool</span> newOutputsChange);</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>   <span class="keywordtype">void</span> setPnOtHWUpdtr(LimbsSftySnglShtSwHI* &amp;newVal);</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>   LimbsSftySnglShtSwHI* getPnOtHWUpdtrPtr();</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>   <span class="keywordtype">bool</span> setPrdCyclTm(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> &amp;newVal);</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>   <span class="keywordtype">bool</span> <a class="code hl_function" href="class_limbs_sfty_sngl_sht_sw.html#aa5d1888fdd0875b83a383d97df8e0e66">setUndrlSwtchPollDelay</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> &amp;newVal);</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>   <span class="comment">// bool end();</span></div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>   <span class="comment">// fncPtrType getFnWhnTrnOff();</span></div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>   <span class="comment">// fncPtrType getFnWhnTrnOn();</span></div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>   <span class="comment">// const TaskHandle_t getTaskToNotify() const;</span></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>   <span class="comment">// bool pause();</span></div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>   <span class="comment">// void resetFda();</span></div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>   <span class="comment">// bool resume();</span></div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>   <span class="comment">// void setFnWhnTrnOffPtr(void(*newFnWhnTrnOff)());</span></div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>   <span class="comment">// void setFnWhnTrnOnPtr(void (*newFnWhnTrnOn)());</span></div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>   <span class="comment">// void setTaskToNotify(const TaskHandle_t &amp;newTaskHandle);    </span></div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>};</div>
 </div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span><span class="comment">//=============================================================&gt;</span></div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span><span class="preprocessor">#endif   </span><span class="comment">//_LIMBSSAFETYSW_ESP32_H_</span></div>
-<div class="ttc" id="aclass_limbs_sfty_sngl_sht_sw_html"><div class="ttname"><a href="class_limbs_sfty_sngl_sht_sw.html">LimbsSftySnglShtSw</a></div><div class="ttdoc">Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw)</div><div class="ttdef"><b>Definition</b> LimbsSafetySw_ESP32.h:205</div></div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span><span class="comment">//=============================================================&gt;</span></div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span> </div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span><span class="keyword">class </span>LimbsSftySnglShtSwHI{</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>   <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> _lftHndOtptCfg;</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>   <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> _rghtHndOtptCfg;</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>   <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> _ftOtptCfg;</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span> </div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>   <a class="code hl_struct" href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a> _hndsSwtchsOkPin{};</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>   <a class="code hl_struct" href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a> _ltchRlsActvOtpPin{};</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>   <a class="code hl_struct" href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a> _prdCyclActvOtpPin{};</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span> </div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>  LimbsSftySnglShtSwHI();</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>  LimbsSftySnglShtSwHI(<a class="code hl_struct" href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a> hndsSwtchsOkPin,</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>                     <a class="code hl_struct" href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a> ltchRlsActvOtpPin,</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>                     <a class="code hl_struct" href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a> prdCyclActvOtpPin,</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                     <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> lftHndOtptcfg,</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>                     <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> rghtHndOtptCfg,</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>                     <a class="code hl_struct" href="structswtch_otpt_hw_cfg__t.html">swtchOtptHwCfg_t</a> ftOtptCfg</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>                     );</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>~LimbsSftySnglShtSwHI();</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span><span class="keywordtype">void</span> updOutputs(MpbOtpts_t lftHndSwtchStts,</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>               MpbOtpts_t rghtHndSwtchStts,</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>               MpbOtpts_t ftSwtchStts,</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>               lsSwtchOtpts_t lsSwtchStts</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>               );</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>};</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span><span class="comment">//===================================================&gt;&gt; END Classes declarations</span></div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span> </div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span> </div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span><span class="preprocessor">#endif   </span><span class="comment">//_LIMBSSAFETYSW_ESP32_H_</span></div>
+<div class="ttc" id="aclass_limbs_sfty_sngl_sht_sw_html"><div class="ttname"><a href="class_limbs_sfty_sngl_sht_sw.html">LimbsSftySnglShtSw</a></div><div class="ttdoc">Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...</div><div class="ttdef"><b>Definition</b> LimbsSafetySw_ESP32.h:214</div></div>
+<div class="ttc" id="aclass_limbs_sfty_sngl_sht_sw_html_a0f5268136b51436483e8de054e98ec02"><div class="ttname"><a href="class_limbs_sfty_sngl_sht_sw.html#a0f5268136b51436483e8de054e98ec02">LimbsSftySnglShtSw::setOutputsChange</a></div><div class="ttdeci">void setOutputsChange(bool newOutputsChange)</div><div class="ttdoc">Sets the value of the attribute flag indicating if a change took place in any of the output attribute...</div><div class="ttdef"><b>Definition</b> LimbsSafetySw_ESP32.cpp:215</div></div>
+<div class="ttc" id="aclass_limbs_sfty_sngl_sht_sw_html_a7c47788ea6a4a20faa846df78234abb3"><div class="ttname"><a href="class_limbs_sfty_sngl_sht_sw.html#a7c47788ea6a4a20faa846df78234abb3">LimbsSftySnglShtSw::begin</a></div><div class="ttdeci">bool begin(unsigned long int updtPeriod=_minPollDelay)</div><div class="ttdoc">Attaches the instantiated object to a timer that monitors the input pins and updates the object statu...</div><div class="ttdef"><b>Definition</b> LimbsSafetySw_ESP32.cpp:60</div></div>
+<div class="ttc" id="aclass_limbs_sfty_sngl_sht_sw_html_aa5d1888fdd0875b83a383d97df8e0e66"><div class="ttname"><a href="class_limbs_sfty_sngl_sht_sw.html#aa5d1888fdd0875b83a383d97df8e0e66">LimbsSftySnglShtSw::setUndrlSwtchPollDelay</a></div><div class="ttdeci">bool setUndrlSwtchPollDelay(const unsigned long int &amp;newVal)</div><div class="ttdoc">Sets the update period lenght for the DbncdMPBttn subclasses objects used as input by the LimbsSftySn...</div><div class="ttdef"><b>Definition</b> LimbsSafetySw_ESP32.cpp:257</div></div>
+<div class="ttc" id="aclass_limbs_sfty_sngl_sht_sw_html_ab3e6eded50bf524623fbb2999fbe161b"><div class="ttname"><a href="class_limbs_sfty_sngl_sht_sw.html#ab3e6eded50bf524623fbb2999fbe161b">LimbsSftySnglShtSw::getLtchRlsIsOn</a></div><div class="ttdeci">const bool getLtchRlsIsOn() const</div><div class="ttdoc">Get value the ltchRlsIsOn object's attribute flag.</div><div class="ttdef"><b>Definition</b> LimbsSafetySw_ESP32.cpp:148</div></div>
 <div class="ttc" id="aclass_limbs_sfty_sngl_sht_sw_html_acc8aba21379674d61e278c3a0221879c"><div class="ttname"><a href="class_limbs_sfty_sngl_sht_sw.html#acc8aba21379674d61e278c3a0221879c">LimbsSftySnglShtSw::LimbsSftySnglShtSw</a></div><div class="ttdeci">LimbsSftySnglShtSw()</div><div class="ttdoc">Class default constructor.</div><div class="ttdef"><b>Definition</b> LimbsSafetySw_ESP32.cpp:34</div></div>
 <div class="ttc" id="astructgpio_pin_otpt_hw_cfg__t_html"><div class="ttname"><a href="structgpio_pin_otpt_hw_cfg__t.html">gpioPinOtptHwCfg_t</a></div><div class="ttdoc">GPIO Generic Pin for Output Mode Configuration data structure.</div><div class="ttdef"><b>Definition</b> LimbsSafetySw_ESP32.h:77</div></div>
 <div class="ttc" id="astructlimb_sfty_fw_conf__t_html"><div class="ttname"><a href="structlimb_sfty_fw_conf__t.html">limbSftyFwConf_t</a></div><div class="ttdoc">Limbs Safety Firmware Configuration parameters.</div><div class="ttdef"><b>Definition</b> LimbsSafetySw_ESP32.h:96</div></div>

@@ -56,7 +56,7 @@
 #define _stdTVMPBttnVoidTime 10000UL
 #define _stdTVMPBttnDelayTime 0UL
 #define _stdSSVMPBttnDelayTime 0UL
-#define _dfltPollDelay 20UL
+#define _minPollDelay 20UL
 //=================================================>> END User defined constants
 
 //===================================================>> BEGIN User defined types
@@ -165,7 +165,17 @@ struct swtchOtptHwCfg_t{
    gpioPinOtptHwCfg_t isVoidedPin;  
    gpioPinOtptHwCfg_t isEnabledPin;  
 };
+
+struct lsSwtchOtpts_t{
+   bool bthHndsSwArOn;
+   bool ltchRlsIsOn;
+   bool prdCyclIsOn;
+};
 //===================================================>> END User defined types
+
+//======================================>> BEGIN General use class prototypes
+class LimbsSftySnglShtSwHI;
+//========================================>> END General use class prototypes
 
 //======================================>> BEGIN General use function prototypes
 //========================================>> END General use function prototypes
@@ -179,14 +189,15 @@ static BaseType_t rc;
 //=================================================>> BEGIN Classes declarations
 /**
  * @class LimbsSftySnglShtSw
- * @brief Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw)
+ * @brief Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for 
+ * safely activation of **"launch and forget" cycle machines** and devices.
  * 
  * This industry grade machinery oriented switch enforces conditioned activation
  * of several switches to ensure limbs security. This enforced conditions 
  * include sequenced pressing order and timings as main parameters.
  * The most basic configuration requires each hand pressing simultaneously two
  * switches to enable a foot switch. The enabled foot switch activates the 
- * machinery action.  
+ * machine action.  
  * Operators' or production managers' needs and criteria often end with regular
  * security switches tampered, played down, rigged or other actions that degrade
  * the security provided by regular switches, far below the real needs and the 
@@ -230,9 +241,11 @@ protected:
    MpbOtpts_t _rghtHndSwtchStts{0};
    MpbOtpts_t _ftSwtchStts{0};
 
-   unsigned long int _undrlSwtchsPollDelay{_dfltPollDelay};
+   LimbsSftySnglShtSwHI* _pnOtHWUpdtrPtr{nullptr};
 
-   unsigned long int _curTime{0};
+   unsigned long int _undrlSwtchsPollDelay{_minPollDelay};
+
+   unsigned long int _curTimeMs{0};
    unsigned long int _prdCyclTmrStrt{0};
    unsigned long int _prdCyclTtlTm{0};
    unsigned long int _ltchRlsTtlTm{0};
@@ -253,8 +266,12 @@ protected:
    void _clrSttChng();
    bool _cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg);
 	void _setSttChng();
+   void _turnOffLtchRls();
+   void _turnOnLtchRls();
+   void _turnOffPrdCycl();
+   void _turnOnPrdCycl();
    void _updBothHndsSwState();
-   void _updCurTime();
+   void _updCurTimeMs();
    void _updUndrlSwState();
    void _updFdaState();
    bool _updOutputs();
@@ -272,29 +289,44 @@ public:
    * activation signal to a machine or device when some independent switches
    * activated in a designated pattern ensures no risk for the operator limbs is
    * completed.
-   * The constructor must instantiate the DbncdMPBttn subclasses objects that 
+   * The constructor instantiates the DbncdMPBttn subclasses objects that 
    * compose the Limbs Safety Single Shot switch, i.e. the left hand 
    * TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn
    * 
-   * @param lftHndInpPrm A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn
-   * @param rghtHndInpPrm A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn
-   * @param ftInpPrm A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn
-   * @param ltchRlsActvOtpPin (Optional) GPIO pin assigned to attach a device (indicator or other) to be activated when the switch signals ON. 
-   * @param lftHndOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the left hand output indicators for isOn, isEnabled and isVoided attributes flags
-   * @param rghtHndOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the right hand output indicators for isOn, isEnabled and isVoided attributes flags
-   * @param ftOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the foot switch output indicators for isOn attribute flag
-   * @param hndsSwtchsOkPin (Optional) GPIO pin assigned to attach a device (indicator or other) activated when the hands safety protocol is cumplimented
+   * @param lftHndInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn
+   * @param rghtHndInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn
+   * @param ftInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn
    */
   LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg,
                     swtchInptHwCfg_t rghtHndInpCfg,
                     swtchInptHwCfg_t ftInpCfg
                     );
    ~LimbsSftySnglShtSw();
-   bool begin(unsigned long int updtPeriod);
+   /**
+	 * @brief Attaches the instantiated object to a timer that monitors the input pins and updates the object status.
+    * 
+	 * The frequency of the periodic monitoring is passed as a parameter in milliseconds, and is a value that must be small (frequent) enough to keep the object updated, but not so frequent that wastes resources from other tasks. As the DbncdMPBttn objects components of the switch have a minimum default value, the same is provided for this method, as it makes no sense to check for changes in objects that refresh themselves slower than the checking lenght period.
+    * 
+    * @param updtPeriod (Optional) unsigned long integer (ulong), the time between status updates in milliseconds.
+    * @return The success in starting the updating timer with the provided update time
+    * @retval true Timer starting operation succes
+    * @return false Timer starting operation failure
+    */
+   bool begin(unsigned long int updtPeriod = _minPollDelay);
    void clrStatus();
    bool getBothHndsSwOk();
+   /**
+    * @brief Get value the ltchRlsIsOn object's attribute flag
+    * 
+    * The ltchRlsIsOn attribute flag indicates if the object is in the latch release state.
+    * 
+    * @retval true The object is in the latch release state
+    * @retval false The object is not in the latch release state
+    */
+   const bool getLtchRlsIsOn() const;
+   const bool getPrdCyclIsOn() const;
    const bool getOutputsChange() const;
-   bool cnfgFtSwtch(const limbSftySwCfg_t &newCfg);
+   void cnfgFtSwtch(const limbSftySwCfg_t &newCfg);
    bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
    bool cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg);
    bool setLtchRlsTm(const unsigned long int &newVal);
@@ -306,12 +338,24 @@ public:
     * @param newOutputChange The new value to set the **outputsChange** flag to.
     */
 	void setOutputsChange(bool newOutputsChange);
+   void setPnOtHWUpdtr(LimbsSftySnglShtSwHI* &newVal);
+   LimbsSftySnglShtSwHI* getPnOtHWUpdtrPtr();
    bool setPrdCyclTm(const unsigned long int &newVal);
-   bool setUndrlSwtchPollDelay(DbncdMPBttn* undrlSwtch, const unsigned long int &newVal);
+   /**
+    * @brief Sets the update period lenght for the DbncdMPBttn subclasses objects used as input by the LimbsSftySnglShtSw
+    * 
+    * Sets the periodic timer used to check the inputs and calculate the state of the object, time period value set in milliseconds.
+    * 
+    * @param newVal Value to set for the update period, the period must be greater than the minimum debounce default value.
+    * @return The success in setting the new value to be used to start the DbncdMPBttn subclasses state updates
+    * @retval true The value was in the accepted range and successfuly changed
+    * @retval false The value was not in the accepted range and successfuly changed
+    * @warning After the begin(unsigned long int) method is executed no other method is implemented to change the periodic update time, so this method must be used -if there's intention of using a non default value- **before** the begin(unsigned long int). Changing the value of the update period after executing the begin method will have no effect on the object's behavior.  
+    */
+   bool setUndrlSwtchPollDelay(const unsigned long int &newVal);
    // bool end();
    // fncPtrType getFnWhnTrnOff();
 	// fncPtrType getFnWhnTrnOn();
-   // bool getIsOn();
 	// const TaskHandle_t getTaskToNotify() const;
    // bool pause();
    // void resetFda();
@@ -357,13 +401,19 @@ public:
    * @param ftOtptPrm A swtchOtptHwCfg_t structure containing the hardware implemented characteristics for the foot switch output indicators for isOn attribute flag
    * @param hndsSwtchsOkPin (Optional) GPIO pin assigned to attach a device (indicator or other) activated when the hands safety protocol is cumplimented
    */
-  LimbsSftySnglShtSwHI(gpioPinOtptHwCfg_t ltchRlsActvOtpPin,
-                    gpioPinOtptHwCfg_t prdCyclActvOtpPin,
-                    swtchOtptHwCfg_t lftHndOtptcfg,
-                    swtchOtptHwCfg_t rghtHndOtptCfg,
-                    swtchOtptHwCfg_t ftOtptCfg
-                    );
+  LimbsSftySnglShtSwHI(gpioPinOtptHwCfg_t hndsSwtchsOkPin,
+                     gpioPinOtptHwCfg_t ltchRlsActvOtpPin,
+                     gpioPinOtptHwCfg_t prdCyclActvOtpPin,
+                     swtchOtptHwCfg_t lftHndOtptcfg,
+                     swtchOtptHwCfg_t rghtHndOtptCfg,
+                     swtchOtptHwCfg_t ftOtptCfg
+                     );
 ~LimbsSftySnglShtSwHI();
+void updOutputs(MpbOtpts_t lftHndSwtchStts,
+               MpbOtpts_t rghtHndSwtchStts,
+               MpbOtpts_t ftSwtchStts,
+               lsSwtchOtpts_t lsSwtchStts
+               );
 };
 //===================================================>> END Classes declarations
 

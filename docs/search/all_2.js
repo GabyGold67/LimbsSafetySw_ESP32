@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['limbs_20safe_20activation_20switch_20limbsafetysw_5fesp32_0',['Limbs Safe Activation Switch (LimbSafetySw_ESP32)',['../index.html',1,'']]],
-  ['limbsafetysw_5fesp32_1',['Limbs Safe Activation Switch (LimbSafetySw_ESP32)',['../index.html',1,'']]],
-  ['limbsftyfwconf_5ft_2',['limbSftyFwConf_t',['../structlimb_sfty_fw_conf__t.html',1,'']]],
-  ['limbsftyswconf_5ft_3',['limbSftySwConf_t',['../structlimb_sfty_sw_conf__t.html',1,'']]],
-  ['limbssafetysw_5fesp32_2eh_4',['LimbsSafetySw_ESP32.h',['../_limbs_safety_sw___e_s_p32_8h.html',1,'']]],
-  ['limbssftysnglshtsw_5',['LimbsSftySnglShtSw',['../class_limbs_sfty_sngl_sht_sw.html',1,'LimbsSftySnglShtSw'],['../class_limbs_sfty_sngl_sht_sw.html#acc8aba21379674d61e278c3a0221879c',1,'LimbsSftySnglShtSw::LimbsSftySnglShtSw()'],['../class_limbs_sfty_sngl_sht_sw.html#a17b41df65b0003e644fd6250fb90d4a0',1,'LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpPrm, swtchInptHwCfg_t rghtHndInpPrm, swtchInptHwCfg_t ftInpPrm, int8_t sftySwActvOtpPin, swtchOtptHwCfg_t lftHndOtptPrm, swtchOtptHwCfg_t rghtHndOtptPrm, swtchOtptHwCfg_t ftOtptPrm, int8_t hndsSwtchsOkPin=_InvalidPinNum)']]]
+  ['getltchrlsison_0',['getLtchRlsIsOn',['../class_limbs_sfty_sngl_sht_sw.html#ab3e6eded50bf524623fbb2999fbe161b',1,'LimbsSftySnglShtSw']]],
+  ['gpiopinotpthwcfg_5ft_1',['gpioPinOtptHwCfg_t',['../structgpio_pin_otpt_hw_cfg__t.html',1,'']]]
 ];
