@@ -285,13 +285,8 @@ public:
   /**
    * @brief Class constructor
    * 
-   * The class models a Limbs Safety Single Shot switch, a switch that gives an
-   * activation signal to a machine or device when some independent switches
-   * activated in a designated pattern ensures no risk for the operator limbs is
-   * completed.
-   * The constructor instantiates the DbncdMPBttn subclasses objects that 
-   * compose the Limbs Safety Single Shot switch, i.e. the left hand 
-   * TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn
+   * The class models a Limbs Safety Single Shot switch, a switch that gives an  activation signal to a machine or device when some independent switches, activated in a designated pattern, ensures no risk for the operator limbs is completed.
+   * The constructor instantiates the DbncdMPBttn subclasses objects that compose the Limbs Safety Single Shot switch, i.e. the left hand TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn
    * 
    * @param lftHndInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn
    * @param rghtHndInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn
@@ -301,22 +296,40 @@ public:
                     swtchInptHwCfg_t rghtHndInpCfg,
                     swtchInptHwCfg_t ftInpCfg
                     );
+   /**
+    * @brief Default virtual destructor
+    * 
+    */
    ~LimbsSftySnglShtSw();
    /**
 	 * @brief Attaches the instantiated object to a timer that monitors the input pins and updates the object status.
     * 
-	 * The frequency of the periodic monitoring is passed as a parameter in milliseconds, and is a value that must be small (frequent) enough to keep the object updated, but not so frequent that wastes resources from other tasks. As the DbncdMPBttn objects components of the switch have a minimum default value, the same is provided for this method, as it makes no sense to check for changes in objects that refresh themselves slower than the checking lenght period.
+	 * The frequency of the periodic monitoring is passed as a parameter in milliseconds, and is a value that must be small (frequent) enough to keep the object updated, but not so frequent that wastes resources needed by other tasks. As the DbncdMPBttn objects components of the switch have a minimum default value, the same is provided for this method, as it makes no sense to check for changes in objects that refresh themselves slower than the checking lenght period.
     * 
-    * @param updtPeriod (Optional) unsigned long integer (ulong), the time between status updates in milliseconds.
+    * @param pollDelayMs (Optional) unsigned long integer (ulong), the time between status updates in milliseconds.
     * @return The success in starting the updating timer with the provided update time
     * @retval true Timer starting operation succes
     * @return false Timer starting operation failure
     */
-   bool begin(unsigned long int updtPeriod = _minPollDelay);
+   bool begin(unsigned long int pollDelayMs = _minPollDelay);
+   /**
+	 * @brief Clears and resets flags, timers and counters modified through the object's signals processing.
+	 *
+	 * Resets object's attributes to its initialization values to safely continue operations after completing a FDA cycle that might generate unexpected distorsions. This avoids risky behavior of the object due to dangling flags or partially consumed time counters.
+    * 
+    */
    void clrStatus();
+   /**
+    * @brief Get the value of the bothHndsSwOk attribute flag
+    * 
+    * The method evaluates the _bthHndsSwArOn based on the isOn attribute flag state of each hands' value.
+    * 
+    * @return true Both hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
+    * @return false At least one of hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
+    */
    bool getBothHndsSwOk();
    /**
-    * @brief Get value the ltchRlsIsOn object's attribute flag
+    * @brief Get the ltchRlsIsOn object's attribute flag value
     * 
     * The ltchRlsIsOn attribute flag indicates if the object is in the latch release state.
     * 
@@ -324,11 +337,69 @@ public:
     * @retval false The object is not in the latch release state
     */
    const bool getLtchRlsIsOn() const;
+   /**
+    * @brief Get the prdCyclIsOn object'sattribute flag value
+    * 
+    * The prdCyclIsOn attribute flag indicates if the object is in the producion cycle state.
+    * 
+    * @retval true The object is in the producion cycle state
+    * @retval false The object is not in the producion cycle state
+    */
    const bool getPrdCyclIsOn() const;
+   /**
+	 * @brief Returns the value of the **outputsChange** attribute flag.
+	 *
+	 * The instantiated objects include attributes linked to their evaluated states, -Attribute Flags- some of them for internal use, some of them for **output related purposes**.
+	 * When any of those latter attributes values change, the **outputsChange** flag is set. The flag only signals changes have happened -not which flags, nor how many times changes have taken place- since the last **outputsChange** flag reset, although an internal counter is kept to grant no multithread race conditions affect the correct execution of the outputs updates.
+	 * The **outputsChange** flag must be reset (or set if desired) through the setOutputsChange() method.
+	 *
+    * @retval true: Any of the object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
+    * @retval false: no object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
+	 */
    const bool getOutputsChange() const;
+   /**
+    * @brief Configures the SnglSrvcVdblMPBttn class object used as **Foot Switch**
+    * 
+    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftySnglShtSw. In the case of the SnglSrvcVdblMPBttn used as **Foot Switch** the only attribute available for adjustment is the **start delay** value, used to adjust the time the foot switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or condition reflex presses.
+    * 
+    * @param newCfg A limbSftySwCfg_t type structure, from which only the .swtchStrtDlyTm value will be used.
+    */
    void cnfgFtSwtch(const limbSftySwCfg_t &newCfg);
+   /**
+    * @brief Configures the TmVdblMPBttn class object used as **Left Hand Switch**
+    * 
+    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftySnglShtSw. In the case of the TmVdblMPBttn used as **Left Hand Switch** the attributes available for adjustment are:
+    * - **Start Delay** (.swtchStrtDlyTm) value, used to adjust the time the hand switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.
+    * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftySnglShtSw state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftySnglShtSw state calculation.
+    * - **Switch Voiding Time** (.swtchVdTm) defines the time period the hand switch might be kept pressed before signaling it as voided, having to proceed to release it and press it back to return to the valid pressed (non-voide) state.
+    * 
+    * @param newCfg A limbSftySwCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
+    * 
+    * @warning The limbSftySwCfg_t type structure has designated default field values, as a consequence any field not expreselly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
+    */
    bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
+   /**
+    * @brief Configures the TmVdblMPBttn class object used as **Right Hand Switch**
+    * 
+    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftySnglShtSw. In the case of the TmVdblMPBttn used as **Right Hand Switch** the attributes available for adjustment are:
+    * - **Start Delay** (.swtchStrtDlyTm) value, used to adjust the time the hand switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.
+    * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftySnglShtSw state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftySnglShtSw state calculation.
+    * - **Switch Voiding Time** (.swtchVdTm) defines the time period the hand switch might be kept pressed before signaling it as voided, having to proceed to release it and press it back to return to the valid pressed (non-voide) state.
+    * 
+    * @param newCfg A limbSftySwCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
+    * 
+    * @warning The limbSftySwCfg_t type structure has designated default field values, as a consequence any field not expreselly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
+    */
    bool cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg);
+   /**
+    * @brief Set the Latch Release Total Time (ltchRlsTtlTm) attribute value
+    * 
+    * The ltchRlsTtlTm attribute holds the time the latching mechanism of the cycle machine will be freed to start the production cycle. Due to the primitive mechanical characteristics of these machines, the mechanical latching mechanism might take different times to be efectively released, so the time must be enough to ensure the correct and full unlatch, but not long enough to keep the machine unlatched when the production cycle is completed, as this might generate the next production cycle to start again, now with no limbs protection provided.
+    * 
+    * @param newVal Time in milliseconds to keep the unlatch mechanism activated, must be a value greater than 0, and less or equal to the "Production cycle time" (see setPrdCyclTtlTm(const unsigned long int))
+    * @return true The parameter value was in the valid range, attribute value updated.
+    * @return false The parameter value was not in the valid range, attribute value was not updated.
+    */
    bool setLtchRlsTm(const unsigned long int &newVal);
    /**
 	 * @brief Sets the value of the attribute flag indicating if a change took place in any of the output attribute flags (IsOn included).
@@ -340,7 +411,16 @@ public:
 	void setOutputsChange(bool newOutputsChange);
    void setPnOtHWUpdtr(LimbsSftySnglShtSwHI* &newVal);
    LimbsSftySnglShtSwHI* getPnOtHWUpdtrPtr();
-   bool setPrdCyclTm(const unsigned long int &newVal);
+   /**
+    * @brief Set the Production Cycle Total Time (prdCyclTtlTm) attribute value
+    * 
+    * The prdCyclTtlTm attribute holds the total time for the production cycle, starting from  the moment the latching mechanism of the cycle machine will be freed to start the production cycle and until the hands and foot security switches are kept disabled. After the production cycle timer set time is consumed, the limbs security switch enters the Cycle closure state, ending with the hands and foot security switches re-enabled to their respective configuration states. Setting a short value to the attribute will produce the switch to be re-enabled before the production cycle ends, generating undesired security risks, setting an extremely long value to the attribute will produce the switch to be unavailable to start a new production cycle, slowing the production in an unneeded manner. 
+    * 
+    * @param newVal Time in milliseconds for the production cycle to be active, must be a value greater than 0, and greater or equal to the "Latch Release Total Time" (see setLtchRlsTm(const unsigned long int))
+    * @return true The parameter value was in the valid range, attribute value updated.
+    * @return false The parameter value was not in the valid range, attribute value was not updated.
+    */
+   bool setPrdCyclTtlTm(const unsigned long int &newVal);
    /**
     * @brief Sets the update period lenght for the DbncdMPBttn subclasses objects used as input by the LimbsSftySnglShtSw
     * 

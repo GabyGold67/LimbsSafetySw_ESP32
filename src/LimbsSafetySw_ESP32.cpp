@@ -57,11 +57,11 @@ LimbsSftySnglShtSw::~LimbsSftySnglShtSw()
 {
 }
 
-bool LimbsSftySnglShtSw::begin(unsigned long int updtPeriod){
+bool LimbsSftySnglShtSw::begin(unsigned long int pollDelayMs){
    bool result {false};
 	BaseType_t tmrModResult {pdFAIL};
 
-	if (updtPeriod > _undrlSwtchsPollDelay){      
+	if (pollDelayMs > _undrlSwtchsPollDelay){      
       result = _undrlLftHndHTVMPBPtr->begin(_undrlSwtchsPollDelay);   // Set the underlying left hand MPBttns to start updating it's input readings & output states
       if(result){
          result = _undrlRghtHndHTVMPBPtr->begin(_undrlSwtchsPollDelay);  // Set the underlying right hand MPBttns to start updating it's input readings & output states
@@ -71,7 +71,7 @@ bool LimbsSftySnglShtSw::begin(unsigned long int updtPeriod){
                if (!_lsSwtchPollTmrHndl){        
                   _lsSwtchPollTmrHndl = xTimerCreate(
                      _swtchPollTmrName.c_str(),  //Timer name
-                     pdMS_TO_TICKS(updtPeriod),  //Timer period in ticks
+                     pdMS_TO_TICKS(pollDelayMs),  //Timer period in ticks
                      pdTRUE,     //Auto-reload true
                      this,       //TimerID: the data passed as parametert to the callback function is this same object
                      lsSwtchPollCb	  //Callback function
@@ -239,7 +239,7 @@ void LimbsSftySnglShtSw::setPnOtHWUpdtr(LimbsSftySnglShtSwHI* &newVal){
    return;
 }
 
-bool LimbsSftySnglShtSw::setPrdCyclTm(const unsigned long int &newVal){
+bool LimbsSftySnglShtSw::setPrdCyclTtlTm(const unsigned long int &newVal){
    bool result{true};
 
    if(_prdCyclTtlTm != newVal){
