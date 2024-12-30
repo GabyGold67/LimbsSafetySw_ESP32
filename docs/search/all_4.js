@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['safe_20activation_20switch_20limbsafetysw_5fesp32_0',['Limbs Safe Activation Switch (LimbSafetySw_ESP32)',['../index.html',1,'']]],
-  ['setoutputschange_1',['setOutputsChange',['../class_limbs_sfty_sngl_sht_sw.html#a0f5268136b51436483e8de054e98ec02',1,'LimbsSftySnglShtSw']]],
-  ['setundrlswtchpolldelay_2',['setUndrlSwtchPollDelay',['../class_limbs_sfty_sngl_sht_sw.html#aa5d1888fdd0875b83a383d97df8e0e66',1,'LimbsSftySnglShtSw']]],
-  ['switch_20limbsafetysw_5fesp32_3',['Limbs Safe Activation Switch (LimbSafetySw_ESP32)',['../index.html',1,'']]],
-  ['swtchinpthwcfg_5ft_4',['swtchInptHwCfg_t',['../structswtch_inpt_hw_cfg__t.html',1,'']]],
-  ['swtchotpthwcfg_5ft_5',['swtchOtptHwCfg_t',['../structswtch_otpt_hw_cfg__t.html',1,'']]]
+  ['limbs_20safe_20activation_20switch_20limbsafetysw_5fesp32_0',['Limbs Safe Activation Switch (LimbSafetySw_ESP32)',['../index.html',1,'']]],
+  ['limbsafetysw_5fesp32_1',['Limbs Safe Activation Switch (LimbSafetySw_ESP32)',['../index.html',1,'']]],
+  ['limbsftyfwconf_5ft_2',['limbSftyFwConf_t',['../structlimb_sfty_fw_conf__t.html',1,'']]],
+  ['limbsftyswconf_5ft_3',['limbSftySwConf_t',['../structlimb_sfty_sw_conf__t.html',1,'']]],
+  ['limbssafetysw_5fesp32_2eh_4',['LimbsSafetySw_ESP32.h',['../_limbs_safety_sw___e_s_p32_8h.html',1,'']]],
+  ['limbssftysnglshtsw_5',['LimbsSftySnglShtSw',['../class_limbs_sfty_sngl_sht_sw.html',1,'LimbsSftySnglShtSw'],['../class_limbs_sfty_sngl_sht_sw.html#acc8aba21379674d61e278c3a0221879c',1,'LimbsSftySnglShtSw::LimbsSftySnglShtSw()'],['../class_limbs_sfty_sngl_sht_sw.html#a44c1adfc80afa93065faa3fca2bab15c',1,'LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptHwCfg_t rghtHndInpCfg, swtchInptHwCfg_t ftInpCfg)']]]
 ];

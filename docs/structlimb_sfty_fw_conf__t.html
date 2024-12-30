@@ -110,7 +110,14 @@ $(function(){initNavTree('structlimb_sfty_fw_conf__t.html',''); initResizable(tr
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Limbs Safety Firmware Configuration parameters. </p>
 <p>Holds the parameters for the creation and configuration of the Execution Core (for multicore MCUs) and Task Execution Priority level for the switch status update code execution.</p>
-<dl class="section attention"><dt>Attention</dt><dd>Software construction related!! The information must be provided by the software developers as it is related to the general develpment parameters. The core selection for the Task Execution might be provided by the hardware development team or automatically determined by O.S. as the core executing the applications. </dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>Software construction related!! The information must be provided by the software developers as it is related to the general develpment parameters. The core selection for the Task Execution might be provided by the hardware development team or automatically determined by O.S. as the core executing the applications.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lsSwExecTskCore</td><td>Core where the code is expected to run </td></tr>
+    <tr><td class="paramname">lsSwExecTskPrrtyCnfg</td><td>Holds the priority level for the task running the switch code </td></tr>
+  </table>
+  </dd>
+</dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

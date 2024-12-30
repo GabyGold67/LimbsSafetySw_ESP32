@@ -109,14 +109,14 @@ $(function(){initNavTree('structgpio_pin_otpt_hw_cfg__t.html',''); initResizable
 <p><code>#include &lt;<a class="el" href="_limbs_safety_sw___e_s_p32_8h_source.html">LimbsSafetySw_ESP32.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>GPIO Generic Pin for Output Mode Configuration data structure. </p>
+<p>Resource to keep the class design flexible to be used with different hardware components, this structure holds the output GPIO pin identification and a flag indicating if the voltage level needed to activate the device connected to the output pin. Polarity connection of leds, CC or CA RGB leds, low or high level activated relays are examples of where the <a class="el" href="structgpio_pin_otpt_hw_cfg__t.html" title="GPIO Generic Pin for Output Mode Configuration data structure.">gpioPinOtptHwCfg_t</a> is a convenient replacement to simple pin configuration as Output Mode.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpioOtptPin</td><td>Pin identified by pin number, to be used in OUTPUT mode </td></tr>
-    <tr><td class="paramname">gpioOtptActHgh</td><td>Boolean indicating if the device attached to the pin is activated by a high level signal (true) or a low level signal (false)</td></tr>
+    <tr><td class="paramname">gpioOtptActHgh</td><td>Boolean indicating if the device attached to the pin is activated by a high level signal (true) or a low level signal (false) </td></tr>
   </table>
   </dd>
 </dl>
-<p>Resource to keep the class design flexible to be used with different hardware components, this structure holds the output GPIO pin identification and a flag indicating if the voltage level needed to activate the device connected to the output pin. Polarity connection of leds, CC or CA RGB leds, low or high level activated relays are examples of where the <a class="el" href="structgpio_pin_otpt_hw_cfg__t.html" title="GPIO Generic Pin for Output Mode Configuration data structure.">gpioPinOtptHwCfg_t</a> is a convenient replacement to simple pin configuration as Output Mode </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

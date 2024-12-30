@@ -109,15 +109,20 @@ $(function(){initNavTree('structswtch_inpt_hw_cfg__t.html',''); initResizable(tr
 <p><code>#include &lt;<a class="el" href="_limbs_safety_sw___e_s_p32_8h_source.html">LimbsSafetySw_ESP32.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Switch Input Hardware Configuration data structure. </p>
-<p>Holds the hardware characteristics of each of the switches used. As the attributes held in the structure are all hardware related they must be set or modified only when hardware construction or modification happens. The actual parameters must be saved in non volatile memory or by physical means (jumpers, dip switches, etc.) and are non user nor supervisor modifiable. Only designer level operators might modify them.</p>
-<p>The DbncdMPBttn subclasses objects default configuration values are:</p><ul>
-<li>Type of switch: NO</li>
-<li>Switch connection: Pulled-up</li>
-<li>Debounce Time = 20 milliseconds</li>
-</ul>
+<p>Holds the hardware characteristics of each of the underlying composing switches used, data needed for those switches constructors. As the attributes held in the structure are all hardware related they must be set or modified only when hardware construction or modification happens. The actual parameters must be saved in non volatile memory or by physical means (jumpers, dip switches, etc.) and are non user nor supervisor modifiable. Only designer level operators might modify them.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inptPin</td><td>GPIO pin number connected to the MPBttn </td></tr>
+    <tr><td class="paramname">typeNO</td><td>Type of switch, Normal Open (NO=true) or Normal Closed (NO=false). Default value: true </td></tr>
+    <tr><td class="paramname">pulledUp</td><td>Internal pull-up circuit configuration, default value true </td></tr>
+    <tr><td class="paramname">dbncdTime</td><td>Debounce process time required to receive a stable signal, default value 20 milliseconds</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section note"><dt>Note</dt><dd>GPIO_NUM_NC = -1 is used to signal not connected to S/W </dd>
 <dd>
-GPIO_NUM_MAX is used to contain the maximum number of a GPIO pin (GPIO_NUM_x &lt; GPIO_NUM_MAX)</dd></dl>
+GPIO_NUM_MAX is used to contain the maximum number of a GPIO pin (GPIO_NUM_x &lt; GPIO_NUM_MAX) </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Not all the GPIO input pins of every MCU has a pull-up internal circuit available! </dd></dl>
 <dl class="section attention"><dt>Attention</dt><dd>Hardware construction related!! The information must be provided by the hardware developers </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->

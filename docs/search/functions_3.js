@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['setoutputschange_0',['setOutputsChange',['../class_limbs_sfty_sngl_sht_sw.html#a0f5268136b51436483e8de054e98ec02',1,'LimbsSftySnglShtSw']]],
-  ['setundrlswtchpolldelay_1',['setUndrlSwtchPollDelay',['../class_limbs_sfty_sngl_sht_sw.html#aa5d1888fdd0875b83a383d97df8e0e66',1,'LimbsSftySnglShtSw']]]
+  ['limbssftysnglshtsw_0',['LimbsSftySnglShtSw',['../class_limbs_sfty_sngl_sht_sw.html#acc8aba21379674d61e278c3a0221879c',1,'LimbsSftySnglShtSw::LimbsSftySnglShtSw()'],['../class_limbs_sfty_sngl_sht_sw.html#a44c1adfc80afa93065faa3fca2bab15c',1,'LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptHwCfg_t rghtHndInpCfg, swtchInptHwCfg_t ftInpCfg)']]]
 ];
