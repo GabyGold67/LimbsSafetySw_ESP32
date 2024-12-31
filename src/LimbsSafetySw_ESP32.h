@@ -57,6 +57,27 @@
 #define _minPollDelay 20UL
 //=================================================>> END User defined constants
 
+// Definition workaround to let a function/method return value to be a function pointer, the function receives no arguments and returns no vallues: void (funcName*)()
+typedef void (*fncPtrType)();
+typedef  fncPtrType (*ptrToTrnFnc)();
+
+// Definition workaround to let a function/method return value to be a function pointer, the pointer is to a function that receives a void* arguments and returns no values: void (funcName*)(void*)
+typedef void (*fncVdPtrPrmPtrType)(void*);
+typedef  fncVdPtrPrmPtrType (*ptrToTrnFncVdPtr)(void*);
+/*
+Ejemplo de uso Gemini:
+
+void myFunction(void* data) {
+   Cast the pointer to the appropiate data type before using it.
+   Do whatever with the data in the function, 
+}
+
+Function that returns a funtion pointer to the function previously defined
+ptrToTrnFncVdPtr getFunctionPointer() {
+    fncVdPtrPrmPtrType ptr = myFunction;
+    return ptr;
+}
+*/
 //===================================================>> BEGIN User defined types
 /**
  * @struct gpioPinOtptHwCfg_t
@@ -152,9 +173,16 @@ struct swtchOtptHwCfg_t{
    gpioPinOtptHwCfg_t isEnabledPin;  
 };
 
-
 /**
- * @brief 
+ * @struct lsSwtchOtpts_t
+ * 
+ * @brief Relevant Attribute Flags values data structure
+ * 
+ * Holds the values for the relevant attribute flags that define the Limbs Safety Switch state, as from the output point of view
+ * 
+ * @param bthHndsSwArOn Holds the value of the _bthHndsSwArOn attribute flag
+ * @param ltchRlsIsOn Holds the value of the _ltchRlsIsOn attribute flag
+ * @param prdCyclIsOn Holds the value of the _prdCyclIsOn attribute flag
  * 
  */
 struct lsSwtchOtpts_t{
@@ -162,11 +190,12 @@ struct lsSwtchOtpts_t{
    bool ltchRlsIsOn;
    bool prdCyclIsOn;
 };
-//===================================================>> END User defined types
 
-//======================================>> BEGIN General use class prototypes
-class LimbsSftySnglShtSwHI;
-//========================================>> END General use class prototypes
+struct lsSwtchSwCfg_t{
+   unsigned long int ltchRlsActvTm = 2000UL;
+   unsigned long int prdCyclActvTm = 10000UL;  
+};
+//===================================================>> END User defined types
 
 //======================================>> BEGIN General use function prototypes
 //========================================>> END General use function prototypes
@@ -236,13 +265,16 @@ protected:
 
    unsigned long int _curTimeMs{0};
    unsigned long int _prdCyclTmrStrt{0};
-   unsigned long int _prdCyclElpsdTm{0};  
-   unsigned long int _ltchRlsElpsdTm{0};
+   unsigned long int _prdCyclTtlTm{0};  
+   unsigned long int _ltchRlsTtlTm{0};
 
    bool _bthHndsSwArOn{false};
    bool _ltchRlsIsOn{false};
    bool _prdCyclIsOn{false};
-
+	
+   fncVdPtrPrmPtrType _fnWhnTrnOffLtchRls {nullptr};
+	fncVdPtrPrmPtrType _fnWhnTrnOffPrdCycl {nullptr};
+	fncVdPtrPrmPtrType _fnWhnTrnOnPrdCycl {nullptr};
    fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};
    TimerHandle_t _lsSwtchPollTmrHndl {NULL};   //FreeRTOS returns NULL if creation fails (not nullptr)
    bool _outputsChange{false};
@@ -283,7 +315,8 @@ public:
    */
   LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg,
                     swtchInptHwCfg_t rghtHndInpCfg,
-                    swtchInptHwCfg_t ftInpCfg
+                    swtchInptHwCfg_t ftInpCfg,
+                    lsSwtchSwCfg_t lsSwtchWrkngCnfg
                     );
    /**
     * @brief Default virtual destructor
@@ -308,74 +341,6 @@ public:
     * 
     */
    void clrStatus();
-   /**
-    * @brief Get the value of the bothHndsSwOk attribute flag
-    * 
-    * The method evaluates the _bthHndsSwArOn based on the isOn attribute flag state of each hands' value.
-    * 
-    * @return true Both hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
-    * @return false At least one of hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
-    */
-   bool getBothHndsSwOk();
-   /**
-    * @brief Get the ftSwcthPtr attribute value
-    * 
-    * The ftSwcthPtr is the pointer to the SnglSrvcVdblMPBttn class object instantiated to be the "Foot Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
-    * 
-    * @return The SnglSrvcVdblMPBttn class pointer to the foot switch
-    * 
-    * @warning The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer to modify some parameters of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
-    */
-   SnglSrvcVdblMPBttn* getFtSwtchPtr();
-   /**
-    * @brief Get the lftHndSwcthPtr attribute value
-    * 
-    * The lftHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Left Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
-    * 
-    * @return The TmVdblMPBttn class pointer to the left hand switch
-    * 
-    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
-    */
-   TmVdblMPBttn*  getLftHndSwtchPtr();
-   /**
-    * @brief Get the ltchRlsIsOn object's attribute flag value
-    * 
-    * The ltchRlsIsOn attribute flag indicates if the object is in the latch release state.
-    * 
-    * @retval true The object is in the latch release state
-    * @retval false The object is not in the latch release state
-    */
-   const bool getLtchRlsIsOn() const;
-   /**
-    * @brief Get the prdCyclIsOn object'sattribute flag value
-    * 
-    * The prdCyclIsOn attribute flag indicates if the object is in the producion cycle state.
-    * 
-    * @retval true The object is in the producion cycle state
-    * @retval false The object is not in the producion cycle state
-    */
-   const bool getPrdCyclIsOn() const;
-   /**
-	 * @brief Returns the value of the **outputsChange** attribute flag.
-	 *
-	 * The instantiated objects include attributes linked to their evaluated states, -Attribute Flags- some of them for internal use, some of them for **output related purposes**.
-	 * When any of those latter attributes values change, the **outputsChange** flag is set. The flag only signals changes have happened -not which flags, nor how many times changes have taken place- since the last **outputsChange** flag reset, although an internal counter is kept to grant no multithread race conditions affect the correct execution of the outputs updates.
-	 * The **outputsChange** flag must be reset (or set if desired) through the setOutputsChange() method.
-	 *
-    * @retval true: Any of the object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
-    * @retval false: no object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
-	 */
-   const bool getOutputsChange() const;
-   /**
-    * @brief Get the rghtHndSwcthPtr attribute value
-    * 
-    * The rghtHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Right Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
-    * 
-    * @return The TmVdblMPBttn class pointer to the right hand switch
-    * 
-    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
-    */
-   TmVdblMPBttn*  getRghtHndSwtchPtr();
    /**
     * @brief Configures the SnglSrvcVdblMPBttn class object used as **Foot Switch**
     * 
@@ -411,6 +376,90 @@ public:
     */
    bool cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg);
    /**
+    * @brief Get the value of the bothHndsSwOk attribute flag
+    * 
+    * The method evaluates the _bthHndsSwArOn based on the isOn attribute flag state of each hands' value.
+    * 
+    * @return true Both hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
+    * @return false At least one of hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
+    */
+   bool getBothHndsSwOk();
+   /**
+    * @brief Get the ftSwcthPtr attribute value
+    * 
+    * The ftSwcthPtr is the pointer to the SnglSrvcVdblMPBttn class object instantiated to be the "Foot Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
+    * 
+    * @return The SnglSrvcVdblMPBttn class pointer to the foot switch
+    * 
+    * @warning The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer to modify some parameters of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
+    */
+   SnglSrvcVdblMPBttn* getFtSwtchPtr();
+   /**
+    * @brief Get the lftHndSwcthPtr attribute value
+    * 
+    * The lftHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Left Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
+    * 
+    * @return The TmVdblMPBttn class pointer to the left hand switch
+    * 
+    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
+    */
+   TmVdblMPBttn*  getLftHndSwtchPtr();
+   /**
+    * @brief Returns the ltchRlsIsOn attribute flag value
+    * 
+    * The ltchRlsIsOn attribute flag indicates if the object is in the latch released state.
+    * 
+    * @retval true The object is in the latch released state
+    * @retval false The object is in the latch not released state
+    */
+   const bool getLtchRlsIsOn() const;
+   /**
+    * @brief Returns the time configured to keep the latch at the released state
+    * 
+    * @return The time in milliseconds the latch will be kept released
+    */
+   unsigned long int getLtchRlsTtlTm();
+   /**
+    * @brief Get the prdCyclIsOn object'sattribute flag value
+    * 
+    * The prdCyclIsOn attribute flag indicates if the object is in the producion cycle state.
+    * 
+    * @retval true The object is in the producion cycle state
+    * @retval false The object is not in the producion cycle state
+    */
+   const bool getPrdCyclIsOn() const;
+   /**
+    * @brief Returns the time configured for the production cycle to be completed
+    * 
+    * Due to the lack of sensors to register the end/completition of the production cycle a timer will be set to control the time since the production cycle start and until the cycle is considered completed. This method returns the time configured for that timer
+    * 
+    * @return The time in milliseconds the control will consider being in the production cycle state. After completing the time the cycle will be considered concluded and the limbs safety switches will be re-enabled to start a new cycle.
+    */
+   unsigned long int getPrdCyclTtlTm();  
+   /**
+	 * @brief Returns the value of the **outputsChange** attribute flag.
+	 *
+	 * The instantiated objects include attributes linked to their evaluated states, -Attribute Flags- some of them for internal use, some of them for **output related purposes**.
+	 * When any of those latter attributes values change, the **outputsChange** flag is set. The flag only signals changes have happened -not which flags, nor how many times changes have taken place- since the last **outputsChange** flag reset, although an internal counter is kept to grant no multithread race conditions affect the correct execution of the outputs updates.
+	 * The **outputsChange** flag must be reset (or set if desired) through the setOutputsChange() method.
+	 *
+    * @retval true: Any of the object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
+    * @retval false: no object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
+	 */
+   const bool getOutputsChange() const;
+   /**
+    * @brief Get the rghtHndSwcthPtr attribute value
+    * 
+    * The rghtHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Right Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
+    * 
+    * @return The TmVdblMPBttn class pointer to the right hand switch
+    * 
+    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
+    */
+   TmVdblMPBttn*  getRghtHndSwtchPtr();
+
+   void resetFda();
+   /**
     * @brief Set the Latch Release Total Time (ltchRlsTtlTm) attribute value
     * 
     * The ltchRlsTtlTm attribute holds the time the latching mechanism of the cycle machine will be freed to start the production cycle. Due to the primitive mechanical characteristics of these machines, the mechanical latching mechanism might take different times to be efectively released, so the time must be enough to ensure the correct and full unlatch, but not long enough to keep the machine unlatched when the production cycle is completed, as this might generate the next production cycle to start again, now with no limbs protection provided.
@@ -419,7 +468,7 @@ public:
     * @return true The parameter value was in the valid range, attribute value updated.
     * @return false The parameter value was not in the valid range, attribute value was not updated.
     */
-   bool setLtchRlsTm(const unsigned long int &newVal);
+   bool setLtchRlsTtlTm(const unsigned long int &newVal);
    /**
 	 * @brief Sets the value of the attribute flag indicating if a change took place in any of the output attribute flags (IsOn included).
 	 *
@@ -433,7 +482,7 @@ public:
     * 
     * The prdCyclTtlTm attribute holds the total time for the production cycle, starting from  the moment the latching mechanism of the cycle machine will be freed to start the production cycle and until the hands and foot security switches are kept disabled. After the production cycle timer set time is consumed, the limbs security switch enters the Cycle closure state, ending with the hands and foot security switches re-enabled to their respective configuration states. Setting a short value to the attribute will produce the switch to be re-enabled before the production cycle ends, generating undesired security risks, setting an extremely long value to the attribute will produce the switch to be unavailable to start a new production cycle, slowing the production in an unneeded manner. 
     * 
-    * @param newVal Time in milliseconds for the production cycle to be active, must be a value greater than 0, and greater or equal to the "Latch Release Total Time" (see setLtchRlsTm(const unsigned long int))
+    * @param newVal Time in milliseconds for the production cycle to be active, must be a value greater than 0, and greater or equal to the "Latch Release Total Time" (see setLtchRlsTtlTm(const unsigned long int))
     * @return true The parameter value was in the valid range, attribute value updated.
     * @return false The parameter value was not in the valid range, attribute value was not updated.
     */
@@ -450,16 +499,29 @@ public:
     * @warning After the begin(unsigned long int) method is executed no other method is implemented to change the periodic update time, so this method must be used -if there's intention of using a non default value- **before** the begin(unsigned long int). Changing the value of the update period after executing the begin method will have no effect on the object's behavior.  
     */
    bool setUndrlSwtchPollDelay(const unsigned long int &newVal);
-   // bool end();
-   // fncPtrType getFnWhnTrnOff();
-	// fncPtrType getFnWhnTrnOn();
-	// const TaskHandle_t getTaskToNotify() const;
-   // bool pause();
-   // void resetFda();
-   // bool resume();
-	void setFnWhnTrnOffPrdCyclPtr(void(*newFnWhnTrnOff)(void*));
-	void setFnWhnTrnOnPrdCyclPtr(void (*newFnWhnTrnOn)(void*));
-	// void setTaskToNotify(const TaskHandle_t &newTaskHandle);    
+
+   fncVdPtrPrmPtrType getFnWhnTrnOffLtchRlsPtr();
+   fncVdPtrPrmPtrType getFnWhnTrnOffPrdCyclPtr();
+   fncVdPtrPrmPtrType getFnWhnTrnOnPrdCyclPtr();
+
+	void setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
+	void setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
+	void setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
+	
+   const TaskHandle_t getTskToNtfyTrnOffLtchRls() const;
+   const TaskHandle_t getTskToNtfyTrnOffPrdCycl() const;
+   const TaskHandle_t getTskToNtfyTrnOnPrdCycl() const;
+
+   void setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle);    
+	void setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHandle);    
+	void setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle);    
+
+   /* Might be useful for setting new ltchRlsTtlTm and/or prdCyclTtlTm ensuring timer not running
+   bool end();
+   bool pause();
+   bool resume();
+   */
+
 };
 
 //===================================================>> END Classes declarations

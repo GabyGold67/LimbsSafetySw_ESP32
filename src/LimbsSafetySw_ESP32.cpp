@@ -35,7 +35,7 @@ LimbsSftySnglShtSw::LimbsSftySnglShtSw()
 {
 }
 
-LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptHwCfg_t rghtHndInpCfg, swtchInptHwCfg_t ftInpCfg)
+LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptHwCfg_t rghtHndInpCfg, swtchInptHwCfg_t ftInpCfg, lsSwtchSwCfg_t lsSwtchWrkngCnfg)
 :_lftHndInpCfg{lftHndInpCfg}, _rghtHndInpCfg{rghtHndInpCfg}, _ftInpCfg{ftInpCfg}
 {
    // Build DbncdMPBttn objects and pointers
@@ -50,6 +50,9 @@ LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptH
       _undrlLftHndHTVMPBPtr->disable();
    if(!_rghtHndSwCfg.swtchIsEnbld)
       _undrlRghtHndHTVMPBPtr->disable();
+
+   _ltchRlsTtlTm = lsSwtchWrkngCnfg.ltchRlsActvTm;
+   _prdCyclTtlTm = lsSwtchWrkngCnfg.prdCyclActvTm;
       
 }
 
@@ -145,6 +148,21 @@ bool LimbsSftySnglShtSw::getBothHndsSwOk(){
    return _bthHndsSwArOn;
 }
 
+fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOffLtchRlsPtr(){
+
+   return _fnWhnTrnOffLtchRls;
+}
+
+fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOffPrdCyclPtr(){
+
+   return _fnWhnTrnOffPrdCycl;
+}
+
+fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOnPrdCyclPtr(){
+
+   return _fnWhnTrnOnPrdCycl;
+}
+
 SnglSrvcVdblMPBttn* LimbsSftySnglShtSw::getFtSwtchPtr(){
    
    return _undrlFtSSVMPBPtr;
@@ -155,10 +173,14 @@ TmVdblMPBttn *LimbsSftySnglShtSw::getLftHndSwtchPtr(){
    return _undrlLftHndHTVMPBPtr;
 }
 
-const bool LimbsSftySnglShtSw::getLtchRlsIsOn() const
-{
+const bool LimbsSftySnglShtSw::getLtchRlsIsOn() const{
 
    return _ltchRlsIsOn;
+}
+
+unsigned long int LimbsSftySnglShtSw::getLtchRlsTtlTm(){
+   
+   return _ltchRlsTtlTm;
 }
 
 const bool LimbsSftySnglShtSw::getOutputsChange() const{
@@ -166,16 +188,14 @@ const bool LimbsSftySnglShtSw::getOutputsChange() const{
 	return _outputsChange;
 }
 
-
-/* //! Conceptual mistake!
-LimbsSftySnglShtSwHI* LimbsSftySnglShtSw::getPnOtHWUpdtrPtr(){
-
-   return _pnOtHWUpdtrPtr;
-}*/
-
 const bool LimbsSftySnglShtSw::getPrdCyclIsOn() const{
 
    return _prdCyclIsOn;
+}
+
+unsigned long int LimbsSftySnglShtSw::getPrdCyclTtlTm(){
+   
+   return _prdCyclTtlTm;
 }
 
 TmVdblMPBttn *LimbsSftySnglShtSw::getRghtHndSwtchPtr(){
@@ -213,12 +233,30 @@ void LimbsSftySnglShtSw::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
 	return;
 }
 
-bool LimbsSftySnglShtSw::setLtchRlsTm(const unsigned long int &newVal){
+void LimbsSftySnglShtSw::setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff){
+   _fnWhnTrnOffLtchRls = newFnWhnTrnOff;
+
+   return;
+}
+
+void LimbsSftySnglShtSw::setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOff){
+   _fnWhnTrnOffPrdCycl = newFnWhnTrnOff;
+
+   return;
+}
+
+void LimbsSftySnglShtSw::setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn){
+   _fnWhnTrnOnPrdCycl = newFnWhnTrnOn;
+
+   return;
+}
+
+bool LimbsSftySnglShtSw::setLtchRlsTtlTm(const unsigned long int &newVal){
    bool result{true};
 
-   if (_ltchRlsElpsdTm != newVal){
-      if((newVal > 0) && (newVal <= _prdCyclElpsdTm)){
-         _ltchRlsElpsdTm = newVal;
+   if (_ltchRlsTtlTm != newVal){
+      if((newVal > 0) && (newVal <= _prdCyclTtlTm)){
+         _ltchRlsTtlTm = newVal;
       }
       else{
          result = false;
@@ -249,19 +287,12 @@ void LimbsSftySnglShtSw::setOutputsChange(bool newOutputsChange){
    return;
 }
 
-/* //! Conceptual mistake!
-void LimbsSftySnglShtSw::setPnOtHWUpdtr(LimbsSftySnglShtSwHI* &newVal){
-   _pnOtHWUpdtrPtr = newVal;
-
-   return;
-}*/
-
 bool LimbsSftySnglShtSw::setPrdCyclTtlTm(const unsigned long int &newVal){
    bool result{true};
 
-   if(_prdCyclElpsdTm != newVal){
-      if((newVal > 0) && (newVal >= _ltchRlsElpsdTm)){
-         _prdCyclElpsdTm = newVal;
+   if(_prdCyclTtlTm != newVal){
+      if((newVal > 0) && (newVal >= _ltchRlsTtlTm)){
+         _prdCyclTtlTm = newVal;
       }
       else{
          result = false;
@@ -269,6 +300,12 @@ bool LimbsSftySnglShtSw::setPrdCyclTtlTm(const unsigned long int &newVal){
    }
    
    return result;
+}
+
+void LimbsSftySnglShtSw::_setSttChng(){
+   _sttChng = true;
+
+   return;
 }
 
 bool LimbsSftySnglShtSw::setUndrlSwtchPollDelay(const unsigned long int &newVal){
@@ -280,12 +317,6 @@ bool LimbsSftySnglShtSw::setUndrlSwtchPollDelay(const unsigned long int &newVal)
    }
 
    return result;
-}
-
-void LimbsSftySnglShtSw::_setSttChng(){
-   _sttChng = true;
-
-   return;
 }
 
 void LimbsSftySnglShtSw::_turnOffLtchRls(){
@@ -425,7 +456,7 @@ void LimbsSftySnglShtSw::_updFdaState(){
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
-         if((_curTimeMs - _prdCyclTmrStrt) >= _ltchRlsElpsdTm){
+         if((_curTimeMs - _prdCyclTmrStrt) >= _ltchRlsTtlTm){
             _turnOffLtchRls();
             setOutputsChange(true);
             //todo: Execute flagging function (to be short) for release closure
@@ -441,7 +472,7 @@ void LimbsSftySnglShtSw::_updFdaState(){
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
-         if((_curTimeMs - _prdCyclTmrStrt) >= _prdCyclElpsdTm){
+         if((_curTimeMs - _prdCyclTmrStrt) >= _prdCyclTtlTm){
             _turnOffPrdCycl();
             setOutputsChange(true);        
             // Restore modified isOnDisabled, isEnabled for the underlying switches

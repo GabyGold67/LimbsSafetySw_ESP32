@@ -125,9 +125,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>LimbsSftySnglShtSw</b> ()</td></tr>
 <tr class="memdesc:acc8aba21379674d61e278c3a0221879c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class default constructor. <br /></td></tr>
 <tr class="separator:acc8aba21379674d61e278c3a0221879c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44c1adfc80afa93065faa3fca2bab15c" id="r_a44c1adfc80afa93065faa3fca2bab15c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44c1adfc80afa93065faa3fca2bab15c">LimbsSftySnglShtSw</a> (<a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> lftHndInpCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> rghtHndInpCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> ftInpCfg)</td></tr>
-<tr class="memdesc:a44c1adfc80afa93065faa3fca2bab15c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class constructor.  <br /></td></tr>
-<tr class="separator:a44c1adfc80afa93065faa3fca2bab15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4020eb1b65681a25e6708f3367c31d9c" id="r_a4020eb1b65681a25e6708f3367c31d9c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4020eb1b65681a25e6708f3367c31d9c">LimbsSftySnglShtSw</a> (<a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> lftHndInpCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> rghtHndInpCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> ftInpCfg, lsSwtchSwCfg_t lsSwtchWrkngCnfg)</td></tr>
+<tr class="memdesc:a4020eb1b65681a25e6708f3367c31d9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class constructor.  <br /></td></tr>
+<tr class="separator:a4020eb1b65681a25e6708f3367c31d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f07796d91bb98ff488ad1d149737c03" id="r_a7f07796d91bb98ff488ad1d149737c03"><td class="memItemLeft" align="right" valign="top"><a id="a7f07796d91bb98ff488ad1d149737c03" name="a7f07796d91bb98ff488ad1d149737c03"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>~LimbsSftySnglShtSw</b> ()</td></tr>
 <tr class="memdesc:a7f07796d91bb98ff488ad1d149737c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default virtual destructor. <br /></td></tr>
@@ -138,6 +138,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6793d0dd15a3de99482db94254eea32f" id="r_a6793d0dd15a3de99482db94254eea32f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6793d0dd15a3de99482db94254eea32f">clrStatus</a> ()</td></tr>
 <tr class="memdesc:a6793d0dd15a3de99482db94254eea32f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears and resets flags, timers and counters modified through the object's signals processing.  <br /></td></tr>
 <tr class="separator:a6793d0dd15a3de99482db94254eea32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74f6f27cc44bd21e6a4d115596ed9885" id="r_a74f6f27cc44bd21e6a4d115596ed9885"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74f6f27cc44bd21e6a4d115596ed9885">cnfgFtSwtch</a> (const limbSftySwCfg_t &amp;newCfg)</td></tr>
+<tr class="memdesc:a74f6f27cc44bd21e6a4d115596ed9885"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the SnglSrvcVdblMPBttn class object used as <b>Foot Switch</b>  <br /></td></tr>
+<tr class="separator:a74f6f27cc44bd21e6a4d115596ed9885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ec44a61320ec6cdbfc4a37cb75111c4" id="r_a2ec44a61320ec6cdbfc4a37cb75111c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ec44a61320ec6cdbfc4a37cb75111c4">cnfgLftHndSwtch</a> (const limbSftySwCfg_t &amp;newCfg)</td></tr>
+<tr class="memdesc:a2ec44a61320ec6cdbfc4a37cb75111c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the TmVdblMPBttn class object used as <b>Left Hand Switch</b>  <br /></td></tr>
+<tr class="separator:a2ec44a61320ec6cdbfc4a37cb75111c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ac8f546f09c7b772142d23d6591317" id="r_a69ac8f546f09c7b772142d23d6591317"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69ac8f546f09c7b772142d23d6591317">cnfgRghtHndSwtch</a> (const limbSftySwCfg_t &amp;newCfg)</td></tr>
+<tr class="memdesc:a69ac8f546f09c7b772142d23d6591317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the TmVdblMPBttn class object used as <b>Right Hand Switch</b>  <br /></td></tr>
+<tr class="separator:a69ac8f546f09c7b772142d23d6591317"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a145b164239bbaadf26a81157a89c9aae" id="r_a145b164239bbaadf26a81157a89c9aae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a145b164239bbaadf26a81157a89c9aae">getBothHndsSwOk</a> ()</td></tr>
 <tr class="memdesc:a145b164239bbaadf26a81157a89c9aae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of the bothHndsSwOk attribute flag.  <br /></td></tr>
 <tr class="separator:a145b164239bbaadf26a81157a89c9aae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,29 +157,26 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a82b8f0fe5d1069fdd844126dd46700b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the lftHndSwcthPtr attribute value.  <br /></td></tr>
 <tr class="separator:a82b8f0fe5d1069fdd844126dd46700b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3e6eded50bf524623fbb2999fbe161b" id="r_ab3e6eded50bf524623fbb2999fbe161b"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3e6eded50bf524623fbb2999fbe161b">getLtchRlsIsOn</a> () const</td></tr>
-<tr class="memdesc:ab3e6eded50bf524623fbb2999fbe161b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the ltchRlsIsOn object's attribute flag value.  <br /></td></tr>
+<tr class="memdesc:ab3e6eded50bf524623fbb2999fbe161b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ltchRlsIsOn attribute flag value.  <br /></td></tr>
 <tr class="separator:ab3e6eded50bf524623fbb2999fbe161b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab180bdf804b5c3fe58387cf3e9b34cb0" id="r_ab180bdf804b5c3fe58387cf3e9b34cb0"><td class="memItemLeft" align="right" valign="top">unsigned long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab180bdf804b5c3fe58387cf3e9b34cb0">getLtchRlsTtlTm</a> ()</td></tr>
+<tr class="memdesc:ab180bdf804b5c3fe58387cf3e9b34cb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time configured to keep the latch at the released state.  <br /></td></tr>
+<tr class="separator:ab180bdf804b5c3fe58387cf3e9b34cb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e3397acc1f24c32081546a302469f24" id="r_a2e3397acc1f24c32081546a302469f24"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e3397acc1f24c32081546a302469f24">getPrdCyclIsOn</a> () const</td></tr>
 <tr class="memdesc:a2e3397acc1f24c32081546a302469f24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the prdCyclIsOn object'sattribute flag value.  <br /></td></tr>
 <tr class="separator:a2e3397acc1f24c32081546a302469f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3646d558c004aae52f63212fe4f2075b" id="r_a3646d558c004aae52f63212fe4f2075b"><td class="memItemLeft" align="right" valign="top">unsigned long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3646d558c004aae52f63212fe4f2075b">getPrdCyclTtlTm</a> ()</td></tr>
+<tr class="memdesc:a3646d558c004aae52f63212fe4f2075b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time configured for the production cycle to be completed.  <br /></td></tr>
+<tr class="separator:a3646d558c004aae52f63212fe4f2075b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c959f7e1923051a085da4fc3ee4fc40" id="r_a8c959f7e1923051a085da4fc3ee4fc40"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c959f7e1923051a085da4fc3ee4fc40">getOutputsChange</a> () const</td></tr>
 <tr class="memdesc:a8c959f7e1923051a085da4fc3ee4fc40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the <b>outputsChange</b> attribute flag.  <br /></td></tr>
 <tr class="separator:a8c959f7e1923051a085da4fc3ee4fc40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af039d04e08538817e34da747017867d0" id="r_af039d04e08538817e34da747017867d0"><td class="memItemLeft" align="right" valign="top">TmVdblMPBttn *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af039d04e08538817e34da747017867d0">getRghtHndSwtchPtr</a> ()</td></tr>
 <tr class="memdesc:af039d04e08538817e34da747017867d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the rghtHndSwcthPtr attribute value.  <br /></td></tr>
 <tr class="separator:af039d04e08538817e34da747017867d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74f6f27cc44bd21e6a4d115596ed9885" id="r_a74f6f27cc44bd21e6a4d115596ed9885"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74f6f27cc44bd21e6a4d115596ed9885">cnfgFtSwtch</a> (const limbSftySwCfg_t &amp;newCfg)</td></tr>
-<tr class="memdesc:a74f6f27cc44bd21e6a4d115596ed9885"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the SnglSrvcVdblMPBttn class object used as <b>Foot Switch</b>  <br /></td></tr>
-<tr class="separator:a74f6f27cc44bd21e6a4d115596ed9885"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ec44a61320ec6cdbfc4a37cb75111c4" id="r_a2ec44a61320ec6cdbfc4a37cb75111c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ec44a61320ec6cdbfc4a37cb75111c4">cnfgLftHndSwtch</a> (const limbSftySwCfg_t &amp;newCfg)</td></tr>
-<tr class="memdesc:a2ec44a61320ec6cdbfc4a37cb75111c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the TmVdblMPBttn class object used as <b>Left Hand Switch</b>  <br /></td></tr>
-<tr class="separator:a2ec44a61320ec6cdbfc4a37cb75111c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69ac8f546f09c7b772142d23d6591317" id="r_a69ac8f546f09c7b772142d23d6591317"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69ac8f546f09c7b772142d23d6591317">cnfgRghtHndSwtch</a> (const limbSftySwCfg_t &amp;newCfg)</td></tr>
-<tr class="memdesc:a69ac8f546f09c7b772142d23d6591317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the TmVdblMPBttn class object used as <b>Right Hand Switch</b>  <br /></td></tr>
-<tr class="separator:a69ac8f546f09c7b772142d23d6591317"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed0e63a65fa7748c4a46b11799686c44" id="r_aed0e63a65fa7748c4a46b11799686c44"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed0e63a65fa7748c4a46b11799686c44">setLtchRlsTm</a> (const unsigned long int &amp;newVal)</td></tr>
-<tr class="memdesc:aed0e63a65fa7748c4a46b11799686c44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Latch Release Total Time (ltchRlsTtlTm) attribute value.  <br /></td></tr>
-<tr class="separator:aed0e63a65fa7748c4a46b11799686c44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7d7e70c12998861aab021f9bd167e4d" id="r_ae7d7e70c12998861aab021f9bd167e4d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7d7e70c12998861aab021f9bd167e4d">setLtchRlsTtlTm</a> (const unsigned long int &amp;newVal)</td></tr>
+<tr class="memdesc:ae7d7e70c12998861aab021f9bd167e4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Latch Release Total Time (ltchRlsTtlTm) attribute value.  <br /></td></tr>
+<tr class="separator:ae7d7e70c12998861aab021f9bd167e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f5268136b51436483e8de054e98ec02" id="r_a0f5268136b51436483e8de054e98ec02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f5268136b51436483e8de054e98ec02">setOutputsChange</a> (bool newOutputsChange)</td></tr>
 <tr class="memdesc:a0f5268136b51436483e8de054e98ec02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of the attribute flag indicating if a change took place in any of the output attribute flags (IsOn included).  <br /></td></tr>
 <tr class="separator:a0f5268136b51436483e8de054e98ec02"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -190,8 +196,8 @@ Public Member Functions</h2></td></tr>
 <li>A SnglSrvcVdblMPBttn object for the foot switch </li>
 </ul>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a44c1adfc80afa93065faa3fca2bab15c" name="a44c1adfc80afa93065faa3fca2bab15c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44c1adfc80afa93065faa3fca2bab15c">&#9670;&#160;</a></span>LimbsSftySnglShtSw()</h2>
+<a id="a4020eb1b65681a25e6708f3367c31d9c" name="a4020eb1b65681a25e6708f3367c31d9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4020eb1b65681a25e6708f3367c31d9c">&#9670;&#160;</a></span>LimbsSftySnglShtSw()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -209,7 +215,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>ftInpCfg</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>ftInpCfg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">lsSwtchSwCfg_t</td>          <td class="paramname"><span class="paramname"><em>lsSwtchWrkngCnfg</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -452,15 +463,35 @@ false At least one of hands' isOn AF values are true, value saved to the _bthHnd
       </table>
 </div><div class="memdoc">
 
-<p>Get the ltchRlsIsOn object's attribute flag value. </p>
-<p>The ltchRlsIsOn attribute flag indicates if the object is in the latch release state.</p>
+<p>Returns the ltchRlsIsOn attribute flag value. </p>
+<p>The ltchRlsIsOn attribute flag indicates if the object is in the latch released state.</p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">true</td><td>The object is in the latch release state </td></tr>
-    <tr><td class="paramname">false</td><td>The object is not in the latch release state </td></tr>
+    <tr><td class="paramname">true</td><td>The object is in the latch released state </td></tr>
+    <tr><td class="paramname">false</td><td>The object is in the latch not released state </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ab180bdf804b5c3fe58387cf3e9b34cb0" name="ab180bdf804b5c3fe58387cf3e9b34cb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab180bdf804b5c3fe58387cf3e9b34cb0">&#9670;&#160;</a></span>getLtchRlsTtlTm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long int LimbsSftySnglShtSw::getLtchRlsTtlTm </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the time configured to keep the latch at the released state. </p>
+<dl class="section return"><dt>Returns</dt><dd>The time in milliseconds the latch will be kept released </dd></dl>
 
 </div>
 </div>
@@ -518,6 +549,27 @@ false At least one of hands' isOn AF values are true, value saved to the _bthHnd
 
 </div>
 </div>
+<a id="a3646d558c004aae52f63212fe4f2075b" name="a3646d558c004aae52f63212fe4f2075b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3646d558c004aae52f63212fe4f2075b">&#9670;&#160;</a></span>getPrdCyclTtlTm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long int LimbsSftySnglShtSw::getPrdCyclTtlTm </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the time configured for the production cycle to be completed. </p>
+<p>Due to the lack of sensors to register the end/completition of the production cycle a timer will be set to control the time since the production cycle start and until the cycle is considered completed. This method returns the time configured for that timer</p>
+<dl class="section return"><dt>Returns</dt><dd>The time in milliseconds the control will consider being in the production cycle state. After completing the time the cycle will be considered concluded and the limbs safety switches will be re-enabled to start a new cycle. </dd></dl>
+
+</div>
+</div>
 <a id="af039d04e08538817e34da747017867d0" name="af039d04e08538817e34da747017867d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af039d04e08538817e34da747017867d0">&#9670;&#160;</a></span>getRghtHndSwtchPtr()</h2>
 
@@ -540,14 +592,14 @@ false At least one of hands' isOn AF values are true, value saved to the _bthHnd
 
 </div>
 </div>
-<a id="aed0e63a65fa7748c4a46b11799686c44" name="aed0e63a65fa7748c4a46b11799686c44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed0e63a65fa7748c4a46b11799686c44">&#9670;&#160;</a></span>setLtchRlsTm()</h2>
+<a id="ae7d7e70c12998861aab021f9bd167e4d" name="ae7d7e70c12998861aab021f9bd167e4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7d7e70c12998861aab021f9bd167e4d">&#9670;&#160;</a></span>setLtchRlsTtlTm()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool LimbsSftySnglShtSw::setLtchRlsTm </td>
+          <td class="memname">bool LimbsSftySnglShtSw::setLtchRlsTtlTm </td>
           <td>(</td>
           <td class="paramtype">const unsigned long int &amp;</td>          <td class="paramname"><span class="paramname"><em>newVal</em></span></td><td>)</td>
           <td></td>
@@ -614,7 +666,7 @@ false The parameter value was not in the valid range, attribute value was not up
 <p>The prdCyclTtlTm attribute holds the total time for the production cycle, starting from the moment the latching mechanism of the cycle machine will be freed to start the production cycle and until the hands and foot security switches are kept disabled. After the production cycle timer set time is consumed, the limbs security switch enters the Cycle closure state, ending with the hands and foot security switches re-enabled to their respective configuration states. Setting a short value to the attribute will produce the switch to be re-enabled before the production cycle ends, generating undesired security risks, setting an extremely long value to the attribute will produce the switch to be unavailable to start a new production cycle, slowing the production in an unneeded manner.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newVal</td><td>Time in milliseconds for the production cycle to be active, must be a value greater than 0, and greater or equal to the "Latch Release Total Time" (see setLtchRlsTm(const unsigned long int)) </td></tr>
+    <tr><td class="paramname">newVal</td><td>Time in milliseconds for the production cycle to be active, must be a value greater than 0, and greater or equal to the "Latch Release Total Time" (see setLtchRlsTtlTm(const unsigned long int)) </td></tr>
   </table>
   </dd>
 </dl>
