@@ -201,8 +201,8 @@ struct lsSwtchSwCfg_t{
 //========================================>> END General use function prototypes
 
 //===========================>> BEGIN General use Static variables and constants
-static const uint8_t _exePrty = 1;   //Execution priority of the updating Task
-static const int app_cpu = xPortGetCoreID();
+static const uint8_t _exePrty = configTIMER_TASK_PRIORITY;   //Execution priority of the updating Task
+static const int appCpuCore = xPortGetCoreID();
 static BaseType_t rc;
 //=============================>> END General use Static variables and constants
 
@@ -274,13 +274,19 @@ protected:
 	
    fncVdPtrPrmPtrType _fnWhnTrnOffLtchRls {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOffPrdCycl {nullptr};
+	fncVdPtrPrmPtrType _fnWhnTrnOnLtchRls {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnPrdCycl {nullptr};
    fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};
    TimerHandle_t _lsSwtchPollTmrHndl {NULL};   //FreeRTOS returns NULL if creation fails (not nullptr)
-   bool _outputsChange{false};
-   uint32_t _outputsChangeCnt{0};
+   bool _lsSwtchOtptsChng{false};
+   uint32_t _lsSwtchOtptsChngCnt{0};
    bool _sttChng{true};
    String _swtchPollTmrName{"lsSwtch-01"};
+
+   TaskHandle_t tskToNtfyTrnOffLtchRls{NULL};
+   TaskHandle_t tskToNtfyTrnOffPrdCycl{NULL};
+   TaskHandle_t tskToNtfyTrnOnLtchRls{NULL};
+   TaskHandle_t tskToNtfyTrnOnPrdCycl{NULL};
 
 	static void lsSwtchPollCb(TimerHandle_t lssTmrCbArg);
 
@@ -292,7 +298,7 @@ protected:
    void _turnOffPrdCycl();
    void _turnOnPrdCycl();
    void _updBothHndsSwState();
-   void _updCurTimeMs();
+   unsigned long int _updCurTimeMs();
    void _updFdaState();
    bool _updOutputs();
    void _updUndrlSwState();
@@ -446,7 +452,7 @@ public:
     * @retval true: Any of the object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
     * @retval false: no object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
 	 */
-   const bool getOutputsChange() const;
+   const bool getlsSwtchOtptsChng() const;
    /**
     * @brief Get the rghtHndSwcthPtr attribute value
     * 
@@ -476,7 +482,7 @@ public:
     *
     * @param newOutputChange The new value to set the **outputsChange** flag to.
     */
-	void setOutputsChange(bool newOutputsChange);
+	void setlsSwtchOtptsChng(bool newlsSwtchOtptsChng);
    /**
     * @brief Set the Production Cycle Total Time (prdCyclTtlTm) attribute value
     * 
@@ -502,18 +508,22 @@ public:
 
    fncVdPtrPrmPtrType getFnWhnTrnOffLtchRlsPtr();
    fncVdPtrPrmPtrType getFnWhnTrnOffPrdCyclPtr();
+   fncVdPtrPrmPtrType getFnWhnTrnOnLtchRlsPtr();
    fncVdPtrPrmPtrType getFnWhnTrnOnPrdCyclPtr();
 
 	void setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
 	void setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
+	void setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
 	void setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
 	
    const TaskHandle_t getTskToNtfyTrnOffLtchRls() const;
    const TaskHandle_t getTskToNtfyTrnOffPrdCycl() const;
+   const TaskHandle_t getTskToNtfyTrnOnLtchRls() const;
    const TaskHandle_t getTskToNtfyTrnOnPrdCycl() const;
 
    void setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle);    
 	void setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHandle);    
+   void setTskToNtfyTrnOnLtchRls(const TaskHandle_t &newTaskHandle);    
 	void setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle);    
 
    /* Might be useful for setting new ltchRlsTtlTm and/or prdCyclTtlTm ensuring timer not running
