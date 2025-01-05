@@ -148,8 +148,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a69ac8f546f09c7b772142d23d6591317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the TmVdblMPBttn class object used as <b>Right Hand Switch</b>  <br /></td></tr>
 <tr class="separator:a69ac8f546f09c7b772142d23d6591317"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5888088df6054b94a5c76d528d18250" id="r_ad5888088df6054b94a5c76d528d18250"><td class="memItemLeft" align="right" valign="top">fncVdPtrPrmPtrType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5888088df6054b94a5c76d528d18250">getFnWhnTrnOffLtchRlsPtr</a> ()</td></tr>
-<tr class="memdesc:ad5888088df6054b94a5c76d528d18250"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of the bothHndsSwOk attribute flag.  <br /></td></tr>
+<tr class="memdesc:ad5888088df6054b94a5c76d528d18250"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that is set to execute every time the object's Latch Release is set to <b>Off State</b>.  <br /></td></tr>
 <tr class="separator:ad5888088df6054b94a5c76d528d18250"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58c013fec14d474385d0e8a3b17a2a25" id="r_a58c013fec14d474385d0e8a3b17a2a25"><td class="memItemLeft" align="right" valign="top">fncVdPtrPrmPtrType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58c013fec14d474385d0e8a3b17a2a25">getFnWhnTrnOffPrdCyclPtr</a> ()</td></tr>
+<tr class="memdesc:a58c013fec14d474385d0e8a3b17a2a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that is set to execute every time the object's Production Cycle is set to <b>Off State</b>.  <br /></td></tr>
+<tr class="separator:a58c013fec14d474385d0e8a3b17a2a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa03267db30dd09eb4935484b8247e031" id="r_aa03267db30dd09eb4935484b8247e031"><td class="memItemLeft" align="right" valign="top">fncVdPtrPrmPtrType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa03267db30dd09eb4935484b8247e031">getFnWhnTrnOnLtchRlsPtr</a> ()</td></tr>
+<tr class="memdesc:aa03267db30dd09eb4935484b8247e031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that is set to execute every time the object's Latch Release is set to <b>On State</b>.  <br /></td></tr>
+<tr class="separator:aa03267db30dd09eb4935484b8247e031"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9b43a4ed34428ca214797cde8a1a37" id="r_a2a9b43a4ed34428ca214797cde8a1a37"><td class="memItemLeft" align="right" valign="top">fncVdPtrPrmPtrType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a9b43a4ed34428ca214797cde8a1a37">getFnWhnTrnOnPrdCyclPtr</a> ()</td></tr>
+<tr class="memdesc:a2a9b43a4ed34428ca214797cde8a1a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that is set to execute every time the object's Production Cycle is set to <b>On State</b>.  <br /></td></tr>
+<tr class="separator:a2a9b43a4ed34428ca214797cde8a1a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbe371370017d3d00ba9ed8786943d6e" id="r_afbe371370017d3d00ba9ed8786943d6e"><td class="memItemLeft" align="right" valign="top">SnglSrvcVdblMPBttn *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afbe371370017d3d00ba9ed8786943d6e">getFtSwtchPtr</a> ()</td></tr>
 <tr class="memdesc:afbe371370017d3d00ba9ed8786943d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the ftSwcthPtr attribute value.  <br /></td></tr>
 <tr class="separator:afbe371370017d3d00ba9ed8786943d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -396,11 +405,100 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get the value of the bothHndsSwOk attribute flag. </p>
-<p>The method evaluates the _bthHndsSwArOn based on the isOn attribute flag state of each hands' value.</p>
-<dl class="section return"><dt>Returns</dt><dd>true Both hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF </dd>
-<dd>
-false At least one of hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF </dd></dl>
+<p>Returns the function that is set to execute every time the object's Latch Release is set to <b>Off State</b>. </p>
+<p>The function to be executed is an attribute that might be modified by the <b>setFnWhnTrnOffLtchRlsPtr()</b> method. If such function is set, it will be executed every time the **_ltchRlsIsOn** attribute flag is set to <b>false</b></p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the function set to execute every time the object's indicated attribute flag value is set as described. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">nullptr</td><td>if there is no function set to execute when the object enters the indicated condition.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks. </dd></dl>
+
+</div>
+</div>
+<a id="a58c013fec14d474385d0e8a3b17a2a25" name="a58c013fec14d474385d0e8a3b17a2a25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58c013fec14d474385d0e8a3b17a2a25">&#9670;&#160;</a></span>getFnWhnTrnOffPrdCyclPtr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOffPrdCyclPtr </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the function that is set to execute every time the object's Production Cycle is set to <b>Off State</b>. </p>
+<p>The function to be executed is an attribute that might be modified by the <b>setFnWhnTrnOffPrdCyclPtr()</b> method. If such function is set, it will be executed every time the **_prdCyclIsOn** attribute flag is set to <b>false</b></p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the function set to execute every time the object's indicated attribute flag value is set as described. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">nullptr</td><td>if there is no function set to execute when the object enters the indicated condition.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks. </dd></dl>
+
+</div>
+</div>
+<a id="aa03267db30dd09eb4935484b8247e031" name="aa03267db30dd09eb4935484b8247e031"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa03267db30dd09eb4935484b8247e031">&#9670;&#160;</a></span>getFnWhnTrnOnLtchRlsPtr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOnLtchRlsPtr </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the function that is set to execute every time the object's Latch Release is set to <b>On State</b>. </p>
+<p>The function to be executed is an attribute that might be modified by the <b>setFnWhnTrnOnLtchRlsPtr()</b> method. If such function is set, it will be executed every time the **_ltchRlsIsOn** attribute flag is set to <b>true</b></p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the function set to execute every time the object's indicated attribute flag value is set as described. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">nullptr</td><td>if there is no function set to execute when the object enters the indicated condition.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks. </dd></dl>
+
+</div>
+</div>
+<a id="a2a9b43a4ed34428ca214797cde8a1a37" name="a2a9b43a4ed34428ca214797cde8a1a37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9b43a4ed34428ca214797cde8a1a37">&#9670;&#160;</a></span>getFnWhnTrnOnPrdCyclPtr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOnPrdCyclPtr </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the function that is set to execute every time the object's Production Cycle is set to <b>On State</b>. </p>
+<p>The function to be executed is an attribute that might be modified by the <b>setFnWhnTrnOnPrdCyclPtr()</b> method. If such function is set, it will be executed every time the **_prdCyclIsOn** attribute flag is set to <b>true</b></p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the function set to execute every time the object's indicated attribute flag value is set as described. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">nullptr</td><td>if there is no function set to execute when the object enters the indicated condition.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks. </dd></dl>
 
 </div>
 </div>

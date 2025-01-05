@@ -192,13 +192,13 @@ struct swtchOtptHwCfg_t{
  * 
  * Holds the values for the relevant attribute flags that define the Limbs Safety Switch state, as from the output point of view
  * 
- * @param bthHndsSwArOn Holds the value of the _bthHndsSwArOn attribute flag
+ * @param ftSwIsEnbld Holds the computed value of the _undrlFtMPBPtr's _isEnabled attribute flag
  * @param ltchRlsIsOn Holds the value of the _ltchRlsIsOn attribute flag
  * @param prdCyclIsOn Holds the value of the _prdCyclIsOn attribute flag
  * 
  */
 struct lsSwtchOtpts_t{
-   bool bthHndsSwArOn;
+   bool ftSwIsEnbld;
    bool ltchRlsIsOn;
    bool prdCyclIsOn;
 };
@@ -392,21 +392,50 @@ public:
     * @warning The limbSftySwCfg_t type structure has designated default field values, as a consequence any field not expreselly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
     */
    bool cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg);
-   /**
-    * @brief Get the value of the bothHndsSwOk attribute flag
-    * 
-    * The method evaluates the _bthHndsSwArOn based on the isOn attribute flag state of each hands' value.
-    * 
-    * @return true Both hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
-    * @return false At least one of hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
-    */
-   // bool getBothHndsSwOk();
-
+	/**
+	 * @brief Returns the function that is set to execute every time the object's Latch Release is set to **Off State**.
+	 *
+	 * The function to be executed is an attribute that might be modified by the **setFnWhnTrnOffLtchRlsPtr()** method. If such function is set, it will be executed every time the **_ltchRlsIsOn** attribute flag is set to **false**
+	 *
+	 * @return A pointer to the function set to execute every time the object's indicated attribute flag value is set as described.
+	 * @retval nullptr if there is no function set to execute when the object enters the indicated condition.
+	 *
+	 * @warning The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks.
+	 */
    fncVdPtrPrmPtrType getFnWhnTrnOffLtchRlsPtr();
+	/**
+	 * @brief Returns the function that is set to execute every time the object's Production Cycle is set to **Off State**.
+	 *
+	 * The function to be executed is an attribute that might be modified by the **setFnWhnTrnOffPrdCyclPtr()** method. If such function is set, it will be executed every time the **_prdCyclIsOn** attribute flag is set to **false**
+	 *
+	 * @return A pointer to the function set to execute every time the object's indicated attribute flag value is set as described.
+	 * @retval nullptr if there is no function set to execute when the object enters the indicated condition.
+	 *
+	 * @warning The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks.
+	 */
    fncVdPtrPrmPtrType getFnWhnTrnOffPrdCyclPtr();
+	/**
+	 * @brief Returns the function that is set to execute every time the object's Latch Release is set to **On State**.
+	 *
+	 * The function to be executed is an attribute that might be modified by the **setFnWhnTrnOnLtchRlsPtr()** method. If such function is set, it will be executed every time the **_ltchRlsIsOn** attribute flag is set to **true**
+	 *
+	 * @return A pointer to the function set to execute every time the object's indicated attribute flag value is set as described.
+	 * @retval nullptr if there is no function set to execute when the object enters the indicated condition.
+	 *
+	 * @warning The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks.
+	 */
    fncVdPtrPrmPtrType getFnWhnTrnOnLtchRlsPtr();
+	/**
+	 * @brief Returns the function that is set to execute every time the object's Production Cycle is set to **On State**.
+	 *
+	 * The function to be executed is an attribute that might be modified by the **setFnWhnTrnOnPrdCyclPtr()** method. If such function is set, it will be executed every time the **_prdCyclIsOn** attribute flag is set to **true**
+	 *
+	 * @return A pointer to the function set to execute every time the object's indicated attribute flag value is set as described.
+	 * @retval nullptr if there is no function set to execute when the object enters the indicated condition.
+	 *
+	 * @warning The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks.
+	 */
    fncVdPtrPrmPtrType getFnWhnTrnOnPrdCyclPtr();
-
    /**
     * @brief Get the ftSwcthPtr attribute value
     * 
@@ -439,8 +468,7 @@ public:
 	 */
    const bool getlsSwtchOtptsChng() const;
 
-uint32_t getlsSwtchOtptsSttsPkgd();
-
+   uint32_t getlsSwtchOtptsSttsPkgd();
    /**
     * @brief Returns the ltchRlsIsOn attribute flag value
     * 
