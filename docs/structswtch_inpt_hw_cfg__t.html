@@ -119,11 +119,11 @@ $(function(){initNavTree('structswtch_inpt_hw_cfg__t.html',''); initResizable(tr
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>GPIO_NUM_NC = -1 is used to signal not connected to S/W </dd>
+<dl class="section note"><dt>Note</dt><dd>inptPin = GPIO_NUM_NC (-1) is used to indicate the pin is Not Connected (N/C). </dd>
 <dd>
-GPIO_NUM_MAX is used to contain the maximum number of a GPIO pin (GPIO_NUM_x &lt; GPIO_NUM_MAX) </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Not all the GPIO input pins of every MCU has a pull-up internal circuit available! </dd></dl>
+GPIO_NUM_MAX is used to indicate the maximum valid number for a GPIO pin (GPIO_NUM_x &lt; GPIO_NUM_MAX) </dd></dl>
 <dl class="section attention"><dt>Attention</dt><dd>Hardware construction related!! The information must be provided by the hardware developers </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Not all the GPIO input pins of every MCU has a pull-up internal circuit available! </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

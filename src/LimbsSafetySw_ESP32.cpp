@@ -8,8 +8,8 @@
   *
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
-  * @date	: Created on: 06/11/2023
-  * 		: Last modification: 18/12/2024
+  * @date First release: 11/11/2024 
+  *       Last update:   05/01/2025 13:55 GMT+0300
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -29,7 +29,7 @@
 #include "LimbsSafetySw_ESP32.h"
 
 //=========================================================================> Class methods delimiter
-TaskHandle_t LimbsSftySnglShtSw::lssTskToNtfyHndl = NULL;
+TaskHandle_t LimbsSftySnglShtSw::lssTskToNtfyOtptsChng = NULL;
 
 LimbsSftySnglShtSw::LimbsSftySnglShtSw()
 {
@@ -39,37 +39,38 @@ LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptH
 :_lftHndInpCfg{lftHndInpCfg}, _rghtHndInpCfg{rghtHndInpCfg}, _ftInpCfg{ftInpCfg}
 {
    // Build DbncdMPBttn objects and pointers
-   _undrlLftHndHTVMPBPtr = new TmVdblMPBttn(_lftHndInpCfg.inptPin, _lftHndSwCfg.swtchVdTm, _lftHndInpCfg.pulledUp, _lftHndInpCfg.typeNO, _lftHndInpCfg.dbncTime, _lftHndSwCfg.swtchStrtDlyTm, true);
+   _undrlLftHndMPBPtr = new TmVdblMPBttn(_lftHndInpCfg.inptPin, _lftHndSwCfg.swtchVdTm, _lftHndInpCfg.pulledUp, _lftHndInpCfg.typeNO, _lftHndInpCfg.dbncTime, _lftHndSwCfg.swtchStrtDlyTm, true);
 
-   _undrlRghtHndHTVMPBPtr = new TmVdblMPBttn (_rghtHndInpCfg.inptPin, _rghtHndSwCfg.swtchVdTm, _rghtHndInpCfg.pulledUp, _rghtHndInpCfg.typeNO, _rghtHndInpCfg.dbncTime, _rghtHndSwCfg.swtchStrtDlyTm, true);
+   _undrlRghtHndMPBPtr = new TmVdblMPBttn (_rghtHndInpCfg.inptPin, _rghtHndSwCfg.swtchVdTm, _rghtHndInpCfg.pulledUp, _rghtHndInpCfg.typeNO, _rghtHndInpCfg.dbncTime, _rghtHndSwCfg.swtchStrtDlyTm, true);
 
-   _undrlFtSSVMPBPtr = new SnglSrvcVdblMPBttn(_ftInpCfg.inptPin, _ftInpCfg.pulledUp, _ftInpCfg.typeNO, _ftInpCfg.dbncTime, _ftSwCfg.swtchStrtDlyTm);
+   _undrlFtMPBPtr = new SnglSrvcVdblMPBttn(_ftInpCfg.inptPin, _ftInpCfg.pulledUp, _ftInpCfg.typeNO, _ftInpCfg.dbncTime, _ftSwCfg.swtchStrtDlyTm);
    
    // Configuration of the isEnabled state of both hands switches. Note: TmVdblMPBttn objects are instantiated with _isEnabled = true property value
    if(!_lftHndSwCfg.swtchIsEnbld)
-      _undrlLftHndHTVMPBPtr->disable();
+      _undrlLftHndMPBPtr->disable();
    if(!_rghtHndSwCfg.swtchIsEnbld)
-      _undrlRghtHndHTVMPBPtr->disable();
+      _undrlRghtHndMPBPtr->disable();
 
    _ltchRlsTtlTm = lsSwtchWrkngCnfg.ltchRlsActvTm;
-   _prdCyclTtlTm = lsSwtchWrkngCnfg.prdCyclActvTm;
-      
+   _prdCyclTtlTm = lsSwtchWrkngCnfg.prdCyclActvTm;      
 }
 
-LimbsSftySnglShtSw::~LimbsSftySnglShtSw()
-{
+LimbsSftySnglShtSw::~LimbsSftySnglShtSw(){
+   _undrlFtMPBPtr->~SnglSrvcVdblMPBttn();
+   _undrlRghtHndMPBPtr->~TmVdblMPBttn();
+   _undrlLftHndMPBPtr->~TmVdblMPBttn();
 }
 
 bool LimbsSftySnglShtSw::begin(unsigned long int pollDelayMs){
    bool result {false};
 	BaseType_t tmrModResult {pdFAIL};
 
-	if (pollDelayMs > _undrlSwtchsPollDelay){      
-      result = _undrlLftHndHTVMPBPtr->begin(_undrlSwtchsPollDelay);   // Set the underlying left hand MPBttns to start updating it's input readings & output states
+	if (pollDelayMs >= _undrlSwtchsPollDelay){      
+      result = _undrlLftHndMPBPtr->begin(_undrlSwtchsPollDelay);   // Set the underlying left hand MPBttns to start updating it's input readings & output states
       if(result){
-         result = _undrlRghtHndHTVMPBPtr->begin(_undrlSwtchsPollDelay);  // Set the underlying right hand MPBttns to start updating it's input readings & output states
+         result = _undrlRghtHndMPBPtr->begin(_undrlSwtchsPollDelay);  // Set the underlying right hand MPBttns to start updating it's input readings & output states
          if(result){
-            result = _undrlFtSSVMPBPtr->begin(_undrlSwtchsPollDelay); // Set the underlying foot MPBttns to start updating it's input readings & output states
+            result = _undrlFtMPBPtr->begin(_undrlSwtchsPollDelay); // Set the underlying foot MPBttns to start updating it's input readings & output states
             if(result){
                if (!_lsSwtchPollTmrHndl){        
                   _lsSwtchPollTmrHndl = xTimerCreate(
@@ -94,11 +95,11 @@ bool LimbsSftySnglShtSw::begin(unsigned long int pollDelayMs){
 }
 
 void LimbsSftySnglShtSw::clrStatus(){
-   _bthHndsSwArOn = false;
+   // _bthHndsSwArOn = false;
    _ltchRlsIsOn = false;
    _prdCyclIsOn = false;
    _prdCyclTmrStrt = 0;
-   _undrlFtSSVMPBPtr->disable(); // Disable FtSwitch
+   _undrlFtMPBPtr->disable(); // Disable FtSwitch
 
    return;
 }
@@ -110,7 +111,7 @@ void LimbsSftySnglShtSw::_clrSttChng(){
 }
 
 void LimbsSftySnglShtSw::cnfgFtSwtch(const limbSftySwCfg_t &newCfg){
-   _undrlFtSSVMPBPtr->setStrtDelay(newCfg.swtchStrtDlyTm);
+   _undrlFtMPBPtr->setStrtDelay(newCfg.swtchStrtDlyTm);
 
    return;
 }
@@ -120,9 +121,9 @@ bool LimbsSftySnglShtSw::_cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t
    TmVdblMPBttn* hndSwtchToCnf {nullptr};
 
    if(isLeft)
-      hndSwtchToCnf = _undrlLftHndHTVMPBPtr;
+      hndSwtchToCnf = _undrlLftHndMPBPtr;
    else
-      hndSwtchToCnf = _undrlRghtHndHTVMPBPtr;
+      hndSwtchToCnf = _undrlRghtHndMPBPtr;
    hndSwtchToCnf->setStrtDelay(newCfg.swtchStrtDlyTm);
    if(newCfg.swtchIsEnbld)
       hndSwtchToCnf->enable();
@@ -131,6 +132,35 @@ bool LimbsSftySnglShtSw::_cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t
    result = hndSwtchToCnf->setVoidTime(newCfg.swtchVdTm);
 
    return result;
+}
+
+uint32_t LimbsSftySnglShtSw::_lsSwtchOtptsSttsPkgd(uint32_t prevVal){
+	if(_lftHndSwtchStts.isOn)
+		prevVal |= ((uint32_t)1) << IsOnLftHndPos;
+	else
+		prevVal &= ~(((uint32_t)1) << IsOnLftHndPos);
+      
+	if(_rghtHndSwtchStts.isOn)
+		prevVal |= ((uint32_t)1) << IsOnRghtHndPos;
+	else
+		prevVal &= ~(((uint32_t)1) << IsOnRghtHndPos);
+
+	if(_ftSwtchStts.isEnabled)
+		prevVal |= ((uint32_t)1) << IsFtSwtchEnbld;
+	else
+		prevVal &= ~(((uint32_t)1) << IsFtSwtchEnbld);
+
+	if(_ltchRlsIsOn)
+		prevVal |= ((uint32_t)1) << IsOnLtchRls;
+	else
+		prevVal &= ~(((uint32_t)1) << IsOnLtchRls);
+
+	if(_prdCyclIsOn)
+		prevVal |= ((uint32_t)1) << IsOnPrdCycl;
+	else
+		prevVal &= ~(((uint32_t)1) << IsOnPrdCycl);
+
+   return prevVal;
 }
 
 bool LimbsSftySnglShtSw::cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg){
@@ -143,11 +173,11 @@ bool LimbsSftySnglShtSw::cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg){
    return _cnfgHndSwtch(false, newCfg);
 }
 
-bool LimbsSftySnglShtSw::getBothHndsSwOk(){
-   _bthHndsSwArOn = ((_undrlLftHndHTVMPBPtr->getIsOn()) && (_undrlRghtHndHTVMPBPtr->getIsOn()));
+// bool LimbsSftySnglShtSw::getBothHndsSwOk(){
+//    _bthHndsSwArOn = ((_undrlLftHndMPBPtr->getIsOn()) && (_undrlRghtHndMPBPtr->getIsOn()));
 
-   return _bthHndsSwArOn;
-}
+//    return _bthHndsSwArOn;
+// }
 
 fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOffLtchRlsPtr(){
 
@@ -171,12 +201,22 @@ fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOnPrdCyclPtr(){
 
 SnglSrvcVdblMPBttn* LimbsSftySnglShtSw::getFtSwtchPtr(){
    
-   return _undrlFtSSVMPBPtr;
+   return _undrlFtMPBPtr;
 }
 
-TmVdblMPBttn *LimbsSftySnglShtSw::getLftHndSwtchPtr(){
+TmVdblMPBttn* LimbsSftySnglShtSw::getLftHndSwtchPtr(){
 
-   return _undrlLftHndHTVMPBPtr;
+   return _undrlLftHndMPBPtr;
+}
+
+const bool LimbsSftySnglShtSw::getlsSwtchOtptsChng() const{
+
+	return _lsSwtchOtptsChng;
+}
+
+uint32_t LimbsSftySnglShtSw::getlsSwtchOtptsSttsPkgd(){
+
+   return _lsSwtchOtptsSttsPkgd();
 }
 
 const bool LimbsSftySnglShtSw::getLtchRlsIsOn() const{
@@ -189,11 +229,6 @@ unsigned long int LimbsSftySnglShtSw::getLtchRlsTtlTm(){
    return _ltchRlsTtlTm;
 }
 
-const bool LimbsSftySnglShtSw::getlsSwtchOtptsChng() const{
-
-	return _lsSwtchOtptsChng;
-}
-
 const bool LimbsSftySnglShtSw::getPrdCyclIsOn() const{
 
    return _prdCyclIsOn;
@@ -204,13 +239,19 @@ unsigned long int LimbsSftySnglShtSw::getPrdCyclTtlTm(){
    return _prdCyclTtlTm;
 }
 
-TmVdblMPBttn *LimbsSftySnglShtSw::getRghtHndSwtchPtr(){
+TmVdblMPBttn* LimbsSftySnglShtSw::getRghtHndSwtchPtr(){
 
-   return _undrlRghtHndHTVMPBPtr;
+   return _undrlRghtHndMPBPtr;
 }
 
-const TaskHandle_t LimbsSftySnglShtSw::getTskToNtfyTrnOffLtchRls() const{
+const TaskHandle_t LimbsSftySnglShtSw::getLssTskToNtfyOtptsChng() const{
    
+   return lssTskToNtfyOtptsChng;
+}
+
+const TaskHandle_t LimbsSftySnglShtSw::getTskToNtfyTrnOffLtchRls() const
+{
+
    return tskToNtfyTrnOffLtchRls;
 }
 
@@ -229,7 +270,6 @@ const TaskHandle_t LimbsSftySnglShtSw::getTskToNtfyTrnOnPrdCycl() const{
    return tskToNtfyTrnOnPrdCycl;
 }
 
-
 void LimbsSftySnglShtSw::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
    LimbsSftySnglShtSw* lsssSwtchObj = (LimbsSftySnglShtSw*)pvTimerGetTimerID(lssTmrCbArg);
 	portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
@@ -247,14 +287,14 @@ void LimbsSftySnglShtSw::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
 
 	//Outputs update, function and tasks executions based on outputs changed generated by the State Machine
 	if (lsssSwtchObj->getlsSwtchOtptsChng()){
-		/*if(mpbObj->getTaskToNotify() != NULL){
+		if(lsssSwtchObj->getLssTskToNtfyOtptsChng() != NULL){
 			xTaskNotify(
-				mpbObj->getTaskToNotify(),	//TaskHandle_t of the task receiving notification
-				static_cast<unsigned long>(mpbObj->getOtptsSttsPkgd()),
+				lsssSwtchObj->getLssTskToNtfyOtptsChng(),	//TaskHandle_t of the task receiving notification
+				static_cast<unsigned long>(lsssSwtchObj->getlsSwtchOtptsSttsPkgd()),
 				eSetValueWithOverwrite
 			);
-			mpbObj->setOutputsChange(false);
-		}*/
+			lsssSwtchObj->setlsSwtchOtptsChng(false);
+		}
 	}     
 
 	return;
@@ -341,7 +381,15 @@ void LimbsSftySnglShtSw::_setSttChng(){
    return;
 }
 
-void LimbsSftySnglShtSw::setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle){
+void LimbsSftySnglShtSw::setLssTskToNtfyOtptsChng(const TaskHandle_t &newTaskHandle){
+   if(lssTskToNtfyOtptsChng != newTaskHandle)
+      lssTskToNtfyOtptsChng = newTaskHandle;
+
+   return;
+}
+
+void LimbsSftySnglShtSw::setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle)
+{
    if(tskToNtfyTrnOffLtchRls != newTaskHandle)
       tskToNtfyTrnOffLtchRls = newTaskHandle;
 
@@ -369,7 +417,7 @@ void LimbsSftySnglShtSw::setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHan
    return;
 }
 
-bool LimbsSftySnglShtSw::setUndrlSwtchPollDelay(const unsigned long int &newVal){
+bool LimbsSftySnglShtSw::setUndrlSwtchsPollDelay(const unsigned long int &newVal){
    bool result{false};
    
    if(_minPollDelay <= newVal){
@@ -496,11 +544,11 @@ void LimbsSftySnglShtSw::_turnOnPrdCycl(){
    return;
 }
 
-void LimbsSftySnglShtSw::_updBothHndsSwState(){
-   getBothHndsSwOk();
+// void LimbsSftySnglShtSw::_updBothHndsSwState(){
+//    getBothHndsSwOk();
 
-   return;
-}
+//    return;
+// }
 
 unsigned long int LimbsSftySnglShtSw::_updCurTimeMs(){
    _curTimeMs = xTaskGetTickCount() / portTICK_RATE_MS;
@@ -520,13 +568,13 @@ void LimbsSftySnglShtSw::_updFdaState(){
 				_clrSttChng();
 			}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>         
-			if(getBothHndsSwOk()){            
+			if(_lftHndSwtchStts.isOn && _rghtHndSwtchStts.isOn){
             _lsSwtchFdaState = stOffBHPNotFP;
 				_setSttChng();	//Set flag to execute exiting OUT code
 			}
 			//Out: >>---------------------------------->>
 			if(_sttChng){
-            _undrlFtSSVMPBPtr->enable(); // Enable FtSwitch
+            _undrlFtMPBPtr->enable(); // Enable FtSwitch
             setlsSwtchOtptsChng(true);
          }	// Execute this code only ONCE, when exiting this state
 			break;
@@ -535,8 +583,8 @@ void LimbsSftySnglShtSw::_updFdaState(){
 			//In: >>---------------------------------->>
 			if(_sttChng){_clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
-			if(!getBothHndsSwOk()){
-            _undrlFtSSVMPBPtr->disable(); // Disable FtSwitch
+			if(!(_lftHndSwtchStts.isOn && _rghtHndSwtchStts.isOn)){
+            _undrlFtMPBPtr->disable(); // Disable FtSwitch
             setlsSwtchOtptsChng(true);
             _lsSwtchFdaState = stOffNotBHP;
             _setSttChng();
@@ -544,13 +592,14 @@ void LimbsSftySnglShtSw::_updFdaState(){
          else{
             // Check the foot switch release signal ok flag
             if(_ftSwtchStts.isOn){
-               _undrlLftHndHTVMPBPtr->setIsOnDisabled(false);
-               _undrlLftHndHTVMPBPtr->disable();
-               _undrlRghtHndHTVMPBPtr->setIsOnDisabled(false);
-               _undrlRghtHndHTVMPBPtr->disable();
-               _undrlFtSSVMPBPtr->disable();
-               getBothHndsSwOk();
-               setlsSwtchOtptsChng(true); // In a multithread race condition situation this might need to be executed three times just to ensure all outputs are correctly updated at the corresponding task
+               _undrlLftHndMPBPtr->setIsOnDisabled(false);
+               _undrlLftHndMPBPtr->disable();
+               setlsSwtchOtptsChng(true);
+               _undrlRghtHndMPBPtr->setIsOnDisabled(false);
+               _undrlRghtHndMPBPtr->disable();
+               setlsSwtchOtptsChng(true);
+               _undrlFtMPBPtr->disable();
+               setlsSwtchOtptsChng(true);
                _lsSwtchFdaState = stStrtRlsStrtCycl;
                _setSttChng();
             }
@@ -593,14 +642,14 @@ void LimbsSftySnglShtSw::_updFdaState(){
          if((_curTimeMs - _prdCyclTmrStrt) >= _prdCyclTtlTm){
             _turnOffPrdCycl();
             // Restore modified isOnDisabled, isEnabled for the underlying switches
-            _undrlLftHndHTVMPBPtr->setIsOnDisabled(true);
+            _undrlLftHndMPBPtr->setIsOnDisabled(true);
             if(_lftHndSwCfg.swtchIsEnbld){
-               _undrlLftHndHTVMPBPtr->enable();
+               _undrlLftHndMPBPtr->enable();
                setlsSwtchOtptsChng(true);        
             }
-            _undrlRghtHndHTVMPBPtr->setIsOnDisabled(true);
+            _undrlRghtHndMPBPtr->setIsOnDisabled(true);
             if(_rghtHndSwCfg.swtchIsEnbld){
-               _undrlRghtHndHTVMPBPtr->enable();
+               _undrlRghtHndMPBPtr->enable();
                setlsSwtchOtptsChng(true);        
             }
             _lsSwtchFdaState = stOffNotBHP;
@@ -635,9 +684,9 @@ bool LimbsSftySnglShtSw::_updOutputs(){
 }
 
 void LimbsSftySnglShtSw::_updUndrlSwState(){   
-   _lftHndSwtchStts = otptsSttsUnpkg(_undrlLftHndHTVMPBPtr->getOtptsSttsPkgd());
-   _rghtHndSwtchStts = otptsSttsUnpkg(_undrlRghtHndHTVMPBPtr->getOtptsSttsPkgd());
-   _ftSwtchStts = otptsSttsUnpkg(_undrlFtSSVMPBPtr->getOtptsSttsPkgd());
+   _lftHndSwtchStts = otptsSttsUnpkg(_undrlLftHndMPBPtr->getOtptsSttsPkgd());
+   _rghtHndSwtchStts = otptsSttsUnpkg(_undrlRghtHndMPBPtr->getOtptsSttsPkgd());
+   _ftSwtchStts = otptsSttsUnpkg(_undrlFtMPBPtr->getOtptsSttsPkgd());
 
    return;
 }

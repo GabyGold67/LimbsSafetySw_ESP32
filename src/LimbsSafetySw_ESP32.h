@@ -20,8 +20,9 @@
   *
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
-  * @date	: Created on: 11/11/2024
-  * 		   : Last updated: 30/12/2024
+  * @date First release: 11/11/2024 
+  *       Last update:   30/12/2024 09:48 GMT+0300
+  * 
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -51,22 +52,30 @@
 #ifndef _maxValidPinNum
    #define _maxValidPinNum GPIO_NUM_MAX-1
 #endif
+#ifndef _HwMinDbncTime
+   #define _HwMinDbncTime 20   //Documented minimum wait time for a MPB signal to stabilize
+#endif
 #define _stdTVMPBttnVoidTime 10000UL
 #define _stdTVMPBttnDelayTime 0UL
 #define _stdSSVMPBttnDelayTime 0UL
 #define _minPollDelay 20UL
+
+/*---------------- xTaskNotify() mechanism related constants BEGIN -------*/
+const uint8_t IsOnLftHndPos {8};
+const uint8_t IsOnRghtHndPos{9};
+const uint8_t IsFtSwtchEnbld{10};   //Equivalent to IsBthHndsOn
+const uint8_t IsOnLtchRls{11};
+const uint8_t IsOnPrdCycl{12};
 //=================================================>> END User defined constants
 
-// Definition workaround to let a function/method return value to be a function pointer, the function receives no arguments and returns no vallues: void (funcName*)()
+
+// Definition workaround to let a function/method return value to be a function pointer to a function that receives no arguments and returns no vallues: void (funcName*)()
 typedef void (*fncPtrType)();
 typedef  fncPtrType (*ptrToTrnFnc)();
 
-// Definition workaround to let a function/method return value to be a function pointer, the pointer is to a function that receives a void* arguments and returns no values: void (funcName*)(void*)
-typedef void (*fncVdPtrPrmPtrType)(void*);
-typedef  fncVdPtrPrmPtrType (*ptrToTrnFncVdPtr)(void*);
-/*
-Ejemplo de uso Gemini:
+/* Definition workaround to let a function/method return value to be a function pointer to a function that receives a void* arguments and returns no values: void (funcName*)(void*)
 
+Use sample (by Gemini):
 void myFunction(void* data) {
    Cast the pointer to the appropiate data type before using it.
    Do whatever with the data in the function, 
@@ -78,6 +87,9 @@ ptrToTrnFncVdPtr getFunctionPointer() {
     return ptr;
 }
 */
+typedef void (*fncVdPtrPrmPtrType)(void*);
+typedef  fncVdPtrPrmPtrType (*ptrToTrnFncVdPtr)(void*);
+
 //===================================================>> BEGIN User defined types
 /**
  * @struct gpioPinOtptHwCfg_t
@@ -117,12 +129,12 @@ struct limbSftyFwConf_t{
  * Holds the required set of parameters needed for the configuration of each of the three DbncdMPBttn subclass switches needed for input (left hand's TmVdblMPBttn, right hand's TmVdblMPBttn, foot's SnglSrvcVdblMPBttn). 
  * Each parameter has default values assigned for a standard LimbsSftySnglShtSw configuration. The provided default values are expected to be only used if no explicit values are provided by the object instantiating software (from previous) executions configured values.
  * 
- * @param swtchStrtDlyTm Corresponds to the DbncdMPBttn subclasses strtDelay constructor parameter, and class attribute.
- * @param swtchIsEnbld Corresponds to the DbncdMPBttn subclasses _isEnabled attribute
- * @param swtchVdTm Corresponds to the TmVdblMPBttn class voidTime constructor parameter and class attribute, will be used as an activation time limit for the hands controlled TmVdblMPBttn
+ * @param swtchStrtDlyTm Corresponds to the DbncdMPBttn subclasses strtDelay class attribute.
+ * @param swtchIsEnbld Corresponds to the DbncdMPBttn subclasses _isEnabled attribute flag
+ * @param swtchVdTm Corresponds to the TmVdblMPBttn class voidTime attribute, will be used as an activation time limit for the hands controlled TmVdblMPBttn
  */
 struct limbSftySwCfg_t{
-  unsigned long int swtchStrtDlyTm = 0;
+  unsigned long int swtchStrtDlyTm = _stdTVMPBttnDelayTime;
   bool swtchIsEnbld = true;
   unsigned long int swtchVdTm = _stdTVMPBttnVoidTime;
 };
@@ -140,16 +152,16 @@ struct limbSftySwCfg_t{
  * @param pulledUp Internal pull-up circuit configuration, default value true
  * @param dbncdTime Debounce process time required to receive a stable signal, default value 20 milliseconds
  * 
- * @note GPIO_NUM_NC = -1 is used to signal not connected to S/W 
- * @note GPIO_NUM_MAX is used to contain the maximum number of a GPIO pin (GPIO_NUM_x < GPIO_NUM_MAX)
- * @warning Not all the GPIO input pins of every MCU has a pull-up internal circuit available!
+ * @note inptPin = GPIO_NUM_NC (-1) is used to indicate the pin is Not Connected (N/C). 
+ * @note GPIO_NUM_MAX is used to indicate the maximum valid number for a GPIO pin (GPIO_NUM_x < GPIO_NUM_MAX)
  * @attention Hardware construction related!! The information must be provided by the hardware developers
+ * @warning Not all the GPIO input pins of every MCU has a pull-up internal circuit available!
 */
 struct swtchInptHwCfg_t{
    int8_t inptPin;
    bool typeNO = true;
    bool pulledUp = true;
-   unsigned long int dbncTime = 20;
+   unsigned long int dbncTime = _HwMinDbncTime;
 };
 
 /**
@@ -201,9 +213,9 @@ struct lsSwtchSwCfg_t{
 //========================================>> END General use function prototypes
 
 //===========================>> BEGIN General use Static variables and constants
-static const uint8_t _exePrty = configTIMER_TASK_PRIORITY;   //Execution priority of the updating Task
-static const int appCpuCore = xPortGetCoreID();
-static BaseType_t rc;
+static const uint8_t _exePrty = configTIMER_TASK_PRIORITY;  /*!<Execution priority of the updating Task*/
+static const int appCpuCore = xPortGetCoreID(); /*!<Application running core in a multicore MPU */
+static BaseType_t rc; /*!<Static variable to keep returning result value from Tasks and Timers crations*/
 //=============================>> END General use Static variables and constants
 
 //=================================================>> BEGIN Classes declarations
@@ -233,7 +245,7 @@ static BaseType_t rc;
  */
 class LimbsSftySnglShtSw{
 private:
-  static TaskHandle_t lssTskToNtfyHndl;
+  static TaskHandle_t lssTskToNtfyOtptsChng;
   const unsigned long int _minVoidTime{1000};
   enum fdaLsSwtchStts {
 		stOffNotBHP,   /*State: Switch off, NOT both hands pressed*/
@@ -253,9 +265,9 @@ protected:
    limbSftySwCfg_t _rghtHndSwCfg{};
    limbSftySwCfg_t _ftSwCfg{};
 
-   SnglSrvcVdblMPBttn* _undrlFtSSVMPBPtr{nullptr};   
-   TmVdblMPBttn* _undrlLftHndHTVMPBPtr{nullptr};
-   TmVdblMPBttn* _undrlRghtHndHTVMPBPtr{nullptr};
+   SnglSrvcVdblMPBttn* _undrlFtMPBPtr{nullptr};   
+   TmVdblMPBttn* _undrlLftHndMPBPtr{nullptr};
+   TmVdblMPBttn* _undrlRghtHndMPBPtr{nullptr};
 
    MpbOtpts_t _lftHndSwtchStts{0};
    MpbOtpts_t _rghtHndSwtchStts{0};
@@ -268,7 +280,6 @@ protected:
    unsigned long int _prdCyclTtlTm{0};  
    unsigned long int _ltchRlsTtlTm{0};
 
-   bool _bthHndsSwArOn{false};
    bool _ltchRlsIsOn{false};
    bool _prdCyclIsOn{false};
 	
@@ -281,7 +292,7 @@ protected:
    bool _lsSwtchOtptsChng{false};
    uint32_t _lsSwtchOtptsChngCnt{0};
    bool _sttChng{true};
-   String _swtchPollTmrName{"lsSwtch-01"};
+   String _swtchPollTmrName{"lsSwtchPollTmr"};
 
    TaskHandle_t tskToNtfyTrnOffLtchRls{NULL};
    TaskHandle_t tskToNtfyTrnOffPrdCycl{NULL};
@@ -292,12 +303,12 @@ protected:
 
    void _clrSttChng();
    bool _cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg);
+   uint32_t _lsSwtchOtptsSttsPkgd(uint32_t prevVal = 0);
 	void _setSttChng();
    void _turnOffLtchRls();
    void _turnOnLtchRls();
    void _turnOffPrdCycl();
    void _turnOnPrdCycl();
-   void _updBothHndsSwState();
    unsigned long int _updCurTimeMs();
    void _updFdaState();
    bool _updOutputs();
@@ -350,7 +361,7 @@ public:
    /**
     * @brief Configures the SnglSrvcVdblMPBttn class object used as **Foot Switch**
     * 
-    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftySnglShtSw. In the case of the SnglSrvcVdblMPBttn used as **Foot Switch** the only attribute available for adjustment is the **start delay** value, used to adjust the time the foot switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or condition reflex presses.
+    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftySnglShtSw. In the case of the SnglSrvcVdblMPBttn used as **Foot Switch** the only attribute available for adjustment is the **start delay** value, used to adjust the time the foot switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.
     * 
     * @param newCfg A limbSftySwCfg_t type structure, from which only the .swtchStrtDlyTm value will be used.
     */
@@ -389,7 +400,13 @@ public:
     * @return true Both hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
     * @return false At least one of hands' isOn AF values are true, value saved to the _bthHndsSwArOn AF
     */
-   bool getBothHndsSwOk();
+   // bool getBothHndsSwOk();
+
+   fncVdPtrPrmPtrType getFnWhnTrnOffLtchRlsPtr();
+   fncVdPtrPrmPtrType getFnWhnTrnOffPrdCyclPtr();
+   fncVdPtrPrmPtrType getFnWhnTrnOnLtchRlsPtr();
+   fncVdPtrPrmPtrType getFnWhnTrnOnPrdCyclPtr();
+
    /**
     * @brief Get the ftSwcthPtr attribute value
     * 
@@ -410,6 +427,20 @@ public:
     * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
     */
    TmVdblMPBttn*  getLftHndSwtchPtr();
+   /**
+	 * @brief Returns the value of the **lsSwtchOtptsChng** attribute flag.
+	 *
+	 * The instantiated objects include attributes linked to their evaluated states, -Attribute Flags- some of them for internal use, some of them for **output related purposes**.
+	 * When any of those latter attributes values change, the **outputsChange** flag is set. The flag only signals changes have happened -not which flags, nor how many times changes have taken place- since the last **outputsChange** flag reset, although an internal counter is kept to grant no multithread race conditions affect the correct execution of the outputs updates.
+	 * The **outputsChange** flag must be reset (or set if desired) through the setOutputsChange() method.
+	 *
+    * @retval true: Any of the object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
+    * @retval false: no object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
+	 */
+   const bool getlsSwtchOtptsChng() const;
+
+uint32_t getlsSwtchOtptsSttsPkgd();
+
    /**
     * @brief Returns the ltchRlsIsOn attribute flag value
     * 
@@ -443,17 +474,6 @@ public:
     */
    unsigned long int getPrdCyclTtlTm();  
    /**
-	 * @brief Returns the value of the **outputsChange** attribute flag.
-	 *
-	 * The instantiated objects include attributes linked to their evaluated states, -Attribute Flags- some of them for internal use, some of them for **output related purposes**.
-	 * When any of those latter attributes values change, the **outputsChange** flag is set. The flag only signals changes have happened -not which flags, nor how many times changes have taken place- since the last **outputsChange** flag reset, although an internal counter is kept to grant no multithread race conditions affect the correct execution of the outputs updates.
-	 * The **outputsChange** flag must be reset (or set if desired) through the setOutputsChange() method.
-	 *
-    * @retval true: Any of the object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
-    * @retval false: no object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
-	 */
-   const bool getlsSwtchOtptsChng() const;
-   /**
     * @brief Get the rghtHndSwcthPtr attribute value
     * 
     * The rghtHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Right Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
@@ -463,6 +483,12 @@ public:
     * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
     */
    TmVdblMPBttn*  getRghtHndSwtchPtr();
+
+   const TaskHandle_t getLssTskToNtfyOtptsChng() const;
+   const TaskHandle_t getTskToNtfyTrnOffLtchRls() const;
+   const TaskHandle_t getTskToNtfyTrnOffPrdCycl() const;
+   const TaskHandle_t getTskToNtfyTrnOnLtchRls() const;
+   const TaskHandle_t getTskToNtfyTrnOnPrdCycl() const;
 
    void resetFda();
    /**
@@ -504,23 +530,15 @@ public:
     * @retval false The value was not in the accepted range and successfuly changed
     * @warning After the begin(unsigned long int) method is executed no other method is implemented to change the periodic update time, so this method must be used -if there's intention of using a non default value- **before** the begin(unsigned long int). Changing the value of the update period after executing the begin method will have no effect on the object's behavior.  
     */
-   bool setUndrlSwtchPollDelay(const unsigned long int &newVal);
+   bool setUndrlSwtchsPollDelay(const unsigned long int &newVal);
 
-   fncVdPtrPrmPtrType getFnWhnTrnOffLtchRlsPtr();
-   fncVdPtrPrmPtrType getFnWhnTrnOffPrdCyclPtr();
-   fncVdPtrPrmPtrType getFnWhnTrnOnLtchRlsPtr();
-   fncVdPtrPrmPtrType getFnWhnTrnOnPrdCyclPtr();
 
 	void setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
 	void setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
 	void setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
 	void setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
 	
-   const TaskHandle_t getTskToNtfyTrnOffLtchRls() const;
-   const TaskHandle_t getTskToNtfyTrnOffPrdCycl() const;
-   const TaskHandle_t getTskToNtfyTrnOnLtchRls() const;
-   const TaskHandle_t getTskToNtfyTrnOnPrdCycl() const;
-
+   void setLssTskToNtfyOtptsChng(const TaskHandle_t &newTaskHandle);
    void setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle);    
 	void setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHandle);    
    void setTskToNtfyTrnOnLtchRls(const TaskHandle_t &newTaskHandle);    
