@@ -98,7 +98,8 @@ $(function(){initNavTree('_limbs_safety_sw___e_s_p32_8h.html',''); initResizable
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">LimbsSafetySw_ESP32.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -145,6 +146,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_limbs_sfty_sngl_sht_sw.html">LimbsSftySnglShtSw</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Models a Limbs Safety Single Shot Switch (<a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a>) for safely activation of <b>"launch and forget" cycle machines</b> and devices.  <a href="class_limbs_sfty_sngl_sht_sw.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a3465b4ff3c6f0d7c41e1597b9d2ad4a6" id="r_a3465b4ff3c6f0d7c41e1597b9d2ad4a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structls_swtch_otpts__t.html">lsSwtchOtpts_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3465b4ff3c6f0d7c41e1597b9d2ad4a6">lssOtptsSttsUnpkg</a> (uint32_t pkgOtpts)</td></tr>
+<tr class="memdesc:a3465b4ff3c6f0d7c41e1597b9d2ad4a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unpackages a 32-bit value into a <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a> object status.  <br /></td></tr>
+<tr class="separator:a3465b4ff3c6f0d7c41e1597b9d2ad4a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>: Header file for the LimbsSafetySw_ESP32 library </p>
@@ -175,7 +182,35 @@ Classes</h2></td></tr>
 <dl class="section copyright"><dt>Copyright</dt><dd>GPL-3.0 license</dd></dl>
 <dl class="section attention"><dt>Attention</dt><dd>This library was developed as part of the refactoring process for an industrial machines safety enforcement and productivity control (hardware &amp; firmware update). As such every class included complies <b>AT LEAST</b> with the provision of the attributes and methods to make the hardware &amp; firmware replacement transparent to the controlled machines. Generic use attribute and methods were added to extend the usability to other projects and application environments, but no fitness nor completeness of those are given but for the intended refactoring project.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd><b>Use of this library is under your own responsibility</b> </dd></dl>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a3465b4ff3c6f0d7c41e1597b9d2ad4a6" name="a3465b4ff3c6f0d7c41e1597b9d2ad4a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3465b4ff3c6f0d7c41e1597b9d2ad4a6">&#9670;&#160;</a></span>lssOtptsSttsUnpkg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structls_swtch_otpts__t.html">lsSwtchOtpts_t</a> lssOtptsSttsUnpkg </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>pkgOtpts</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unpackages a 32-bit value into a <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a> object status. </p>
+<p>The 32-bit encoded and packaged is used for inter-task object status comunication, passed as a "notification value" in a xTaskNotify() execution. For each bit value attribute flag represented see LimbsSftySnglShtSw::getLsSwtchOtptsSttsPkgd()</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pkgOtpts</td><td>A 32-bit value holding a <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a> status encoded </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="structls_swtch_otpts__t.html" title="Relevant Attribute Flags values data structure.">lsSwtchOtpts_t</a> type element containing the information decoded </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

@@ -1,6 +1,7 @@
 var NAVTREEINDEX0 =
 {
 "_limbs_safety_sw___e_s_p32_8h.html":[2,0,0,0],
+"_limbs_safety_sw___e_s_p32_8h.html#a3465b4ff3c6f0d7c41e1597b9d2ad4a6":[2,0,0,0,6],
 "_limbs_safety_sw___e_s_p32_8h_source.html":[2,0,0,0],
 "annotated.html":[1,0],
 "class_limbs_sfty_sngl_sht_sw.html":[1,0,3],
@@ -33,6 +34,8 @@ var NAVTREEINDEX0 =
 "files.html":[2,0],
 "functions.html":[1,2,0],
 "functions_func.html":[1,2,1],
+"globals.html":[2,1,0],
+"globals_func.html":[2,1,1],
 "index.html":[],
 "index.html":[0],
 "pages.html":[],

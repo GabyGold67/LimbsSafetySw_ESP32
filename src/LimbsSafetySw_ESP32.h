@@ -61,11 +61,13 @@
 #define _minPollDelay 20UL
 
 /*---------------- xTaskNotify() mechanism related constants BEGIN -------*/
-const uint8_t IsOnLftHndPos {8};
-const uint8_t IsOnRghtHndPos{9};
-const uint8_t IsFtSwtchEnbld{10};   //Equivalent to IsBthHndsOn
-const uint8_t IsOnLtchRls{11};
-const uint8_t IsOnPrdCycl{12};
+const uint8_t IsFtSwtchEnbldBitPos{8};   //Equivalent to IsBthHndsOn
+const uint8_t IsOnLtchRlsBitPos{9};
+const uint8_t IsOnPrdCyclBitPos{10};
+const uint8_t IsEnbldLftHndBitPos{11};
+const uint8_t IsOnLftHndBitPos{12};
+const uint8_t IsEnbldRghtHndBitPos{13};
+const uint8_t IsOnRghtHndBitPos{14};
 //=================================================>> END User defined constants
 
 
@@ -195,12 +197,21 @@ struct swtchOtptHwCfg_t{
  * @param ftSwIsEnbld Holds the computed value of the _undrlFtMPBPtr's _isEnabled attribute flag
  * @param ltchRlsIsOn Holds the value of the _ltchRlsIsOn attribute flag
  * @param prdCyclIsOn Holds the value of the _prdCyclIsOn attribute flag
+ * @param lftHndIsEnbld Holds the value of the _isEnabled attribute flag for the _undrlLftHnd MPBttn
+ * @param lftHndIsOn Holds the value of the _isOn attribute flag for the _undrlLftHnd MPBttn
+ * @param rghtHndIsEnbld Holds the value of the _isEnabled attribute flag for the _undrlRghtHnd MPBttn
+ * @param rghtHndIsOn Holds the value of the _isOn attribute flag for the _undrRghttHnd MPBttn
  * 
  */
 struct lsSwtchOtpts_t{
    bool ftSwIsEnbld;
    bool ltchRlsIsOn;
    bool prdCyclIsOn;
+   //--------------- Underlying MPBttns AF values kept for praticity, might be changed in future development iterations
+   bool lftHndIsEnbld;
+   bool lftHndIsOn;
+   bool rghtHndIsEnbld;
+   bool rghtHndIsOn;
 };
 
 struct lsSwtchSwCfg_t{
@@ -210,12 +221,15 @@ struct lsSwtchSwCfg_t{
 //===================================================>> END User defined types
 
 //======================================>> BEGIN General use function prototypes
+lsSwtchOtpts_t lssOtptsSttsUnpkg(uint32_t pkgOtpts);
 //========================================>> END General use function prototypes
 
 //===========================>> BEGIN General use Static variables and constants
 static const uint8_t _exePrty = configTIMER_TASK_PRIORITY;  /*!<Execution priority of the updating Task*/
 static const int appCpuCore = xPortGetCoreID(); /*!<Application running core in a multicore MPU */
 static BaseType_t rc; /*!<Static variable to keep returning result value from Tasks and Timers crations*/
+static BaseType_t xReturned; /*!<Static variable to keep returning result value from Tasks and Timers executions*/
+static BaseType_t errorFlag {pdFALSE};
 //=============================>> END General use Static variables and constants
 
 //=================================================>> BEGIN Classes declarations
@@ -245,7 +259,6 @@ static BaseType_t rc; /*!<Static variable to keep returning result value from Ta
  */
 class LimbsSftySnglShtSw{
 private:
-  static TaskHandle_t lssTskToNtfyOtptsChng;
   const unsigned long int _minVoidTime{1000};
   enum fdaLsSwtchStts {
 		stOffNotBHP,   /*State: Switch off, NOT both hands pressed*/
@@ -294,10 +307,11 @@ protected:
    bool _sttChng{true};
    String _swtchPollTmrName{"lsSwtchPollTmr"};
 
-   TaskHandle_t tskToNtfyTrnOffLtchRls{NULL};
-   TaskHandle_t tskToNtfyTrnOffPrdCycl{NULL};
-   TaskHandle_t tskToNtfyTrnOnLtchRls{NULL};
-   TaskHandle_t tskToNtfyTrnOnPrdCycl{NULL};
+   TaskHandle_t _lssTskToNtfyOtptsChng{NULL};
+   TaskHandle_t _tskToNtfyTrnOffLtchRls{NULL};
+   TaskHandle_t _tskToNtfyTrnOffPrdCycl{NULL};
+   TaskHandle_t _tskToNtfyTrnOnLtchRls{NULL};
+   TaskHandle_t _tskToNtfyTrnOnPrdCycl{NULL};
 
 	static void lsSwtchPollCb(TimerHandle_t lssTmrCbArg);
 
@@ -311,7 +325,7 @@ protected:
    void _turnOnPrdCycl();
    unsigned long int _updCurTimeMs();
    void _updFdaState();
-   bool _updOutputs();
+   // bool _updOutputs();
    void _updUndrlSwState();
 
 public:
@@ -468,7 +482,7 @@ public:
 	 */
    const bool getlsSwtchOtptsChng() const;
 
-   uint32_t getlsSwtchOtptsSttsPkgd();
+   uint32_t getLsSwtchOtptsSttsPkgd();
    /**
     * @brief Returns the ltchRlsIsOn attribute flag value
     * 
