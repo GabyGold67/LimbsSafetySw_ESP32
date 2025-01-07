@@ -21,7 +21,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   30/12/2024 09:48 GMT+0300
+  *       Last update:   06/01/2025 17:30 GMT+0300
   * 
   * @copyright GPL-3.0 license
   *
@@ -61,7 +61,7 @@
 #define _minPollDelay 20UL
 
 /*---------------- xTaskNotify() mechanism related constants BEGIN -------*/
-const uint8_t IsFtSwtchEnbldBitPos{8};   //Equivalent to IsBthHndsOn
+const uint8_t IsFtSwtchEnbldBitPos{8};
 const uint8_t IsOnLtchRlsBitPos{9};
 const uint8_t IsOnPrdCyclBitPos{10};
 const uint8_t IsEnbldLftHndBitPos{11};
@@ -70,10 +70,9 @@ const uint8_t IsEnbldRghtHndBitPos{13};
 const uint8_t IsOnRghtHndBitPos{14};
 //=================================================>> END User defined constants
 
-
-// Definition workaround to let a function/method return value to be a function pointer to a function that receives no arguments and returns no vallues: void (funcName*)()
+// Definition workaround to let a function/method return value to be a function pointer to a function that receives no arguments and returns no values: void (funcName*)()
 typedef void (*fncPtrType)();
-typedef  fncPtrType (*ptrToTrnFnc)();
+typedef fncPtrType (*ptrToTrnFnc)();
 
 /* Definition workaround to let a function/method return value to be a function pointer to a function that receives a void* arguments and returns no values: void (funcName*)(void*)
 
@@ -90,7 +89,7 @@ ptrToTrnFncVdPtr getFunctionPointer() {
 }
 */
 typedef void (*fncVdPtrPrmPtrType)(void*);
-typedef  fncVdPtrPrmPtrType (*ptrToTrnFncVdPtr)(void*);
+typedef fncVdPtrPrmPtrType (*ptrToTrnFncVdPtr)(void*);
 
 //===================================================>> BEGIN User defined types
 /**
@@ -170,13 +169,14 @@ struct swtchInptHwCfg_t{
  * @struct swtchOtptHwCfg_t
  * @brief Switch Output Hardware Configuration data structure
  * 
- * Holds the configuration parameters for the GPIO pins assigned to output the state of the isOn, isVoided and isEnabled attribute flag for the underlying switches.
+ * Holds the configuration parameters for the GPIO pins assigned to output the state of the isOn, isVoided and isEnabled attribute flag for the **underlying switches**.
  * 
  * @param isOnPin Holds the isOn flag attribute state output pin characteristics
  * @param isVoidedPin Holds the isVoided flag attribute state output pin characteristics
  * @param isEnabledPin Holds the isEnabled flag attribute state output pin characteristics
  * 
- * @note For the hands switches all three parameters are relevant, for the SnglSrvcVdblMPBttn foot switch only the _isOnPin and the isEnabledPin parameters will be considered, being the values of the other parameter ignored.
+ * @note The pins included in this structure are used for operator information related output. The use or lack of use of those pins are not related to the LimbsSftySnglShtSw class objects behavior, as the attribute flags values that might be reflected by those pins are computed independently of being later used to activate hardware hints.
+ * @note For the hands switches all three parameters are relevant, for the SnglSrvcVdblMPBttn foot switch only the isOnPin and the isEnabledPin parameters will be considered, being the values of the other parameter ignored.
  * 
  * @attention Hardware construction related!! The information must be provided by
  * the hardware developers
@@ -192,7 +192,7 @@ struct swtchOtptHwCfg_t{
  * 
  * @brief Relevant Attribute Flags values data structure
  * 
- * Holds the values for the relevant attribute flags that define the Limbs Safety Switch state, as from the output point of view
+ * Holds the values for the relevant attribute flags that define the Limbs Safety Switch outputs state.
  * 
  * @param ftSwIsEnbld Holds the computed value of the _undrlFtMPBPtr's _isEnabled attribute flag
  * @param ltchRlsIsOn Holds the value of the _ltchRlsIsOn attribute flag
@@ -207,13 +207,25 @@ struct lsSwtchOtpts_t{
    bool ftSwIsEnbld;
    bool ltchRlsIsOn;
    bool prdCyclIsOn;
-   //--------------- Underlying MPBttns AF values kept for praticity, might be changed in future development iterations
+   //--------------- Underlying MPBttns AF values kept for praticity, might be changed in future development iterations as there are other resources to get these values
    bool lftHndIsEnbld;
    bool lftHndIsOn;
    bool rghtHndIsEnbld;
    bool rghtHndIsOn;
 };
 
+/**
+ * @struct lsSwtchSwCfg_t
+ * 
+ * @brief Machine activation related attributes data structure
+ * 
+ * Holds the Cycle Machine working parameters that are relevant to the switch, the time to keep the latch release active, and the time to wait to consider a production cycle completed to close one production cycle and prepare the control for the next cycle.
+ * 
+ * @param ltchRlsActvTm Time -in milliseconds- to keep the latch release mechanism activated
+ * @param prdCyclActvTm Time -in milliseconds- to wait before considering the Production Cycle completed
+ * 
+ * @note Both times are relative to the start of the latch release moment, and as such it's logical than the first parameter will be smaller or equal to the second.
+ */
 struct lsSwtchSwCfg_t{
    unsigned long int ltchRlsActvTm = 2000UL;
    unsigned long int prdCyclActvTm = 10000UL;  
@@ -235,6 +247,7 @@ static BaseType_t errorFlag {pdFALSE};
 //=================================================>> BEGIN Classes declarations
 /**
  * @class LimbsSftySnglShtSw
+ * 
  * @brief Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for 
  * safely activation of **"launch and forget" cycle machines** and devices.
  * 
@@ -527,9 +540,37 @@ public:
    TmVdblMPBttn*  getRghtHndSwtchPtr();
 
    const TaskHandle_t getLssTskToNtfyOtptsChng() const;
+	/**
+	 * @brief Returns the TaskHandle for the task to be unblocked when the object's ltchRlsIsOn attribute flag is set to false
+    * 
+    * One of the optional mechanisms activated by entering the **Latch Release is Off** (ltchRlsIsOn = false) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.
+    * 
+    * @note When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle) method.
+	 */
    const TaskHandle_t getTskToNtfyTrnOffLtchRls() const;
+	/**
+	 * @brief Returns the TaskHandle for the task to be unblocked when the object's prdCyclIsOn attribute flag is set to false
+    * 
+    * One of the optional mechanisms activated by entering the **Production cycle is Off** (prdCyclIsOn = false) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.
+    * 
+    * @note When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHandle) method.
+	 */
    const TaskHandle_t getTskToNtfyTrnOffPrdCycl() const;
+	/**
+	 * @brief Returns the TaskHandle for the task to be unblocked when the object's prdCyclIsOn attribute flag is set to true
+    * 
+    * One of the optional mechanisms activated by entering the **Latch Release is On** (ltchRlsIsOn = true) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.
+    * 
+    * @note When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyTrnOnLtchRls(const TaskHandle_t &newTaskHandle) method.
+	 */
    const TaskHandle_t getTskToNtfyTrnOnLtchRls() const;
+	/**
+	 * @brief Returns the TaskHandle for the task to be unblocked when the object's prdCyclIsOn attribute flag is set to true
+    * 
+    * One of the optional mechanisms activated by entering the **Production cycle is On** (prdCyclIsOn = true) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.
+    * 
+    * @note When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle) method.
+	 */
    const TaskHandle_t getTskToNtfyTrnOnPrdCycl() const;
 
    void resetFda();
@@ -573,17 +614,93 @@ public:
     * @warning After the begin(unsigned long int) method is executed no other method is implemented to change the periodic update time, so this method must be used -if there's intention of using a non default value- **before** the begin(unsigned long int). Changing the value of the update period after executing the begin method will have no effect on the object's behavior.  
     */
    bool setUndrlSwtchsPollDelay(const unsigned long int &newVal);
-
-
+	/**
+	 * @brief Sets the function to be executed when the object's ltchRlsIsOn attribute flag is set to false
+    * 
+    * One of the optional mechanisms activated by entering the **Latch Release is Off** (ltchRlsIsOn = false) state is the execution of a fncVdPtrPrmPtrType function, i.e. void (*FnWhnTrnOff)(void*). This method sets the pointer to the function.
+    * 
+	 * @param newFnWhnTrnOff Function pointer to the function to be executed when the object enters the "Latch Release is Off" state.
+    * 
+    * @note When the object is instantiated the function pointer is set to nullptr, value that disables the mechanism. Once a pointer to a function is provided the mechanism will become available. The mechanism can be disabled by setting the pointer value back to nullptr.
+	 */
 	void setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
+	/**
+	 * @brief Sets the function to be executed when the object's prdCyclIsOn attribute flag is set to false
+    * 
+    * One of the optional mechanisms activated by entering the **Production Cycle is Off** (_prdCyclIsOn = false) state is the execution of a fncVdPtrPrmPtrType function, i.e. void (*FnWhnTrnOff)(void*). This method sets the pointer to the function.
+    * 
+	 * @param newFnWhnTrnOff Function pointer to the function to be executed when the object enters the "Production Cycle is Off" state.
+	 * 
+    * @note When the object is instantiated the function pointer is set to nullptr, value that disables the mechanism. Once a pointer to a function is provided the mechanism will become available. The mechanism can be disabled by setting the pointer value back to nullptr.
+    */
 	void setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
+	/**
+	 * @brief Sets the function to be executed when the object's ltchRlsIsOn attribute flag is set to true
+    * 
+    * One of the optional mechanisms activated by entering the **Latch Release is On** (ltchRlsIsOn = true) state is the execution of a fncVdPtrPrmPtrType function, i.e. void (*FnWhnTrnOn)(void*). This method sets the pointer to the function.
+    * 
+	 * @param newFnWhnTrnOn Function pointer to the function to be executed when the object enters the "Latch Release is On" state.
+    * @note When the object is instantiated the function pointer is set to nullptr, value that disables the mechanism. Once a pointer to a function is provided the mechanism will become available. The mechanism can be disabled by setting the pointer value back to nullptr.
+	 */
 	void setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
+	/**
+	 * @brief Sets the function to be executed when the object's prdCyclIsOn attribute flag is set to true
+    * 
+    * One of the optional mechanisms activated by entering the **Production Cycle is On** (_prdCyclIsOn = true) state is the execution of a fncVdPtrPrmPtrType function, i.e. void (*FnWhnTrnOff)(void*). This method sets the pointer to the function.
+    * 
+	 * @param newFnWhnTrnOff Function pointer to the function to be executed when the object enters the "Production Cycle is Off" state.
+    * @note When the object is instantiated the function pointer is set to nullptr, value that disables the mechanism. Once a pointer to a function is provided the mechanism will become available. The mechanism can be disabled by setting the pointer value back to nullptr.
+	 */
 	void setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
-	
+	/**
+	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the **ANY** of the object's attribute flags changes it's value
+    * 
+    * One of the optional mechanisms activated when any of the relevant attribute flags changes it's state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock. This tool is of great importance for the integration between the electronic logic control and the mechanical device it is intended to control. While the "Latch Release status" (ltchRlsIsOn AF) and the "Production Cycle status" (prdCyclIsOn AF) have their own dedicated tasks assignation capabilities, this generic task handle provides for all the relevant AFs, including both aforementioned.
+    * 
+	 * @param newTaskHandle The task handle of the task to be unblocked when one or more of the object's relevant AF changes it's value.
+    * 
+    * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+	 */
    void setLssTskToNtfyOtptsChng(const TaskHandle_t &newTaskHandle);
+	/**
+	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's ltchRlsIsOn attribute flag is set to false
+    * 
+    * One of the optional mechanisms activated by entering the **Latch Release is Off** (ltchRlsIsOn = false) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock.
+    * 
+	 * @param newTaskHandle The task handle of the task to be unblocked when the object enters the "Latch Release is Off" state.
+    * 
+    * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+	 */
    void setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle);    
+	/**
+	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's prdCyclIsOn attribute flag is set to false
+    * 
+    * One of the optional mechanisms activated by entering the **Production cycle is Off** (prdCyclIsOn = false) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock.
+    * 
+	 * @param newTaskHandle The task handle of the task to be unblocked when the object enters the "Production cycle is Off" state.
+    * 
+    * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+	 */
 	void setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHandle);    
+	/**
+	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's ltchRlsIsOn attribute flag is set to true
+    * 
+    * One of the optional mechanisms activated by entering the **Latch Release is On** (ltchRlsIsOn = true) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock.
+    * 
+	 * @param newTaskHandle The task handle of the task to be unblocked when the object enters the "Latch Release is On" state.
+    * 
+    * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+	 */
    void setTskToNtfyTrnOnLtchRls(const TaskHandle_t &newTaskHandle);    
+	/**
+	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's prdCyclIsOn attribute flag is set to true
+    * 
+    * One of the optional mechanisms activated by entering the **Production cycle is On** (prdCyclIsOn = true) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock.
+    * 
+	 * @param newTaskHandle The task handle of the task to be unblocked when the object enters the "Production cycle is On" state.
+    * 
+    * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+	 */
 	void setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle);    
 
    /* Might be useful for setting new ltchRlsTtlTm and/or prdCyclTtlTm ensuring timer not running

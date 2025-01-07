@@ -9,7 +9,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   05/01/2025 13:55 GMT+0300
+  *       Last update:   06/01/2025 17:30 GMT+0300
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -291,7 +291,7 @@ void LimbsSftySnglShtSw::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
       //---------------->> Generic Task for output changes related actions
 	if (lsssSwtchObj->getlsSwtchOtptsChng()){
 		if(lsssSwtchObj->getLssTskToNtfyOtptsChng() != NULL){
-			xReturned =xTaskNotify(
+			xReturned = xTaskNotify(
 				lsssSwtchObj->getLssTskToNtfyOtptsChng(),	//TaskHandle_t of the task receiving notification
 				static_cast<uint32_t>(lsssSwtchObj->getLsSwtchOtptsSttsPkgd()),
 				eSetValueWithOverwrite
