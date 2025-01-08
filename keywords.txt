@@ -1,0 +1,46 @@
+###############################################
+# Syntax Coloring Map For LimbsSafetySw_ESP32
+###############################################
+
+###############################################
+# Datatypes (KEYWORD1)
+###############################################
+LimbsSftyLnFSwtch   KEYWORD1
+
+###############################################
+# Methods and Functions (KEYWORD2)
+###############################################
+# LimbsSftyLnFSwtch
+#############
+begin   KEYWORD2
+clrStatus   KEYWORD2
+disable  KEYWORD2
+enable   KEYWORD2
+end KEYWORD2
+getCurDbncTime  KEYWORD2
+getFnWhnTrnOff KEYWORD2
+getFnWhnTrnOn  KEYWORD2
+getIsEnabled   KEYWORD2
+getIsOn KEYWORD2
+getIsOnDisabled   KEYWORD2
+getOtptsSttsPkgd  KEYWORD2
+getOutputsChange  KEYWORD2
+getStrtDelay   KEYWORD2
+getTaskToNotify   KEYWORD2
+getTaskWhileOn KEYWORD2
+init    KEYWORD2
+otptsSttsUnpkg KEYWORD2
+pause   KEYWORD2
+resetDbncTime   KEYWORD2
+resetFda KEYWORD2
+resume  KEYWORD2
+setDbncTime KEYWORD2
+setFnWhnTrnOffPtr KEYWORD2
+setFnWhnTrnOnPtr  KEYWORD2
+setIsOnDisabled   KEYWORD2
+setOutputsChange  KEYWORD2
+setTaskToNotify   KEYWORD2
+setTaskWhileOn KEYWORD2
+###############################################
+# Constants (LITERAL1)
+###############################################

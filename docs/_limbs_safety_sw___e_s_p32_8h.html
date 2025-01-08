@@ -143,14 +143,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structls_swtch_otpts__t.html">lsSwtchOtpts_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relevant Attribute Flags values data structure.  <a href="structls_swtch_otpts__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_limbs_sfty_sngl_sht_sw.html">LimbsSftySnglShtSw</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Models a Limbs Safety Single Shot Switch (<a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a>) for safely activation of <b>"launch and forget" cycle machines</b> and devices.  <a href="class_limbs_sfty_sngl_sht_sw.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structls_swtch_sw_cfg__t.html">lsSwtchSwCfg_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Machine activation related attributes data structure.  <a href="structls_swtch_sw_cfg__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_limbs_sfty_ln_f_swtch.html">LimbsSftyLnFSwtch</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Models a Limbs Safety Launch and Forget Switch (<a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>) for safely activation of <b>"launch and forget" cycle machines</b> and devices.  <a href="class_limbs_sfty_ln_f_swtch.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a3465b4ff3c6f0d7c41e1597b9d2ad4a6" id="r_a3465b4ff3c6f0d7c41e1597b9d2ad4a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structls_swtch_otpts__t.html">lsSwtchOtpts_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3465b4ff3c6f0d7c41e1597b9d2ad4a6">lssOtptsSttsUnpkg</a> (uint32_t pkgOtpts)</td></tr>
-<tr class="memdesc:a3465b4ff3c6f0d7c41e1597b9d2ad4a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unpackages a 32-bit value into a <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a> object status.  <br /></td></tr>
+<tr class="memdesc:a3465b4ff3c6f0d7c41e1597b9d2ad4a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unpackages a 32-bit value into a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> object status.  <br /></td></tr>
 <tr class="separator:a3465b4ff3c6f0d7c41e1597b9d2ad4a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -178,7 +181,7 @@ Functions</h2></td></tr>
 </ul>
 <dl class="section author"><dt>Author</dt><dd>: Gabriel D. Goldman </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>v1.0.0 </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>First release: 11/11/2024 Last update: 30/12/2024 09:48 GMT+0300</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>First release: 11/11/2024 Last update: 06/01/2025 17:30 GMT+0300</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>GPL-3.0 license</dd></dl>
 <dl class="section attention"><dt>Attention</dt><dd>This library was developed as part of the refactoring process for an industrial machines safety enforcement and productivity control (hardware &amp; firmware update). As such every class included complies <b>AT LEAST</b> with the provision of the attributes and methods to make the hardware &amp; firmware replacement transparent to the controlled machines. Generic use attribute and methods were added to extend the usability to other projects and application environments, but no fitness nor completeness of those are given but for the intended refactoring project.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd><b>Use of this library is under your own responsibility</b> </dd></dl>
@@ -198,11 +201,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Unpackages a 32-bit value into a <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a> object status. </p>
-<p>The 32-bit encoded and packaged is used for inter-task object status comunication, passed as a "notification value" in a xTaskNotify() execution. For each bit value attribute flag represented see LimbsSftySnglShtSw::getLsSwtchOtptsSttsPkgd()</p>
+<p>Unpackages a 32-bit value into a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> object status. </p>
+<p>The 32-bit encoded and packaged is used for inter-task object status comunication, passed as a "notification value" in a xTaskNotify() execution. For each bit value attribute flag represented see LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd()</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pkgOtpts</td><td>A 32-bit value holding a <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a> status encoded </td></tr>
+    <tr><td class="paramname">pkgOtpts</td><td>A 32-bit value holding a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> status encoded </td></tr>
   </table>
   </dd>
 </dl>

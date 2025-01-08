@@ -1,0 +1,30 @@
+{
+    "name": "LimbsSafetySw_ESP32",
+    "version": "1.0.0",
+    
+    "description": "This Esp32-Arduino library implements",
+    "keywords": "switch, security",
+    
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/GabyGold67/"
+    },
+    "authors":
+    [
+      {
+        "name": "Gabriel D. Goldman",
+        "email": "gdgoldman67@hotmail.com",
+        "url": "https://github.com/GabyGold67",
+        "maintainer": true
+      }
+    ],
+
+    "license": "GPL-3.0-or-later",
+    "homepage": "https://www.gnu.org/licenses/gpl-3.0-standalone.html",
+    "dependencies":
+    [
+    ] ,
+    "frameworks": "Arduino",
+    "platforms": "espressif32"
+  }

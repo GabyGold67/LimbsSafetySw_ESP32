@@ -29,11 +29,11 @@
 #include "LimbsSafetySw_ESP32.h"
 
 //=========================================================================> Class methods delimiter
-LimbsSftySnglShtSw::LimbsSftySnglShtSw()
+LimbsSftyLnFSwtch::LimbsSftyLnFSwtch()
 {
 }
 
-LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptHwCfg_t rghtHndInpCfg, swtchInptHwCfg_t ftInpCfg, lsSwtchSwCfg_t lsSwtchWrkngCnfg)
+LimbsSftyLnFSwtch::LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg, swtchInptHwCfg_t rghtHndInpCfg, swtchInptHwCfg_t ftInpCfg, lsSwtchSwCfg_t lsSwtchWrkngCnfg)
 :_lftHndInpCfg{lftHndInpCfg}, _rghtHndInpCfg{rghtHndInpCfg}, _ftInpCfg{ftInpCfg}
 {
    // Build DbncdMPBttn objects and pointers
@@ -53,13 +53,13 @@ LimbsSftySnglShtSw::LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg, swtchInptH
    _prdCyclTtlTm = lsSwtchWrkngCnfg.prdCyclActvTm;      
 }
 
-LimbsSftySnglShtSw::~LimbsSftySnglShtSw(){
+LimbsSftyLnFSwtch::~LimbsSftyLnFSwtch(){
    _undrlFtMPBPtr->~SnglSrvcVdblMPBttn();
    _undrlRghtHndMPBPtr->~TmVdblMPBttn();
    _undrlLftHndMPBPtr->~TmVdblMPBttn();
 }
 
-bool LimbsSftySnglShtSw::begin(unsigned long int pollDelayMs){
+bool LimbsSftyLnFSwtch::begin(unsigned long int pollDelayMs){
    bool result {false};
 	BaseType_t tmrModResult {pdFAIL};
 
@@ -92,7 +92,7 @@ bool LimbsSftySnglShtSw::begin(unsigned long int pollDelayMs){
 	return result;
 }
 
-void LimbsSftySnglShtSw::clrStatus(){
+void LimbsSftyLnFSwtch::clrStatus(){
    _ltchRlsIsOn = false;
    _prdCyclIsOn = false;
    _prdCyclTmrStrt = 0;
@@ -101,19 +101,19 @@ void LimbsSftySnglShtSw::clrStatus(){
    return;
 }
 
-void LimbsSftySnglShtSw::_clrSttChng(){
+void LimbsSftyLnFSwtch::_clrSttChng(){
    _sttChng = false;
 
    return;
 }
 
-void LimbsSftySnglShtSw::cnfgFtSwtch(const limbSftySwCfg_t &newCfg){
+void LimbsSftyLnFSwtch::cnfgFtSwtch(const limbSftySwCfg_t &newCfg){
    _undrlFtMPBPtr->setStrtDelay(newCfg.swtchStrtDlyTm);
 
    return;
 }
 
-bool LimbsSftySnglShtSw::_cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg){
+bool LimbsSftyLnFSwtch::_cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg){
    bool result{false};
    TmVdblMPBttn* hndSwtchToCnf {nullptr};
 
@@ -131,107 +131,107 @@ bool LimbsSftySnglShtSw::_cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t
    return result;
 }
 
-bool LimbsSftySnglShtSw::cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg){
+bool LimbsSftyLnFSwtch::cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg){
 
    return _cnfgHndSwtch(true, newCfg);
 }
 
-bool LimbsSftySnglShtSw::cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg){
+bool LimbsSftyLnFSwtch::cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg){
 
    return _cnfgHndSwtch(false, newCfg);
 }
 
-fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOffLtchRlsPtr(){
+fncVdPtrPrmPtrType LimbsSftyLnFSwtch::getFnWhnTrnOffLtchRlsPtr(){
 
    return _fnWhnTrnOffLtchRls;
 }
 
-fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOffPrdCyclPtr(){
+fncVdPtrPrmPtrType LimbsSftyLnFSwtch::getFnWhnTrnOffPrdCyclPtr(){
 
    return _fnWhnTrnOffPrdCycl;
 }
 
-fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOnLtchRlsPtr(){
+fncVdPtrPrmPtrType LimbsSftyLnFSwtch::getFnWhnTrnOnLtchRlsPtr(){
 
    return _fnWhnTrnOnLtchRls;
 }
 
-fncVdPtrPrmPtrType LimbsSftySnglShtSw::getFnWhnTrnOnPrdCyclPtr(){
+fncVdPtrPrmPtrType LimbsSftyLnFSwtch::getFnWhnTrnOnPrdCyclPtr(){
 
    return _fnWhnTrnOnPrdCycl;
 }
 
-SnglSrvcVdblMPBttn* LimbsSftySnglShtSw::getFtSwtchPtr(){
+SnglSrvcVdblMPBttn* LimbsSftyLnFSwtch::getFtSwtchPtr(){
    
    return _undrlFtMPBPtr;
 }
 
-TmVdblMPBttn* LimbsSftySnglShtSw::getLftHndSwtchPtr(){
+TmVdblMPBttn* LimbsSftyLnFSwtch::getLftHndSwtchPtr(){
 
    return _undrlLftHndMPBPtr;
 }
 
-const bool LimbsSftySnglShtSw::getlsSwtchOtptsChng() const{
+const bool LimbsSftyLnFSwtch::getlsSwtchOtptsChng() const{
 
 	return _lsSwtchOtptsChng;
 }
 
-uint32_t LimbsSftySnglShtSw::getLsSwtchOtptsSttsPkgd(){
+uint32_t LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd(){
 
    return _lsSwtchOtptsSttsPkgd();
 }
 
-const bool LimbsSftySnglShtSw::getLtchRlsIsOn() const{
+const bool LimbsSftyLnFSwtch::getLtchRlsIsOn() const{
 
    return _ltchRlsIsOn;
 }
 
-unsigned long int LimbsSftySnglShtSw::getLtchRlsTtlTm(){
+unsigned long int LimbsSftyLnFSwtch::getLtchRlsTtlTm(){
    
    return _ltchRlsTtlTm;
 }
 
-const bool LimbsSftySnglShtSw::getPrdCyclIsOn() const{
+const bool LimbsSftyLnFSwtch::getPrdCyclIsOn() const{
 
    return _prdCyclIsOn;
 }
 
-unsigned long int LimbsSftySnglShtSw::getPrdCyclTtlTm(){
+unsigned long int LimbsSftyLnFSwtch::getPrdCyclTtlTm(){
    
    return _prdCyclTtlTm;
 }
 
-TmVdblMPBttn* LimbsSftySnglShtSw::getRghtHndSwtchPtr(){
+TmVdblMPBttn* LimbsSftyLnFSwtch::getRghtHndSwtchPtr(){
 
    return _undrlRghtHndMPBPtr;
 }
 
-const TaskHandle_t LimbsSftySnglShtSw::getLssTskToNtfyOtptsChng() const{
+const TaskHandle_t LimbsSftyLnFSwtch::getLssTskToNtfyOtptsChng() const{
    
    return _lssTskToNtfyOtptsChng;
 }
 
-const TaskHandle_t LimbsSftySnglShtSw::getTskToNtfyTrnOffLtchRls() const{
+const TaskHandle_t LimbsSftyLnFSwtch::getTskToNtfyTrnOffLtchRls() const{
 
    return _tskToNtfyTrnOffLtchRls;
 }
 
-const TaskHandle_t LimbsSftySnglShtSw::getTskToNtfyTrnOffPrdCycl() const{
+const TaskHandle_t LimbsSftyLnFSwtch::getTskToNtfyTrnOffPrdCycl() const{
    
    return _tskToNtfyTrnOffPrdCycl;
 }
 
-const TaskHandle_t LimbsSftySnglShtSw::getTskToNtfyTrnOnLtchRls() const{
+const TaskHandle_t LimbsSftyLnFSwtch::getTskToNtfyTrnOnLtchRls() const{
    
    return _tskToNtfyTrnOnLtchRls;
 }
 
-const TaskHandle_t LimbsSftySnglShtSw::getTskToNtfyTrnOnPrdCycl() const{
+const TaskHandle_t LimbsSftyLnFSwtch::getTskToNtfyTrnOnPrdCycl() const{
    
    return _tskToNtfyTrnOnPrdCycl;
 }
 
-uint32_t LimbsSftySnglShtSw::_lsSwtchOtptsSttsPkgd(uint32_t prevVal){
+uint32_t LimbsSftyLnFSwtch::_lsSwtchOtptsSttsPkgd(uint32_t prevVal){
 	if(_ftSwtchStts.isEnabled)
 		prevVal |= ((uint32_t)1) << IsFtSwtchEnbldBitPos;
 	else
@@ -271,13 +271,13 @@ uint32_t LimbsSftySnglShtSw::_lsSwtchOtptsSttsPkgd(uint32_t prevVal){
    return prevVal;
 }
 
-void LimbsSftySnglShtSw::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
-   LimbsSftySnglShtSw* lsssSwtchObj = (LimbsSftySnglShtSw*)pvTimerGetTimerID(lssTmrCbArg);
+void LimbsSftyLnFSwtch::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
+   LimbsSftyLnFSwtch* lsssSwtchObj = (LimbsSftyLnFSwtch*)pvTimerGetTimerID(lssTmrCbArg);
 	portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 
 	taskENTER_CRITICAL(&mux);
    // Underlying switches status recovery
-   lsssSwtchObj->_updUndrlSwState();
+   lsssSwtchObj->_getUndrlSwtchStts();
    //------------
    // Flags, Triggers and timers calculation & update
  	lsssSwtchObj->_updCurTimeMs();
@@ -303,35 +303,35 @@ void LimbsSftySnglShtSw::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
 	return;
 }
 
-void LimbsSftySnglShtSw::setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff){
+void LimbsSftyLnFSwtch::setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff){
    if(_fnWhnTrnOffLtchRls != newFnWhnTrnOff)
       _fnWhnTrnOffLtchRls = newFnWhnTrnOff;
 
    return;
 }
 
-void LimbsSftySnglShtSw::setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOff){
+void LimbsSftyLnFSwtch::setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOff){
    if(_fnWhnTrnOffPrdCycl != newFnWhnTrnOff)
       _fnWhnTrnOffPrdCycl = newFnWhnTrnOff;
 
    return;
 }
 
-void LimbsSftySnglShtSw::setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOn){
+void LimbsSftyLnFSwtch::setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOn){
    if(_fnWhnTrnOnLtchRls != newFnWhnTrnOn)
       _fnWhnTrnOnLtchRls = newFnWhnTrnOn;
 
    return;
 }
 
-void LimbsSftySnglShtSw::setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn){
+void LimbsSftyLnFSwtch::setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn){
    if(_fnWhnTrnOnPrdCycl != newFnWhnTrnOn)
       _fnWhnTrnOnPrdCycl = newFnWhnTrnOn;
 
    return;
 }
 
-bool LimbsSftySnglShtSw::setLtchRlsTtlTm(const unsigned long int &newVal){
+bool LimbsSftyLnFSwtch::setLtchRlsTtlTm(const unsigned long int &newVal){
    bool result{true};
 
    if (_ltchRlsTtlTm != newVal){
@@ -344,7 +344,7 @@ bool LimbsSftySnglShtSw::setLtchRlsTtlTm(const unsigned long int &newVal){
    return result;
 }
 
-void LimbsSftySnglShtSw::setlsSwtchOtptsChng(bool newlsSwtchOtptsChng){
+void LimbsSftyLnFSwtch::setlsSwtchOtptsChng(bool newlsSwtchOtptsChng){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 
 	taskENTER_CRITICAL(&mux);
@@ -365,7 +365,7 @@ void LimbsSftySnglShtSw::setlsSwtchOtptsChng(bool newlsSwtchOtptsChng){
    return;
 }
 
-bool LimbsSftySnglShtSw::setPrdCyclTtlTm(const unsigned long int &newVal){
+bool LimbsSftyLnFSwtch::setPrdCyclTtlTm(const unsigned long int &newVal){
    bool result{true};
 
    if(_prdCyclTtlTm != newVal){
@@ -378,13 +378,13 @@ bool LimbsSftySnglShtSw::setPrdCyclTtlTm(const unsigned long int &newVal){
    return result;
 }
 
-void LimbsSftySnglShtSw::_setSttChng(){
+void LimbsSftyLnFSwtch::_setSttChng(){
    _sttChng = true;
 
    return;
 }
 
-void LimbsSftySnglShtSw::setLssTskToNtfyOtptsChng(const TaskHandle_t &newTaskHandle){
+void LimbsSftyLnFSwtch::setLssTskToNtfyOtptsChng(const TaskHandle_t &newTaskHandle){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 	eTaskState taskToNtfyStt{};
 
@@ -407,7 +407,7 @@ void LimbsSftySnglShtSw::setLssTskToNtfyOtptsChng(const TaskHandle_t &newTaskHan
 	return;
 }
 
-void LimbsSftySnglShtSw::setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle){
+void LimbsSftyLnFSwtch::setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 	eTaskState taskToNtfyStt{};
 
@@ -430,7 +430,7 @@ void LimbsSftySnglShtSw::setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHa
 	return;
 }
 
-void LimbsSftySnglShtSw::setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHandle){
+void LimbsSftyLnFSwtch::setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHandle){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 	eTaskState taskToNtfyStt{};
 
@@ -453,7 +453,7 @@ void LimbsSftySnglShtSw::setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHa
 	return;
 }
 
-void LimbsSftySnglShtSw::setTskToNtfyTrnOnLtchRls(const TaskHandle_t &newTaskHandle){
+void LimbsSftyLnFSwtch::setTskToNtfyTrnOnLtchRls(const TaskHandle_t &newTaskHandle){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 	eTaskState taskToNtfyStt{};
 
@@ -476,7 +476,7 @@ void LimbsSftySnglShtSw::setTskToNtfyTrnOnLtchRls(const TaskHandle_t &newTaskHan
 	return;
 }
 
-void LimbsSftySnglShtSw::setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle){
+void LimbsSftyLnFSwtch::setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 	eTaskState taskToNtfyStt{};
 
@@ -499,7 +499,7 @@ void LimbsSftySnglShtSw::setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHan
 	return;
 }
 
-bool LimbsSftySnglShtSw::setUndrlSwtchsPollDelay(const unsigned long int &newVal){
+bool LimbsSftyLnFSwtch::setUndrlSwtchsPollDelay(const unsigned long int &newVal){
    bool result{false};
    
    if(_minPollDelay <= newVal){
@@ -510,7 +510,7 @@ bool LimbsSftySnglShtSw::setUndrlSwtchsPollDelay(const unsigned long int &newVal
    return result;
 }
 
-void LimbsSftySnglShtSw::_turnOffLtchRls(){
+void LimbsSftyLnFSwtch::_turnOffLtchRls(){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
    
    if(_ltchRlsIsOn){
@@ -539,7 +539,7 @@ void LimbsSftySnglShtSw::_turnOffLtchRls(){
    return;
 }
 
-void LimbsSftySnglShtSw::_turnOnLtchRls(){
+void LimbsSftyLnFSwtch::_turnOnLtchRls(){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
    
    if(!_ltchRlsIsOn){
@@ -568,7 +568,7 @@ void LimbsSftySnglShtSw::_turnOnLtchRls(){
    return;
 }
 
-void LimbsSftySnglShtSw::_turnOffPrdCycl(){
+void LimbsSftyLnFSwtch::_turnOffPrdCycl(){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
    
    if(_prdCyclIsOn){
@@ -597,7 +597,7 @@ void LimbsSftySnglShtSw::_turnOffPrdCycl(){
    return;
 }
 
-void LimbsSftySnglShtSw::_turnOnPrdCycl(){
+void LimbsSftyLnFSwtch::_turnOnPrdCycl(){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
    
    if(!_prdCyclIsOn){
@@ -626,13 +626,13 @@ void LimbsSftySnglShtSw::_turnOnPrdCycl(){
    return;
 }
 
-unsigned long int LimbsSftySnglShtSw::_updCurTimeMs(){
+unsigned long int LimbsSftyLnFSwtch::_updCurTimeMs(){
    _curTimeMs = xTaskGetTickCount() / portTICK_RATE_MS;
 
    return _curTimeMs;
 }
 
-void LimbsSftySnglShtSw::_updFdaState(){
+void LimbsSftyLnFSwtch::_updFdaState(){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
 
 	taskENTER_CRITICAL(&mux);
@@ -754,11 +754,7 @@ void LimbsSftySnglShtSw::_updFdaState(){
 
 }
 
-// bool LimbsSftySnglShtSw::_updOutputs(){
-//     return true;
-// }
-
-void LimbsSftySnglShtSw::_updUndrlSwState(){   
+void LimbsSftyLnFSwtch::_getUndrlSwtchStts(){   
    _lftHndSwtchStts = otptsSttsUnpkg(_undrlLftHndMPBPtr->getOtptsSttsPkgd());
    _rghtHndSwtchStts = otptsSttsUnpkg(_undrlRghtHndMPBPtr->getOtptsSttsPkgd());
    _ftSwtchStts = otptsSttsUnpkg(_undrlFtMPBPtr->getOtptsSttsPkgd());
@@ -769,12 +765,12 @@ void LimbsSftySnglShtSw::_updUndrlSwState(){
 //=========================================================================> Class methods delimiter
 
 /**
- * @brief Unpackages a 32-bit value into a LimbsSftySnglShtSw object status
+ * @brief Unpackages a 32-bit value into a LimbsSftyLnFSwtch object status
  * 
  * The 32-bit encoded and packaged is used for inter-task object status comunication, passed as a "notification value" in a xTaskNotify() execution.
- * For each bit value attribute flag represented see LimbsSftySnglShtSw::getLsSwtchOtptsSttsPkgd()
+ * For each bit value attribute flag represented see LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd()
  * 
- * @param pkgOtpts A 32-bit value holding a LimbsSftySnglShtSw status encoded
+ * @param pkgOtpts A 32-bit value holding a LimbsSftyLnFSwtch status encoded
  * @return A lsSwtchOtpts_t type element containing the information decoded
  */
 lsSwtchOtpts_t lssOtptsSttsUnpkg(uint32_t pkgOtpts){

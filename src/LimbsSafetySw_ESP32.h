@@ -128,7 +128,7 @@ struct limbSftyFwConf_t{
  * @brief Limbs Safety Switch Configuration parameters
  * 
  * Holds the required set of parameters needed for the configuration of each of the three DbncdMPBttn subclass switches needed for input (left hand's TmVdblMPBttn, right hand's TmVdblMPBttn, foot's SnglSrvcVdblMPBttn). 
- * Each parameter has default values assigned for a standard LimbsSftySnglShtSw configuration. The provided default values are expected to be only used if no explicit values are provided by the object instantiating software (from previous) executions configured values.
+ * Each parameter has default values assigned for a standard LimbsSftyLnFSwtch configuration. The provided default values are expected to be only used if no explicit values are provided by the object instantiating software (from previous) executions configured values.
  * 
  * @param swtchStrtDlyTm Corresponds to the DbncdMPBttn subclasses strtDelay class attribute.
  * @param swtchIsEnbld Corresponds to the DbncdMPBttn subclasses _isEnabled attribute flag
@@ -175,7 +175,7 @@ struct swtchInptHwCfg_t{
  * @param isVoidedPin Holds the isVoided flag attribute state output pin characteristics
  * @param isEnabledPin Holds the isEnabled flag attribute state output pin characteristics
  * 
- * @note The pins included in this structure are used for operator information related output. The use or lack of use of those pins are not related to the LimbsSftySnglShtSw class objects behavior, as the attribute flags values that might be reflected by those pins are computed independently of being later used to activate hardware hints.
+ * @note The pins included in this structure are used for operator information related output. The use or lack of use of those pins are not related to the LimbsSftyLnFSwtch class objects behavior, as the attribute flags values that might be reflected by those pins are computed independently of being later used to activate hardware hints.
  * @note For the hands switches all three parameters are relevant, for the SnglSrvcVdblMPBttn foot switch only the isOnPin and the isEnabledPin parameters will be considered, being the values of the other parameter ignored.
  * 
  * @attention Hardware construction related!! The information must be provided by
@@ -246,9 +246,9 @@ static BaseType_t errorFlag {pdFALSE};
 
 //=================================================>> BEGIN Classes declarations
 /**
- * @class LimbsSftySnglShtSw
+ * @class LimbsSftyLnFSwtch
  * 
- * @brief Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for 
+ * @brief Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for 
  * safely activation of **"launch and forget" cycle machines** and devices.
  * 
  * This industry grade machinery oriented switch enforces conditioned activation
@@ -270,7 +270,7 @@ static BaseType_t errorFlag {pdFALSE};
  * - A TmVdblMPBttn object for each hand switch
  * - A SnglSrvcVdblMPBttn object for the foot switch
  */
-class LimbsSftySnglShtSw{
+class LimbsSftyLnFSwtch{
 private:
   const unsigned long int _minVoidTime{1000};
   enum fdaLsSwtchStts {
@@ -330,6 +330,7 @@ protected:
 
    void _clrSttChng();
    bool _cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg);
+   void _getUndrlSwtchStts();
    uint32_t _lsSwtchOtptsSttsPkgd(uint32_t prevVal = 0);
 	void _setSttChng();
    void _turnOffLtchRls();
@@ -338,15 +339,13 @@ protected:
    void _turnOnPrdCycl();
    unsigned long int _updCurTimeMs();
    void _updFdaState();
-   // bool _updOutputs();
-   void _updUndrlSwState();
 
 public:
   /**
    * @brief Class default constructor
    * 
    */
-  LimbsSftySnglShtSw();
+  LimbsSftyLnFSwtch();
   /**
    * @brief Class constructor
    * 
@@ -357,7 +356,7 @@ public:
    * @param rghtHndInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn
    * @param ftInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn
    */
-  LimbsSftySnglShtSw(swtchInptHwCfg_t lftHndInpCfg,
+  LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg,
                     swtchInptHwCfg_t rghtHndInpCfg,
                     swtchInptHwCfg_t ftInpCfg,
                     lsSwtchSwCfg_t lsSwtchWrkngCnfg
@@ -366,7 +365,7 @@ public:
     * @brief Default virtual destructor
     * 
     */
-   ~LimbsSftySnglShtSw();
+   ~LimbsSftyLnFSwtch();
    /**
 	 * @brief Attaches the instantiated object to a timer that monitors the input pins and updates the object status.
     * 
@@ -388,7 +387,7 @@ public:
    /**
     * @brief Configures the SnglSrvcVdblMPBttn class object used as **Foot Switch**
     * 
-    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftySnglShtSw. In the case of the SnglSrvcVdblMPBttn used as **Foot Switch** the only attribute available for adjustment is the **start delay** value, used to adjust the time the foot switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.
+    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftyLnFSwtch. In the case of the SnglSrvcVdblMPBttn used as **Foot Switch** the only attribute available for adjustment is the **start delay** value, used to adjust the time the foot switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.
     * 
     * @param newCfg A limbSftySwCfg_t type structure, from which only the .swtchStrtDlyTm value will be used.
     */
@@ -396,9 +395,9 @@ public:
    /**
     * @brief Configures the TmVdblMPBttn class object used as **Left Hand Switch**
     * 
-    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftySnglShtSw. In the case of the TmVdblMPBttn used as **Left Hand Switch** the attributes available for adjustment are:
+    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftyLnFSwtch. In the case of the TmVdblMPBttn used as **Left Hand Switch** the attributes available for adjustment are:
     * - **Start Delay** (.swtchStrtDlyTm) value, used to adjust the time the hand switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.
-    * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftySnglShtSw state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftySnglShtSw state calculation.
+    * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftyLnFSwtch state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftyLnFSwtch state calculation.
     * - **Switch Voiding Time** (.swtchVdTm) defines the time period the hand switch might be kept pressed before signaling it as voided, having to proceed to release it and press it back to return to the valid pressed (non-voide) state.
     * 
     * @param newCfg A limbSftySwCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
@@ -409,9 +408,9 @@ public:
    /**
     * @brief Configures the TmVdblMPBttn class object used as **Right Hand Switch**
     * 
-    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftySnglShtSw. In the case of the TmVdblMPBttn used as **Right Hand Switch** the attributes available for adjustment are:
+    * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftyLnFSwtch. In the case of the TmVdblMPBttn used as **Right Hand Switch** the attributes available for adjustment are:
     * - **Start Delay** (.swtchStrtDlyTm) value, used to adjust the time the hand switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.
-    * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftySnglShtSw state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftySnglShtSw state calculation.
+    * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftyLnFSwtch state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftyLnFSwtch state calculation.
     * - **Switch Voiding Time** (.swtchVdTm) defines the time period the hand switch might be kept pressed before signaling it as voided, having to proceed to release it and press it back to return to the valid pressed (non-voide) state.
     * 
     * @param newCfg A limbSftySwCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
@@ -466,7 +465,7 @@ public:
    /**
     * @brief Get the ftSwcthPtr attribute value
     * 
-    * The ftSwcthPtr is the pointer to the SnglSrvcVdblMPBttn class object instantiated to be the "Foot Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
+    * The ftSwcthPtr is the pointer to the SnglSrvcVdblMPBttn class object instantiated to be the "Foot Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftyLnFSwtch interface.
     * 
     * @return The SnglSrvcVdblMPBttn class pointer to the foot switch
     * 
@@ -476,7 +475,7 @@ public:
    /**
     * @brief Get the lftHndSwcthPtr attribute value
     * 
-    * The lftHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Left Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
+    * The lftHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Left Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftyLnFSwtch interface.
     * 
     * @return The TmVdblMPBttn class pointer to the left hand switch
     * 
@@ -531,7 +530,7 @@ public:
    /**
     * @brief Get the rghtHndSwcthPtr attribute value
     * 
-    * The rghtHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Right Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftySnglShtSw interface.
+    * The rghtHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Right Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftyLnFSwtch interface.
     * 
     * @return The TmVdblMPBttn class pointer to the right hand switch
     * 
@@ -603,7 +602,7 @@ public:
     */
    bool setPrdCyclTtlTm(const unsigned long int &newVal);
    /**
-    * @brief Sets the update period lenght for the DbncdMPBttn subclasses objects used as input by the LimbsSftySnglShtSw
+    * @brief Sets the update period lenght for the DbncdMPBttn subclasses objects used as input by the LimbsSftyLnFSwtch
     * 
     * Sets the periodic timer used to check the inputs and calculate the state of the object, time period value set in milliseconds.
     * 

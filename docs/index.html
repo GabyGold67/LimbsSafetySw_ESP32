@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Limbs Safety Switch Library for ESP32 (Arduino): Limbs Safe Activation Switch (LimbSafetySw_ESP32)</title>
+<title>Limbs Safety Switch Library for ESP32 (Arduino): Limbs Safe Activation Switch Library for ESP32 (LimbSafetySw_ESP32)</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,11 +97,267 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Limbs Safe Activation Switch (LimbSafetySw_ESP32) </div></div>
+  <div class="headertitle"><div class="title">Limbs Safe Activation Switch Library for ESP32 (LimbSafetySw_ESP32) </div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__c_1_2_users_2_dev_padawan_2_documents_2_my_01_projects_2_training_01_projects_2_libs_dev___e_s_p32_2lib_2_limbs_safety_sw___e_s_p32_2_r_e_a_d_m_e"></a></p>
-<p>An ESP32-Arduino library that includes the <a class="el" href="class_limbs_sfty_sngl_sht_sw.html" title="Models a Limbs Safety Single Shot Switch (LimbsSftySnglShtSw) for safely activation of &quot;launch and fo...">LimbsSftySnglShtSw</a> class and the data structures and functions to model a <b>Limbs Safety Single Shot Switch</b>. </p>
+<p>An ESP32-Arduino library that includes the class, data structures and functions required to model a <b>Limbs Safety Activation Switch for Cycle Machines and Devices</b>.</p>
+<p>The switch is modeled for <b>"launch and forget" cycle machines</b>, that specific type of machines have the following characteristics:</p><ul>
+<li>The switch starts -"launches"- an individual production cycle.</li>
+<li>Once started there is no control over the cycle execution.</li>
+</ul>
+<hr  />
+<ul>
+<li>This industry grade machinery oriented switch enforces conditioned activation<ul>
+<li>of several switches to ensure limbs security. This enforced conditions</li>
+<li>include sequenced pressing order and timings as main parameters.</li>
+<li>The most basic configuration requires each hand pressing simultaneously two</li>
+<li>switches to enable a foot switch. The enabled foot switch activates the</li>
+<li>machine action. <br  />
+</li>
+<li>Operators' or production managers' needs and criteria often end with regular</li>
+<li>security switches tampered, played down, rigged or other actions that degrade</li>
+<li>the security provided by regular switches, far below the real needs and the</li>
+<li>standards.</li>
+<li>The switches modeled by this class ensures the required enforced security</li>
+<li>practices, while letting some aspects to be configured for specific</li>
+<li>production tasks on the machine, or to adapt the switch to machines with</li>
+<li>different security needs.</li>
+</ul>
+</li>
+</ul>
+<hr  />
+ <h1>Limbs Safety Switch library</h1>
+<hr  />
+<h2>Analisys</h2>
+<p>At this time in industrial history, start of the 21st century, as new and to be released production machinery models equiped with electronic smart interconnected controls make their way into the market, most of the machines in use in small and medium sized industries are still fully electro-mechanical devices, with simple (mostly non-existent) personal security enforcement and production information or control of any kind. The idea of providing them an appropriate security mechanisms for the operators is relevant as great part of their active mechanisms are not that different from last generation machines, so extending their productive life while setting them to the required security levels expected in nowadays machines and adding information generation, gathering and transmition is an economic, practical, achivable solution to extend their service time life, low operating costs and improve their productivity level. <br  />
+ That benefit is economically and technologically achievable by the use of electronic controls to guarantee that minimum target security level for starters. <br  />
+ Once the physical security of the operator is ensured, having a programmable device installed and connected to the actionable mechanisms of the machine opens the door to the multiple benefits the modern controlled machines offer: machine failure detection, production control, time and energy use optimization and generated data analisys, local or remotely done by the use of IoT technologies... as was stated: <b>once the programmable device is properly installed and connected</b>. <br  />
+ Being the diversity and construction variety of the machines involved so extense, not all of them will have the same possibilities to incorporate the required devices to achieve all the functionalities with the same ease. <br  />
+ With those factors considered, the requirements for the solution will take a minimalistic basic approach, and then will be modified, adapted and extended as technically and physically possible. <br  />
+</p>
+<hr  />
+<h2>Definitions:</h2>
+<h3>Industrial mechanical cycle machines and devices:</h3>
+<p>Are machines that perform a series of mechanical operations in a repeating sequence: the <b>production cycle</b>. The machine's mechanical power source (usually electric motor) is activated in advance and a release mechanism -trigger- starts a sequence of actions for the production that ends with the machine in the same state and position it started from. Many of these machines have no way of stopping it's production cycle before reaching the end/restart point.</p>
+<h3>Emergency signal:</h3>
+<p>The emergency signal is an internal or external generated notification of a malfunction, anomaly or exception state of the machine. Depending on the characteristics of the machine, as previously stated, the production cycle might be -or not- interrupted in the event of an <b>Emergency signal</b>. <br  />
+</p><ul>
+<li>Internal Emergency Signal: Is generated by the machine by the detection of an anomaly in de production cycle by sensors included or added.</li>
+<li>External Emergency Signal: Is generated by the operator, another person or an independent device.</li>
+</ul>
+<h3>Limbs Safety Switch library</h3>
+<p>The <b>Limbs Safety Switch library</b> contains the definition for one or more classes and support code -structures, tasks, timers, etc.- for modeling limbs safety switches for cycle machines. Each class will model a different switch with it's own activation execution and control capabilities depending of the existence or possibilities of adition of sensors and actuators capable of providing information through the cycle execution.</p>
+<hr  />
+<h1>Limbs Safety Single Shot Switch class (LimbsSftySnglShtSw)</h1>
+<p>The <em><b>LimbsSftySnglShtSw</b></em> class models a switch for safely activate <b>"launch and forget" cycle machines</b> and devices, which originally provides no other mechanism than a latch release mechanical trigger. This means that once activated the machine will complete a production cycle, return to the starting point and wait for a new <b>Start</b>|**Release** signal. As such, the minimum security primitive is to ensure no limbs are placed inside any dangerous machine zone before releasing the cycle trigger. The software development will consider then that the physical action needed to release the latch or trigger is replaced with a device such as a electromagnetic pull, an electrovalve commanded pneumatic actuator or similar device with the hability to be temporarily activated by an electric signal. Once the production cycle is started the limbs security will be the same as the one provided by the machine before the electronic upgrade.</p>
+<hr  />
+<h2>Requirements for the <em><b>LimbsSftySnglShtSw</b></em> class objects:</h2>
+<p>The library must model a switch that ensures the hands positioned in a secure place and a foot to be used to activate the release mechanism, so it must include <b>three inputs</b> and <b>one output</b> in this most basic configuration:</p><ul>
+<li>The first input is a signal ensuring the left hand is placed away from the dangerous mechanisms of the machine.</li>
+<li>The second input is a signal ensuring the right hand is placed away from the dangerous mechanisms of the machine.</li>
+<li>The third input is a signal intended to be originated in a foot press button, to generate the <b>Start</b>|**Release** of the production mechanism if the first two inputs signals comply to the configuration established for the object.</li>
+<li>The output generated includes the value setting of an attribute flag, the option of a function execution and the option of a task unblocking to provide a flexible means of activating the release mechanism.</li>
+<li>Inputs/Outputs requirements<ul>
+<li>The <b>hands switches</b> must comply with the following required characteristics: <br  />
+<ul>
+<li>They must ensure a debounced stable signal for a pressing event to be considered valid. <br  />
+</li>
+<li>They must ensure a configurable minimum press time before a pressing event is to be considered valid.</li>
+<li>They must ensure they are not kept pressed down by artificial meanings -tampering, blocking, mocking- bypassing the security purpose of the switch. For fulfilling that end at least two policies must be enforced:<ul>
+<li>The pressing signal will be voided if kept for longer than a configured time lapse, the unvoiding procedure must include the efective releasing of the switch.</li>
+<li>The switch must be <b>disabled</b> after the device activation and for an established period of time, or until a signal is received. The <b>enabling</b> procedure must include the efective releasing of the switch.</li>
+</ul>
+</li>
+<li>If some kind of device or production demands a hand or both to be freed from the pressing action (based on the physical operation ensuring a hand or both are necesarilly kept outside the dangerous areas of the machine), the input must be set to be ignored, or considering the continuous press of the switch as a validating situation.</li>
+</ul>
+</li>
+<li>The <b>foot switch</b> must comply with the following required characteristics<ul>
+<li>It must ensure a debounced stable signal for a pressing event to be considered valid. <br  />
+</li>
+<li>It must ensure a configurable minimum press time before a pressing event is to be considered valid.</li>
+<li>Must be kept disabled until both hands switches are generating a valid enabling signal.</li>
+<li>When enabled the hands switches must still be monitored to ensure both keep a valid state, disabling this switch if the situation changes.</li>
+<li>When enabled and pressed it triggers the machine <b>Start</b>|**Release** signal.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4>Inputs/Outputs requirements conclusion:</h4>
+<p>According to the abovementioned requirements the design of the <em><b>LimbsSftySnglShtSw</b></em> should include the <b>ButtonToSwitch library</b> defined classes as inputs.</p><ul>
+<li>A <b>TmVdblMPBttn</b> class object for the left hand input.</li>
+<li>A <b>TmVdblMPBttn</b> class object for the right hand input.</li>
+<li>A <b>SnglSrvcMPBttn</b> class object for the foot input. <br  />
+</li>
+</ul>
+<hr  />
+<h2>Implementation:</h2>
+<h3>Finite States Machine modeling</h3>
+<p>As the class is modeled for applications where no other signals -inputs or outputs- are expected once the **"launch and forget" cycle ** starts due to lack of possibilities to install sensors or actuators, the execution logic must be the following:</p>
+<ol type="1">
+<li>Ensure the placement of the hands, enabling the foot activation sensor. <br  />
+</li>
+<li>Ensure the timely activation of the foot sensor.</li>
+<li>Start the production cycle:<ul>
+<li>Disable the three input signal generators</li>
+<li>Note: <em><b>Point of no return for any internal or external Emergency signal</b></em></li>
+<li>Activate the release mechanism</li>
+<li>Hold the release mechanism activated for a established period of time.</li>
+</ul>
+</li>
+<li>Deactivate the release mechanism.</li>
+<li>Wait for a established period of time to consider the production cycle completed.</li>
+<li>Consider the production cycle completed.<ul>
+<li><em><b>Point of reactivation for any internal or external Emergency signal</b></em></li>
+<li>Activate "End of cycle" flag, function and/or task (useful for ready alerts, starting wasted waiting timers, cycle counters, etc.)</li>
+<li>Reset the release and cycle timers</li>
+<li>Enable the configured hands switches. Restart all the activation parameters for a new production cycle.</li>
+</ul>
+</li>
+</ol>
+<hr  />
+<h3>Configuration and parameters for the <em><b>LimbsSftySnglShtSw</b></em> class objects:</h3>
+<ul>
+<li>The configuration of the <b>LimbsSftySnglShtSw</b> must be understood as separated by areas or <b>categories</b>, strongly related to:<ol type="1">
+<li>Hardware <b>LimbsSftySnglShtSw</b> implementation.</li>
+<li>Logic implementation of the <b>LimbsSftySnglShtSw</b> class, as composed by several <b>DbncdMPBttn</b> subclasses objects.</li>
+<li>Hardware <b>LimbsSftySnglShtSw</b> - machine interface.</li>
+<li>Logic parametrization for different production related use cases (keeping 1., 2. and 3. settings fixed).</li>
+</ol>
+</li>
+</ul>
+<p>The parameters for each category must be provided by different sources and be available for use at different points of execution of the control firmware using the <b>LimbsSftySnglShtSw</b>: </p><h3>1. Hardware implementation related parameters:</h3>
+<p>Must be provided by the hardware implementation documentation, including the switch selected characteristics and connection to the MCU. So this category must include the following configuration parameters:</p><ul>
+<li>Left hand switch<ul>
+<li>Required:<ul>
+<li>Input connection pin</li>
+<li>Type of switch: NO|NC</li>
+<li>Connection logic: PullUp|PullDown</li>
+<li>Debounce time</li>
+</ul>
+</li>
+<li>Optional:<ul>
+<li>isOn attribute flag state<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+<li>isDisabled attribute flag state<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+<li>isVoided attribute flag state<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Right hand switch<ul>
+<li>Required:<ul>
+<li>Input connection pin</li>
+<li>Type of switch: NO|NC</li>
+<li>Connection logic: PullUp|PullDown</li>
+<li>Debounce time</li>
+</ul>
+</li>
+<li>Optional:<ul>
+<li>isOn attribute flag state<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+<li>isDisabled attribute flag state<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+<li>isVoided attribute flag state<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Foot switch<ul>
+<li>Required:<ul>
+<li>Input connection pin</li>
+<li>Type of switch: NO|NC</li>
+<li>Connection logic: PullUp|PullDown</li>
+<li>Debounce time</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Other hardware related parameters<ul>
+<li>Optional:<ul>
+<li>Foot switch enabled state (Both hands isOn == true)<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+<li>Release latch mechanism timer active.<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+<li>Activation time</li>
+</ul>
+</li>
+<li>Production cycle timer active.<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+<li>Activation time</li>
+</ul>
+</li>
+<li>End of cycle signal<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+<li>Activation time</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>2. Logic implementation of the class related parameters</h3>
+<p>For the class to present the behavior described in the requirements the DbncdMPBttn subclasses components' attributes must be configured ideally at LimbsSftySnglShtSw object constructor. If not possible it must be done before the LimbsSftySnglShtSw <code>.begin()</code> method is executed. <br  />
+</p><ul>
+<li>For the TmVdblMPBttn hands switches<ul>
+<li>All the parameters at the hands switches constructor<ul>
+<li>VoidTime</li>
+<li>StartDelayTime</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>For the SnglSrvcMPBttn foot switch<ul>
+<li>All the parameters at the foot switch constructor<ul>
+<li>StartDelayTime</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>3. Hardware LimbsSftySnglShtSw - machine interface.</h3>
+<ul>
+<li>Production Cycle time (prdCyclTm)</li>
+<li>Release Latch time (rlsLtchTm)</li>
+</ul>
+<h3>4. Logic parametrization for production related use cases</h3>
+<ul>
+<li>Left hand switch<ul>
+<li>isEnabled</li>
+</ul>
+</li>
+<li>Right hand switch <h1>- isEnabled </h1>
+</li>
+</ul>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
