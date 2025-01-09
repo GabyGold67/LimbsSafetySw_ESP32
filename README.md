@@ -1,56 +1,33 @@
 # Limbs Safe Activation Switch Library for ESP32 (LimbSafetySw_ESP32)
 
-An ESP32-Arduino library that includes the class, data structures and functions required to model a **Limbs Safety Activation Switch for Cycle Machines and Devices**.
+An ESP32-Arduino library that includes the class, data structures and functions required to model a **Limbs Safety Activation Switch for Launch and  Forget Cycle Machines and Devices (LimbsSftyLnFSwtch)**.
 
+The definition above imposes requirements and limitations both to the logic development and to the range of machines it might be connected to.  
 
-The switch is modeled for **"launch and forget" cycle machines**, that specific type of machines have the following characteristics:
+## Requirements:
+The software must model a device that enforces conditioned activation of several sensors to ensure limbs security when the equipment controled is activated. This enforced conditions include sequenced activation order and timings as main parameters.
+The most basic configuration requires each hand to be positioned in a certain monitored location to ensure their safety, to enable a **release signal generator** device.  The signal generated then will activate the start of the production cycle.
+The most simple and usual devices employed are two pushbuttons for the hands position monitor, which enables a foot switch. The enabled foot switch, when pressed, activates the  machine production cycle.  
+
+## Limitations:
+The software is specifically designed to be applied in the activation of **"launch and forget" cycle machines**, altough it might be applied to other kind of machines, previous security fitness analisys and testing.
+
+The **"launch and forget" cycle machines** specific type the software is developed for have the following characteristics:
 - The switch starts -"launches"- an individual production cycle.
-- Once started there is no control over the cycle execution.
+- Once started there is no control over the cycle execution, including Emergency Exception activations.
+- The machine has no signal provision to ensure the successful execution of the cycle start.
+- The machine has no signal provision to inform about the production cycle evolution.
+- The machine has no signal provision to inform about the production cycle successful end.
 
-=========================================================================
-* This industry grade machinery oriented switch enforces conditioned activation
- * of several switches to ensure limbs security. This enforced conditions 
- * include sequenced pressing order and timings as main parameters.
- * The most basic configuration requires each hand pressing simultaneously two
- * switches to enable a foot switch. The enabled foot switch activates the 
- * machine action.  
- * Operators' or production managers' needs and criteria often end with regular
- * security switches tampered, played down, rigged or other actions that degrade
- * the security provided by regular switches, far below the real needs and the 
- * standards.
- * The switches modeled by this class ensures the required enforced security
- * practices, while letting some aspects to be configured for specific 
- * production tasks on the machine, or to adapt the switch to machines with 
- * different security needs.
+The switches modeled by this class ensures the required enforced security practices, while letting some aspects to be configured for specific production tasks on the machine, or to adapt the switch to machines with different security needs.
  
-=========================================================================
-# Limbs Safety Switch library
-
----  
-
-## Analisys
-At this time in industrial history, start of the 21st century, as new and to be released production machinery models equiped with electronic smart interconnected controls make their way into the market, most of the machines in use in small and medium sized industries are still fully electro-mechanical devices, with simple (mostly non-existent) personal security enforcement and production information or control of any kind. The idea of providing them an appropriate security mechanisms for the operators is relevant as great part of their active mechanisms are not that different from last generation machines, so extending their productive life while setting them to the required security levels expected in nowadays machines and adding information generation, gathering and transmition is an economic, practical, achivable solution to extend their service time life, low operating costs and improve their productivity level.  
-That benefit is economically and technologically achievable by the use of electronic controls to guarantee that minimum target security level for starters.  
 Once the physical security of the operator is ensured, having a programmable device installed and connected to the actionable mechanisms of the machine opens the door to the multiple benefits the modern controlled machines offer: machine failure detection, production control, time and energy use optimization and generated data analisys, local or remotely done by the use of IoT technologies... as was stated: **once the programmable device is properly installed and connected**.  
-Being the diversity and construction variety of the machines involved so extense, not all of them will have the same possibilities to incorporate the required devices to achieve all the functionalities with the same ease.  
-With those factors considered, the requirements for the solution will take a minimalistic basic approach, and then will be modified, adapted and extended as technically and physically possible.  
-
----
 
 ## Definitions:
 
 ### Industrial mechanical cycle machines and devices:
 Are machines that perform a series of mechanical operations in a repeating sequence: the **production cycle**. The machine's mechanical power source (usually electric motor) is activated in advance and a release mechanism -trigger- starts a sequence of actions for the production that ends with the machine in the same state and position it started from. Many of these machines have no way of stopping it's production cycle before reaching the end/restart point.
 
-### Emergency signal:
-The emergency signal is an internal or external generated notification of a malfunction, anomaly or exception state of the machine. Depending on the characteristics of the machine, as previously stated, the production cycle might be -or not- interrupted in the event of an **Emergency signal**.  
-- Internal Emergency Signal: Is generated by the machine by the detection of an anomaly in de production cycle by sensors included or added.
-- External Emergency Signal: Is generated by the operator, another person or an independent device. 
-
-### Limbs Safety Switch library
-The **Limbs Safety Switch library** contains the definition for one or more classes and support code -structures, tasks, timers, etc.- for modeling limbs safety switches for cycle machines. Each class will model a different switch with it's own activation execution and control capabilities depending of the existence or possibilities of adition of sensors and actuators capable of providing information through the cycle execution.
-
----
 
 # Limbs Safety Single Shot Switch class (LimbsSftySnglShtSw)   
 The ***LimbsSftySnglShtSw*** class models a switch for safely activate **"launch and forget" cycle machines** and devices, which originally provides no other mechanism than a latch release mechanical trigger. This means that once activated the machine will complete a production cycle, return to the starting point and wait for a new **Start**|**Release** signal. As such, the minimum security primitive is to ensure no limbs are placed inside any dangerous machine zone before releasing the cycle trigger. The software development will consider then that the physical action needed to release the latch or trigger is replaced with a device such as a electromagnetic pull, an electrovalve commanded pneumatic actuator or similar device with the hability to be temporarily activated by an electric signal. Once the production cycle is started the limbs security will be the same as the one provided by the machine before the electronic upgrade.
@@ -80,35 +57,6 @@ The library must model a switch that ensures the hands positioned in a secure pl
       - When enabled the hands switches must still be monitored to ensure both keep a valid state, disabling this switch if the situation changes.
       - When enabled and pressed it triggers the machine **Start**|**Release** signal.
       
-
-#### Inputs/Outputs requirements conclusion:
-According to the abovementioned requirements the design of the ***LimbsSftySnglShtSw*** should include the **ButtonToSwitch library** defined classes as inputs.
-   - A **TmVdblMPBttn** class object for the left hand input.
-   - A **TmVdblMPBttn** class object for the right hand input.
-   - A **SnglSrvcMPBttn** class object for the foot input.  
-
----  
-
-## Implementation:
-### Finite States Machine modeling
-As the class is modeled for applications where no other signals -inputs or outputs- are expected once the **"launch and forget" cycle ** starts due to lack of possibilities to install sensors or actuators, the execution logic must be the following:
-
-1. Ensure the placement of the hands, enabling the foot activation sensor.  
-2. Ensure the timely activation of the foot sensor.
-3. Start the production cycle:
-   - Disable the three input signal generators
-   - Note: ***Point of no return for any internal or external Emergency signal***
-   - Activate the release mechanism
-   - Hold the release mechanism activated for a established period of time.
-4. Deactivate the release mechanism.
-5. Wait for a established period of time to consider the production cycle completed.
-6. Consider the production cycle completed. 
-   - ***Point of reactivation for any internal or external Emergency signal***
-   - Activate "End of cycle" flag, function and/or task (useful for ready alerts, starting wasted waiting timers, cycle counters, etc.)
-   - Reset the release and cycle timers
-   - Enable the configured hands switches. Restart all the activation parameters for a new production cycle.
-
----  
 
 ### Configuration and parameters for the ***LimbsSftySnglShtSw*** class objects:
 - The configuration of the **LimbsSftySnglShtSw** must be understood as separated by areas or **categories**, strongly related to:

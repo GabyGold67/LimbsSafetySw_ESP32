@@ -404,7 +404,7 @@ public:
     * 
     * @warning The limbSftySwCfg_t type structure has designated default field values, as a consequence any field not expreselly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
     */
-   bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
+bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
    /**
     * @brief Configures the TmVdblMPBttn class object used as **Right Hand Switch**
     * 

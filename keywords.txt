@@ -14,12 +14,17 @@ LimbsSftyLnFSwtch   KEYWORD1
 #############
 begin   KEYWORD2
 clrStatus   KEYWORD2
-disable  KEYWORD2
-enable   KEYWORD2
-end KEYWORD2
-getCurDbncTime  KEYWORD2
-getFnWhnTrnOff KEYWORD2
-getFnWhnTrnOn  KEYWORD2
+cnfgFtSwtch
+cnfgLftHndSwtch
+cnfgRghtHndSwtch
+getFnWhnTrnOffLtchRlsPtr
+getFnWhnTrnOffPrdCyclPtr
+getFnWhnTrnOnLtchRlsPtr
+getFnWhnTrnOnPrdCyclPtr
+getFtSwtchPtr
+getLftHndSwtchPtr
+
+
 getIsEnabled   KEYWORD2
 getIsOn KEYWORD2
 getIsOnDisabled   KEYWORD2
