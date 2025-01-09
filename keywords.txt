@@ -14,38 +14,42 @@ LimbsSftyLnFSwtch   KEYWORD1
 #############
 begin   KEYWORD2
 clrStatus   KEYWORD2
-cnfgFtSwtch
-cnfgLftHndSwtch
-cnfgRghtHndSwtch
-getFnWhnTrnOffLtchRlsPtr
-getFnWhnTrnOffPrdCyclPtr
-getFnWhnTrnOnLtchRlsPtr
-getFnWhnTrnOnPrdCyclPtr
-getFtSwtchPtr
-getLftHndSwtchPtr
+cnfgFtSwtch KEYWORD2
+cnfgLftHndSwtch   KEYWORD2
+cnfgRghtHndSwtch  KEYWORD2
+getFnWhnTrnOffLtchRlsPtr   KEYWORD2
+getFnWhnTrnOffPrdCyclPtr   KEYWORD2
+getFnWhnTrnOnLtchRlsPtr KEYWORD2
+getFnWhnTrnOnPrdCyclPtr KEYWORD2
+getFtSwtchPtr  KEYWORD2
+getLftHndSwtchPtr KEYWORD2
+getlsSwtchOtptsChng  KEYWORD2
+getLsSwtchOtptsSttsPkgd KEYWORD2
+getLtchRlsIsOn KEYWORD2
+getLtchRlsTtlTm   KEYWORD2
+getPrdCyclIsOn KEYWORD2
+getPrdCyclTtlTm   KEYWORD2
+getRghtHndSwtchPtr   KEYWORD2
+getLssTskToNtfyOtptsChng   KEYWORD2
+getTskToNtfyTrnOffLtchRls  KEYWORD2
+getTskToNtfyTrnOffPrdCycl  KEYWORD2
+getTskToNtfyTrnOnLtchRls   KEYWORD2
+getTskToNtfyTrnOnPrdCycl   KEYWORD2
+resetFda KEYWORD2 
+setLtchRlsTtlTm   KEYWORD2
+setlsSwtchOtptsChng  KEYWORD2
+setPrdCyclTtlTm   KEYWORD2
+setUndrlSwtchsPollDelay KEYWORD2
+setFnWhnTrnOffLtchRlsPtr   KEYWORD2
+setFnWhnTrnOffPrdCyclPtr   KEYWORD2
+setFnWhnTrnOnLtchRlsPtr KEYWORD2
+setFnWhnTrnOnPrdCyclPtr KEYWORD2
+setLssTskToNtfyOtptsChng   KEYWORD2
+setTskToNtfyTrnOffLtchRls  KEYWORD2
+setTskToNtfyTrnOffPrdCycl  KEYWORD2
+setTskToNtfyTrnOnLtchRls   KEYWORD2
+setTskToNtfyTrnOnPrdCycl   KEYWORD2
 
-
-getIsEnabled   KEYWORD2
-getIsOn KEYWORD2
-getIsOnDisabled   KEYWORD2
-getOtptsSttsPkgd  KEYWORD2
-getOutputsChange  KEYWORD2
-getStrtDelay   KEYWORD2
-getTaskToNotify   KEYWORD2
-getTaskWhileOn KEYWORD2
-init    KEYWORD2
-otptsSttsUnpkg KEYWORD2
-pause   KEYWORD2
-resetDbncTime   KEYWORD2
-resetFda KEYWORD2
-resume  KEYWORD2
-setDbncTime KEYWORD2
-setFnWhnTrnOffPtr KEYWORD2
-setFnWhnTrnOnPtr  KEYWORD2
-setIsOnDisabled   KEYWORD2
-setOutputsChange  KEYWORD2
-setTaskToNotify   KEYWORD2
-setTaskWhileOn KEYWORD2
 ###############################################
 # Constants (LITERAL1)
 ###############################################

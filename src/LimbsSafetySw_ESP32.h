@@ -134,7 +134,7 @@ struct limbSftyFwConf_t{
  * @param swtchIsEnbld Corresponds to the DbncdMPBttn subclasses _isEnabled attribute flag
  * @param swtchVdTm Corresponds to the TmVdblMPBttn class voidTime attribute, will be used as an activation time limit for the hands controlled TmVdblMPBttn
  */
-struct limbSftySwCfg_t{
+struct swtchBhvrCfg_t{
   unsigned long int swtchStrtDlyTm = _stdTVMPBttnDelayTime;
   bool swtchIsEnbld = true;
   unsigned long int swtchVdTm = _stdTVMPBttnVoidTime;
@@ -239,7 +239,7 @@ lsSwtchOtpts_t lssOtptsSttsUnpkg(uint32_t pkgOtpts);
 //===========================>> BEGIN General use Static variables and constants
 static const uint8_t _exePrty = configTIMER_TASK_PRIORITY;  /*!<Execution priority of the updating Task*/
 static const int appCpuCore = xPortGetCoreID(); /*!<Application running core in a multicore MPU */
-static BaseType_t rc; /*!<Static variable to keep returning result value from Tasks and Timers crations*/
+// static BaseType_t rc; /*!<Static variable to keep returning result value from Tasks and Timers crations*/
 static BaseType_t xReturned; /*!<Static variable to keep returning result value from Tasks and Timers executions*/
 static BaseType_t errorFlag {pdFALSE};
 //=============================>> END General use Static variables and constants
@@ -283,44 +283,42 @@ private:
 	};
 
 protected:
+   swtchBhvrCfg_t _lftHndBhvrCfg{};
    swtchInptHwCfg_t _lftHndInpCfg;
-   swtchInptHwCfg_t _rghtHndInpCfg;
-   swtchInptHwCfg_t _ftInpCfg;
-
-   limbSftySwCfg_t _lftHndSwCfg{};
-   limbSftySwCfg_t _rghtHndSwCfg{};
-   limbSftySwCfg_t _ftSwCfg{};
-
-   SnglSrvcVdblMPBttn* _undrlFtMPBPtr{nullptr};   
+   MpbOtpts_t _lftHndSwtchStts{0};
    TmVdblMPBttn* _undrlLftHndMPBPtr{nullptr};
+
+   swtchBhvrCfg_t _rghtHndBhvrCfg{};
+   swtchInptHwCfg_t _rghtHndInpCfg;
+   MpbOtpts_t _rghtHndSwtchStts{0};
    TmVdblMPBttn* _undrlRghtHndMPBPtr{nullptr};
 
-   MpbOtpts_t _lftHndSwtchStts{0};
-   MpbOtpts_t _rghtHndSwtchStts{0};
+   swtchBhvrCfg_t _ftBhvrCfg{};
+   swtchInptHwCfg_t _ftInpCfg;
    MpbOtpts_t _ftSwtchStts{0};
+   SnglSrvcVdblMPBttn* _undrlFtMPBPtr{nullptr};   
 
    unsigned long int _undrlSwtchsPollDelay{_minPollDelay};
 
    unsigned long int _curTimeMs{0};
+   bool _ltchRlsIsOn{false};
+   unsigned long int _ltchRlsTtlTm{0};
+   bool _prdCyclIsOn{false};
    unsigned long int _prdCyclTmrStrt{0};
    unsigned long int _prdCyclTtlTm{0};  
-   unsigned long int _ltchRlsTtlTm{0};
-
-   bool _ltchRlsIsOn{false};
-   bool _prdCyclIsOn{false};
 	
    fncVdPtrPrmPtrType _fnWhnTrnOffLtchRls {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOffPrdCycl {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnLtchRls {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnPrdCycl {nullptr};
    fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};
-   TimerHandle_t _lsSwtchPollTmrHndl {NULL};   //FreeRTOS returns NULL if creation fails (not nullptr)
    bool _lsSwtchOtptsChng{false};
    uint32_t _lsSwtchOtptsChngCnt{0};
+   TimerHandle_t _lsSwtchPollTmrHndl {NULL};   //FreeRTOS returns NULL if creation fails (not nullptr)
    bool _sttChng{true};
    String _swtchPollTmrName{"lsSwtchPollTmr"};
 
-   TaskHandle_t _lssTskToNtfyOtptsChng{NULL};
+   TaskHandle_t _tskToNtfyLsSwtchOtptsChng{NULL};
    TaskHandle_t _tskToNtfyTrnOffLtchRls{NULL};
    TaskHandle_t _tskToNtfyTrnOffPrdCycl{NULL};
    TaskHandle_t _tskToNtfyTrnOnLtchRls{NULL};
@@ -329,7 +327,7 @@ protected:
 	static void lsSwtchPollCb(TimerHandle_t lssTmrCbArg);
 
    void _clrSttChng();
-   bool _cnfgHndSwtch(const bool &isLeft, const limbSftySwCfg_t &newCfg);
+   bool _cnfgHndSwtch(const bool &isLeft, const swtchBhvrCfg_t &newCfg);
    void _getUndrlSwtchStts();
    uint32_t _lsSwtchOtptsSttsPkgd(uint32_t prevVal = 0);
 	void _setSttChng();
@@ -357,8 +355,11 @@ public:
    * @param ftInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn
    */
   LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg,
-                    swtchInptHwCfg_t rghtHndInpCfg,
-                    swtchInptHwCfg_t ftInpCfg,
+                     swtchBhvrCfg_t lftHndBhvrCfg,
+                     swtchInptHwCfg_t rghtHndInpCfg,
+                     swtchBhvrCfg_t rghtHndBhvrCfg,
+                     swtchInptHwCfg_t ftInpCfg,
+                     swtchBhvrCfg_t ftBhvrCfg,
                     lsSwtchSwCfg_t lsSwtchWrkngCnfg
                     );
    /**
@@ -389,9 +390,9 @@ public:
     * 
     * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftyLnFSwtch. In the case of the SnglSrvcVdblMPBttn used as **Foot Switch** the only attribute available for adjustment is the **start delay** value, used to adjust the time the foot switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.
     * 
-    * @param newCfg A limbSftySwCfg_t type structure, from which only the .swtchStrtDlyTm value will be used.
+    * @param newCfg A swtchBhvrCfg_t type structure, from which only the .swtchStrtDlyTm value will be used.
     */
-   void cnfgFtSwtch(const limbSftySwCfg_t &newCfg);
+   void cnfgFtSwtch(const swtchBhvrCfg_t &newCfg);
    /**
     * @brief Configures the TmVdblMPBttn class object used as **Left Hand Switch**
     * 
@@ -400,11 +401,11 @@ public:
     * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftyLnFSwtch state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftyLnFSwtch state calculation.
     * - **Switch Voiding Time** (.swtchVdTm) defines the time period the hand switch might be kept pressed before signaling it as voided, having to proceed to release it and press it back to return to the valid pressed (non-voide) state.
     * 
-    * @param newCfg A limbSftySwCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
+    * @param newCfg A swtchBhvrCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
     * 
-    * @warning The limbSftySwCfg_t type structure has designated default field values, as a consequence any field not expreselly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
+    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expreselly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
     */
-bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
+   bool cnfgLftHndSwtch(const swtchBhvrCfg_t &newCfg);
    /**
     * @brief Configures the TmVdblMPBttn class object used as **Right Hand Switch**
     * 
@@ -413,11 +414,11 @@ bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
     * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftyLnFSwtch state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftyLnFSwtch state calculation.
     * - **Switch Voiding Time** (.swtchVdTm) defines the time period the hand switch might be kept pressed before signaling it as voided, having to proceed to release it and press it back to return to the valid pressed (non-voide) state.
     * 
-    * @param newCfg A limbSftySwCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
+    * @param newCfg A swtchBhvrCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
     * 
-    * @warning The limbSftySwCfg_t type structure has designated default field values, as a consequence any field not expreselly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
+    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expreselly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
     */
-   bool cnfgRghtHndSwtch(const limbSftySwCfg_t &newCfg);
+   bool cnfgRghtHndSwtch(const swtchBhvrCfg_t &newCfg);
 	/**
 	 * @brief Returns the function that is set to execute every time the object's Latch Release is set to **Off State**.
 	 *
@@ -492,7 +493,7 @@ bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
     * @retval true: Any of the object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
     * @retval false: no object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
 	 */
-   const bool getlsSwtchOtptsChng() const;
+   const bool getLsSwtchOtptsChng() const;
 
    uint32_t getLsSwtchOtptsSttsPkgd();
    /**
@@ -538,7 +539,7 @@ bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
     */
    TmVdblMPBttn*  getRghtHndSwtchPtr();
 
-   const TaskHandle_t getLssTskToNtfyOtptsChng() const;
+   const TaskHandle_t getTskToNtfyLsSwtchOtptsChng() const;
 	/**
 	 * @brief Returns the TaskHandle for the task to be unblocked when the object's ltchRlsIsOn attribute flag is set to false
     * 
@@ -573,46 +574,6 @@ bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
    const TaskHandle_t getTskToNtfyTrnOnPrdCycl() const;
 
    void resetFda();
-   /**
-    * @brief Set the Latch Release Total Time (ltchRlsTtlTm) attribute value
-    * 
-    * The ltchRlsTtlTm attribute holds the time the latching mechanism of the cycle machine will be freed to start the production cycle. Due to the primitive mechanical characteristics of these machines, the mechanical latching mechanism might take different times to be efectively released, so the time must be enough to ensure the correct and full unlatch, but not long enough to keep the machine unlatched when the production cycle is completed, as this might generate the next production cycle to start again, now with no limbs protection provided.
-    * 
-    * @param newVal Time in milliseconds to keep the unlatch mechanism activated, must be a value greater than 0, and less or equal to the "Production cycle time" (see setPrdCyclTtlTm(const unsigned long int))
-    * @return true The parameter value was in the valid range, attribute value updated.
-    * @return false The parameter value was not in the valid range, attribute value was not updated.
-    */
-   bool setLtchRlsTtlTm(const unsigned long int &newVal);
-   /**
-	 * @brief Sets the value of the attribute flag indicating if a change took place in any of the output attribute flags (IsOn included).
-	 *
-	 * The usual path for the **outputsChange** flag is to be set by any method changing an output attribute flag, the callback function signaled to take care of the hardware actions because of this changes clears back **outputsChange** after taking care of them. In the unusual case the developer wants to "intercept" this sequence, this method is provided to set (true) or clear (false) outputsChange value.
-    *
-    * @param newOutputChange The new value to set the **outputsChange** flag to.
-    */
-	void setlsSwtchOtptsChng(bool newlsSwtchOtptsChng);
-   /**
-    * @brief Set the Production Cycle Total Time (prdCyclTtlTm) attribute value
-    * 
-    * The prdCyclTtlTm attribute holds the total time for the production cycle, starting from  the moment the latching mechanism of the cycle machine will be freed to start the production cycle and until the hands and foot security switches are kept disabled. After the production cycle timer set time is consumed, the limbs security switch enters the Cycle closure state, ending with the hands and foot security switches re-enabled to their respective configuration states. Setting a short value to the attribute will produce the switch to be re-enabled before the production cycle ends, generating undesired security risks, setting an extremely long value to the attribute will produce the switch to be unavailable to start a new production cycle, slowing the production in an unneeded manner. 
-    * 
-    * @param newVal Time in milliseconds for the production cycle to be active, must be a value greater than 0, and greater or equal to the "Latch Release Total Time" (see setLtchRlsTtlTm(const unsigned long int))
-    * @return true The parameter value was in the valid range, attribute value updated.
-    * @return false The parameter value was not in the valid range, attribute value was not updated.
-    */
-   bool setPrdCyclTtlTm(const unsigned long int &newVal);
-   /**
-    * @brief Sets the update period lenght for the DbncdMPBttn subclasses objects used as input by the LimbsSftyLnFSwtch
-    * 
-    * Sets the periodic timer used to check the inputs and calculate the state of the object, time period value set in milliseconds.
-    * 
-    * @param newVal Value to set for the update period, the period must be greater than the minimum debounce default value.
-    * @return The success in setting the new value to be used to start the DbncdMPBttn subclasses state updates
-    * @retval true The value was in the accepted range and successfuly changed
-    * @retval false The value was not in the accepted range and successfuly changed
-    * @warning After the begin(unsigned long int) method is executed no other method is implemented to change the periodic update time, so this method must be used -if there's intention of using a non default value- **before** the begin(unsigned long int). Changing the value of the update period after executing the begin method will have no effect on the object's behavior.  
-    */
-   bool setUndrlSwtchsPollDelay(const unsigned long int &newVal);
 	/**
 	 * @brief Sets the function to be executed when the object's ltchRlsIsOn attribute flag is set to false
     * 
@@ -651,6 +612,34 @@ bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
     * @note When the object is instantiated the function pointer is set to nullptr, value that disables the mechanism. Once a pointer to a function is provided the mechanism will become available. The mechanism can be disabled by setting the pointer value back to nullptr.
 	 */
 	void setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
+   /**
+	 * @brief Sets the value of the attribute flag indicating if a change took place in any of the output attribute flags
+	 *
+	 * The usual path for the **lsSwtchOtptsChng** flag is to be set by any method changing an output attribute flag, the callback function signaled to take care of the hardware actions because of this changes clears back **lsSwtchOtptsChng** after taking care of them. In the unusual case the developer wants to "intercept" this sequence, this method is provided to set (true) or clear (false) lsSwtchOtptsChng value.
+    *
+    * @param newLsSwtchOtptsChng The new value to set the **lsSwtchOtptsChng** flag to.
+    */
+	void setLsSwtchOtptsChng(bool newLsSwtchOtptsChng);
+   /**
+    * @brief Set the Latch Release Total Time (ltchRlsTtlTm) attribute value
+    * 
+    * The ltchRlsTtlTm attribute holds the time the latching mechanism of the cycle machine will be freed to start the production cycle. Due to the primitive mechanical characteristics of these machines, the mechanical latching mechanism might take different times to be efectively released, so the time must be enough to ensure the correct and full unlatch, but not long enough to keep the machine unlatched when the production cycle is completed, as this might generate the next production cycle to start again, now with no limbs protection provided.
+    * 
+    * @param newVal Time in milliseconds to keep the unlatch mechanism activated, must be a value greater than 0, and less or equal to the "Production cycle time" (see setPrdCyclTtlTm(const unsigned long int))
+    * @return true The parameter value was in the valid range, attribute value updated.
+    * @return false The parameter value was not in the valid range, attribute value was not updated.
+    */
+   bool setLtchRlsTtlTm(const unsigned long int &newVal);
+   /**
+    * @brief Set the Production Cycle Total Time (prdCyclTtlTm) attribute value
+    * 
+    * The prdCyclTtlTm attribute holds the total time for the production cycle, starting from  the moment the latching mechanism of the cycle machine will be freed to start the production cycle and until the hands and foot security switches are kept disabled. After the production cycle timer set time is consumed, the limbs security switch enters the Cycle closure state, ending with the hands and foot security switches re-enabled to their respective configuration states. Setting a short value to the attribute will produce the switch to be re-enabled before the production cycle ends, generating undesired security risks, setting an extremely long value to the attribute will produce the switch to be unavailable to start a new production cycle, slowing the production in an unneeded manner. 
+    * 
+    * @param newVal Time in milliseconds for the production cycle to be active, must be a value greater than 0, and greater or equal to the "Latch Release Total Time" (see setLtchRlsTtlTm(const unsigned long int))
+    * @return true The parameter value was in the valid range, attribute value updated.
+    * @return false The parameter value was not in the valid range, attribute value was not updated.
+    */
+   bool setPrdCyclTtlTm(const unsigned long int &newVal);
 	/**
 	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the **ANY** of the object's attribute flags changes it's value
     * 
@@ -660,7 +649,7 @@ bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
 	 */
-   void setLssTskToNtfyOtptsChng(const TaskHandle_t &newTaskHandle);
+   void setTskToNtfyLsSwtchOtptsChng(const TaskHandle_t &newTaskHandle);
 	/**
 	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's ltchRlsIsOn attribute flag is set to false
     * 
@@ -701,12 +690,18 @@ bool cnfgLftHndSwtch(const limbSftySwCfg_t &newCfg);
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
 	 */
 	void setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle);    
-
-   /* Might be useful for setting new ltchRlsTtlTm and/or prdCyclTtlTm ensuring timer not running
-   bool end();
-   bool pause();
-   bool resume();
-   */
+   /**
+    * @brief Sets the update period lenght for the DbncdMPBttn subclasses objects used as input by the LimbsSftyLnFSwtch
+    * 
+    * Sets the periodic timer used to check the inputs and calculate the state of the object, time period value set in milliseconds.
+    * 
+    * @param newVal Value to set for the update period, the period must be greater than the minimum debounce default value.
+    * @return The success in setting the new value to be used to start the DbncdMPBttn subclasses state updates
+    * @retval true The value was in the accepted range and successfuly changed
+    * @retval false The value was not in the accepted range and successfuly changed
+    * @warning After the begin(unsigned long int) method is executed no other method is implemented to change the periodic update time, so this method must be used -if there's intention of using a non default value- **before** the begin(unsigned long int). Changing the value of the update period after executing the begin method will have no effect on the object's behavior.  
+    */
+   bool setUndrlSwtchsPollDelay(const unsigned long int &newVal);
 
 };
 
