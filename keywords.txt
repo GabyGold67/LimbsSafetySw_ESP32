@@ -23,6 +23,7 @@ getFnWhnTrnOnLtchRlsPtr KEYWORD2
 getFnWhnTrnOnPrdCyclPtr KEYWORD2
 getFtSwtchPtr  KEYWORD2
 getLftHndSwtchPtr KEYWORD2
+
 getlsSwtchOtptsChng  KEYWORD2
 getLsSwtchOtptsSttsPkgd KEYWORD2
 getLtchRlsIsOn KEYWORD2

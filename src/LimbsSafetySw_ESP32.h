@@ -347,12 +347,16 @@ public:
   /**
    * @brief Class constructor
    * 
-   * The class models a Limbs Safety Single Shot switch, a switch that gives an  activation signal to a machine or device when some independent switches, activated in a designated pattern, ensures no risk for the operator limbs is completed.
-   * The constructor instantiates the DbncdMPBttn subclasses objects that compose the Limbs Safety Single Shot switch, i.e. the left hand TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn
+   * The class models a Limbs Safety switch, a switch that gives an  activation signal to a machine or device when some independent switches, activated in a designated pattern, ensures no risk for the operator limbs is completed.
+   * The constructor instantiates the DbncdMPBttn subclasses objects that compose the Limbs Safety switch, i.e. the left hand TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn
    * 
    * @param lftHndInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn
+   * @param lftHndBhvrCfg A swtchBhvrCfg_t structure containing the behavior characteristics for the left hand controlled TmVdblMPBttn
    * @param rghtHndInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn
+   * @param rghtHndBhvrCfg A swtchBhvrCfg_t structure containing the behavior characteristics for the right hand controlled TmVdblMPBttn
    * @param ftInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn
+   * @param ftBhvrCfg A swtchBhvrCfg_t structure containing the behavior characteristics for the foot controlled SnglSrvcVdblMPBttn
+   * @param lsSwtchWrkngCnfg A lsSwtchSwCfg_t structure containing the basic parameters needed for the instantiated object to work. The parameters provided for instantiation might be changed by dedicated setters
    */
   LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg,
                      swtchBhvrCfg_t lftHndBhvrCfg,
@@ -360,7 +364,7 @@ public:
                      swtchBhvrCfg_t rghtHndBhvrCfg,
                      swtchInptHwCfg_t ftInpCfg,
                      swtchBhvrCfg_t ftBhvrCfg,
-                    lsSwtchSwCfg_t lsSwtchWrkngCnfg
+                     lsSwtchSwCfg_t lsSwtchWrkngCnfg
                     );
    /**
     * @brief Default virtual destructor
@@ -374,8 +378,8 @@ public:
     * 
     * @param pollDelayMs (Optional) unsigned long integer (ulong), the time between status updates in milliseconds.
     * @return The success in starting the updating timer with the provided update time
-    * @retval true Timer starting operation succes
-    * @return false Timer starting operation failure
+    * @retval true Timer starting operation succes for the object and for the underlying DbncdMPBttn subclasses objects
+    * @return false Timer starting operation failure for at least one of the four timers being started
     */
    bool begin(unsigned long int pollDelayMs = _minPollDelay);
    /**
@@ -427,7 +431,7 @@ public:
 	 * @return A pointer to the function set to execute every time the object's indicated attribute flag value is set as described.
 	 * @retval nullptr if there is no function set to execute when the object enters the indicated condition.
 	 *
-	 * @warning The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks.
+	 * @warning The function code execution will become part of the list of procedures the object executes when entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks with lower execution priority.
 	 */
    fncVdPtrPrmPtrType getFnWhnTrnOffLtchRlsPtr();
 	/**
@@ -438,7 +442,7 @@ public:
 	 * @return A pointer to the function set to execute every time the object's indicated attribute flag value is set as described.
 	 * @retval nullptr if there is no function set to execute when the object enters the indicated condition.
 	 *
-	 * @warning The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks.
+	 * @warning The function code execution will become part of the list of procedures the object executes when entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks with lower execution priority.
 	 */
    fncVdPtrPrmPtrType getFnWhnTrnOffPrdCyclPtr();
 	/**
@@ -449,7 +453,7 @@ public:
 	 * @return A pointer to the function set to execute every time the object's indicated attribute flag value is set as described.
 	 * @retval nullptr if there is no function set to execute when the object enters the indicated condition.
 	 *
-	 * @warning The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks.
+	 * @warning The function code execution will become part of the list of procedures the object executes when entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks with lower execution priority.
 	 */
    fncVdPtrPrmPtrType getFnWhnTrnOnLtchRlsPtr();
 	/**
@@ -460,27 +464,27 @@ public:
 	 * @return A pointer to the function set to execute every time the object's indicated attribute flag value is set as described.
 	 * @retval nullptr if there is no function set to execute when the object enters the indicated condition.
 	 *
-	 * @warning The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks.
+	 * @warning The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks with lower execution priority.
 	 */
    fncVdPtrPrmPtrType getFnWhnTrnOnPrdCyclPtr();
    /**
     * @brief Get the ftSwcthPtr attribute value
     * 
-    * The ftSwcthPtr is the pointer to the SnglSrvcVdblMPBttn class object instantiated to be the "Foot Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftyLnFSwtch interface.
+    * The ftSwcthPtr is the pointer to the SnglSrvcVdblMPBttn class object instantiated to be the "Foot Safety Switch", so to have direct access to it's public members without going through a LimbsSftyLnFSwtch interface.
     * 
     * @return The SnglSrvcVdblMPBttn class pointer to the foot switch
     * 
-    * @warning The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer to modify some parameters of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
+    * @warning The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer modify some attributes of the underlying object in unexpected ways. 
     */
    SnglSrvcVdblMPBttn* getFtSwtchPtr();
    /**
     * @brief Get the lftHndSwcthPtr attribute value
     * 
-    * The lftHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Left Hand Safety Switch", so to have direct access to it's setters and getters without going through a LimbsSftyLnFSwtch interface.
+    * The lftHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Left Hand Safety Switch", so to have direct access to it's public members without going through a LimbsSftyLnFSwtch interface.
     * 
     * @return The TmVdblMPBttn class pointer to the left hand switch
     * 
-    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
+    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways.
     */
    TmVdblMPBttn*  getLftHndSwtchPtr();
    /**
