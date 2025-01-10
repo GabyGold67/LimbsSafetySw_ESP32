@@ -9,7 +9,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   08/01/2025 11:30 (GMT+0300 DST)
+  *       Last update:   10/01/2025 10:10 (GMT+0300 DST)
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -508,6 +508,14 @@ bool LimbsSftyLnFSwtch::setUndrlSwtchsPollDelay(const unsigned long int &newVal)
    return result;
 }
 
+void LimbsSftyLnFSwtch::_getUndrlSwtchStts(){   
+   _lftHndSwtchStts = otptsSttsUnpkg(_undrlLftHndMPBPtr->getOtptsSttsPkgd());
+   _rghtHndSwtchStts = otptsSttsUnpkg(_undrlRghtHndMPBPtr->getOtptsSttsPkgd());
+   _ftSwtchStts = otptsSttsUnpkg(_undrlFtMPBPtr->getOtptsSttsPkgd());
+
+   return;
+}
+
 void LimbsSftyLnFSwtch::_turnOffLtchRls(){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
    
@@ -530,35 +538,6 @@ void LimbsSftyLnFSwtch::_turnOffLtchRls(){
 	   //---------------->> Flags related actions
 		taskENTER_CRITICAL(&mux);
       _ltchRlsIsOn = false;
-		setLsSwtchOtptsChng(true);
-		taskEXIT_CRITICAL(&mux);
-	} 
-
-   return;
-}
-
-void LimbsSftyLnFSwtch::_turnOnLtchRls(){
-   portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
-   
-   if(!_ltchRlsIsOn){
-      //---------------->> Tasks related actions
-      //---------------->> Specific Task for Latch Release turned off related actions
-      if(getTskToNtfyTrnOnLtchRls() != NULL){
-         xReturned = xTaskNotify(
-            getTskToNtfyTrnOnLtchRls(),	//TaskHandle_t of the task receiving notification
-            static_cast<uint32_t>(0x00),
-            eSetValueWithOverwrite	//In this specific case using eSetBits is also a valid option
-         );
-         if (xReturned != pdPASS)
-            errorFlag = pdTRUE;
-      }
-		//---------------->> Functions related actions
-		if(_fnWhnTrnOnLtchRls != nullptr){
-			_fnWhnTrnOnLtchRls(nullptr);
-		}
-	   //---------------->> Flags related actions
-		taskENTER_CRITICAL(&mux);
-      _ltchRlsIsOn = true;
 		setLsSwtchOtptsChng(true);
 		taskEXIT_CRITICAL(&mux);
 	} 
@@ -591,6 +570,35 @@ void LimbsSftyLnFSwtch::_turnOffPrdCycl(){
 		setLsSwtchOtptsChng(true);
 		taskEXIT_CRITICAL(&mux);
 	}
+
+   return;
+}
+
+void LimbsSftyLnFSwtch::_turnOnLtchRls(){
+   portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
+   
+   if(!_ltchRlsIsOn){
+      //---------------->> Tasks related actions
+      //---------------->> Specific Task for Latch Release turned off related actions
+      if(getTskToNtfyTrnOnLtchRls() != NULL){
+         xReturned = xTaskNotify(
+            getTskToNtfyTrnOnLtchRls(),	//TaskHandle_t of the task receiving notification
+            static_cast<uint32_t>(0x00),
+            eSetValueWithOverwrite	//In this specific case using eSetBits is also a valid option
+         );
+         if (xReturned != pdPASS)
+            errorFlag = pdTRUE;
+      }
+		//---------------->> Functions related actions
+		if(_fnWhnTrnOnLtchRls != nullptr){
+			_fnWhnTrnOnLtchRls(nullptr);
+		}
+	   //---------------->> Flags related actions
+		taskENTER_CRITICAL(&mux);
+      _ltchRlsIsOn = true;
+		setLsSwtchOtptsChng(true);
+		taskEXIT_CRITICAL(&mux);
+	} 
 
    return;
 }
@@ -750,14 +758,6 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 
 	return;
 
-}
-
-void LimbsSftyLnFSwtch::_getUndrlSwtchStts(){   
-   _lftHndSwtchStts = otptsSttsUnpkg(_undrlLftHndMPBPtr->getOtptsSttsPkgd());
-   _rghtHndSwtchStts = otptsSttsUnpkg(_undrlRghtHndMPBPtr->getOtptsSttsPkgd());
-   _ftSwtchStts = otptsSttsUnpkg(_undrlFtMPBPtr->getOtptsSttsPkgd());
-
-   return;
 }
 
 //=========================================================================> Class methods delimiter
