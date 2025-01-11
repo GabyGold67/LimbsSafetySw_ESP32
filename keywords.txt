@@ -6,12 +6,9 @@
 # Datatypes (KEYWORD1)
 ###############################################
 LimbsSftyLnFSwtch   KEYWORD1
-
 ###############################################
 # Methods and Functions (KEYWORD2)
 ###############################################
-# LimbsSftyLnFSwtch
-#############
 begin   KEYWORD2
 clrStatus   KEYWORD2
 cnfgFtSwtch KEYWORD2
@@ -23,33 +20,32 @@ getFnWhnTrnOnLtchRlsPtr KEYWORD2
 getFnWhnTrnOnPrdCyclPtr KEYWORD2
 getFtSwtchPtr  KEYWORD2
 getLftHndSwtchPtr KEYWORD2
-
-getlsSwtchOtptsChng  KEYWORD2
+getLsSwtchOtptsChng  KEYWORD2
 getLsSwtchOtptsSttsPkgd KEYWORD2
 getLtchRlsIsOn KEYWORD2
 getLtchRlsTtlTm   KEYWORD2
 getPrdCyclIsOn KEYWORD2
 getPrdCyclTtlTm   KEYWORD2
 getRghtHndSwtchPtr   KEYWORD2
-getLssTskToNtfyOtptsChng   KEYWORD2
+getTskToNtfyLsSwtchOtptsChng   KEYWORD2
 getTskToNtfyTrnOffLtchRls  KEYWORD2
 getTskToNtfyTrnOffPrdCycl  KEYWORD2
 getTskToNtfyTrnOnLtchRls   KEYWORD2
 getTskToNtfyTrnOnPrdCycl   KEYWORD2
 resetFda KEYWORD2 
-setLtchRlsTtlTm   KEYWORD2
-setlsSwtchOtptsChng  KEYWORD2
-setPrdCyclTtlTm   KEYWORD2
-setUndrlSwtchsPollDelay KEYWORD2
 setFnWhnTrnOffLtchRlsPtr   KEYWORD2
 setFnWhnTrnOffPrdCyclPtr   KEYWORD2
 setFnWhnTrnOnLtchRlsPtr KEYWORD2
 setFnWhnTrnOnPrdCyclPtr KEYWORD2
-setLssTskToNtfyOtptsChng   KEYWORD2
+setLsSwtchOtptsChng  KEYWORD2
+setLtchRlsTtlTm   KEYWORD2
+setPrdCyclTtlTm   KEYWORD2
+setTskToNtfyLsSwtchOtptsChng   KEYWORD2
 setTskToNtfyTrnOffLtchRls  KEYWORD2
 setTskToNtfyTrnOffPrdCycl  KEYWORD2
 setTskToNtfyTrnOnLtchRls   KEYWORD2
 setTskToNtfyTrnOnPrdCycl   KEYWORD2
+setUndrlSwtchsPollDelay KEYWORD2
 
 ###############################################
 # Constants (LITERAL1)

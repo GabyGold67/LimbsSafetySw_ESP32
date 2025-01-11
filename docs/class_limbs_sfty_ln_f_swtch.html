@@ -289,12 +289,16 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Class constructor. </p>
-<p>The class models a Limbs Safety Single Shot switch, a switch that gives an activation signal to a machine or device when some independent switches, activated in a designated pattern, ensures no risk for the operator limbs is completed. The constructor instantiates the DbncdMPBttn subclasses objects that compose the Limbs Safety Single Shot switch, i.e. the left hand TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn</p>
+<p>The class models a Limbs Safety switch, a switch that gives an activation signal to a machine or device when some independent switches, activated in a designated pattern, ensures no risk for the operator limbs is completed. The constructor instantiates the DbncdMPBttn subclasses objects that compose the Limbs Safety switch, i.e. the left hand TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">lftHndInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn </td></tr>
+    <tr><td class="paramname">lftHndBhvrCfg</td><td>A swtchBhvrCfg_t structure containing the behavior characteristics for the left hand controlled TmVdblMPBttn </td></tr>
     <tr><td class="paramname">rghtHndInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn </td></tr>
+    <tr><td class="paramname">rghtHndBhvrCfg</td><td>A swtchBhvrCfg_t structure containing the behavior characteristics for the right hand controlled TmVdblMPBttn </td></tr>
     <tr><td class="paramname">ftInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn </td></tr>
+    <tr><td class="paramname">ftBhvrCfg</td><td>A swtchBhvrCfg_t structure containing the behavior characteristics for the foot controlled SnglSrvcVdblMPBttn </td></tr>
+    <tr><td class="paramname">lsSwtchWrkngCnfg</td><td>A <a class="el" href="structls_swtch_sw_cfg__t.html" title="Machine activation related attributes data structure.">lsSwtchSwCfg_t</a> structure containing the basic parameters needed for the instantiated object to work. The parameters provided for instantiation might be changed by dedicated setters </td></tr>
   </table>
   </dd>
 </dl>
@@ -328,11 +332,11 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The success in starting the updating timer with the provided update time </dd></dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">true</td><td>Timer starting operation succes </td></tr>
+    <tr><td class="paramname">true</td><td>Timer starting operation succes for the object and for the underlying DbncdMPBttn subclasses objects </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>false Timer starting operation failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>false Timer starting operation failure for at least one of the four timers being started </dd></dl>
 
 </div>
 </div>
@@ -468,7 +472,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks with lower execution priority. </dd></dl>
 
 </div>
 </div>
@@ -496,7 +500,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks with lower execution priority. </dd></dl>
 
 </div>
 </div>
@@ -524,7 +528,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks with lower execution priority. </dd></dl>
 
 </div>
 </div>
@@ -552,7 +556,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The function code execution will become part of the list of procedures the object executes when it entering the indicated condition, including the modification of the affected attribute flags, the unblocking of a task and (maybe) others. Making the function code too time demanding must be handled with care as execution of the function might block other tasks with lower execution priority. </dd></dl>
 
 </div>
 </div>
@@ -572,9 +576,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the ftSwcthPtr attribute value. </p>
-<p>The ftSwcthPtr is the pointer to the SnglSrvcVdblMPBttn class object instantiated to be the "Foot Safety Switch", so to have direct access to it's setters and getters without going through a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> interface.</p>
+<p>The ftSwcthPtr is the pointer to the SnglSrvcVdblMPBttn class object instantiated to be the "Foot Safety Switch", so to have direct access to it's public members without going through a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> interface.</p>
 <dl class="section return"><dt>Returns</dt><dd>The SnglSrvcVdblMPBttn class pointer to the foot switch</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer to modify some parameters of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer modify some attributes of the underlying object in unexpected ways. </dd></dl>
 
 </div>
 </div>
@@ -594,9 +598,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the lftHndSwcthPtr attribute value. </p>
-<p>The lftHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Left Hand Safety Switch", so to have direct access to it's setters and getters without going through a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> interface.</p>
+<p>The lftHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Left Hand Safety Switch", so to have direct access to it's public members without going through a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> interface.</p>
 <dl class="section return"><dt>Returns</dt><dd>The TmVdblMPBttn class pointer to the left hand switch</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. </dd></dl>
 
 </div>
 </div>

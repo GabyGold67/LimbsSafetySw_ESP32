@@ -706,7 +706,6 @@ public:
     * @warning After the begin(unsigned long int) method is executed no other method is implemented to change the periodic update time, so this method must be used -if there's intention of using a non default value- **before** the begin(unsigned long int). Changing the value of the update period after executing the begin method will have no effect on the object's behavior.  
     */
    bool setUndrlSwtchsPollDelay(const unsigned long int &newVal);
-
 };
 
 //===================================================>> END Classes declarations
