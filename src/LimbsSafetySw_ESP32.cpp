@@ -95,6 +95,7 @@ void LimbsSftyLnFSwtch::clrStatus(){
    _prdCyclIsOn = false;
    _prdCyclTmrStrt = 0;
    _undrlFtMPBPtr->disable(); // Disable FtSwitch
+   // setLsSwtchOtptsChng(false);
 
    return;
 }

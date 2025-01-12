@@ -283,19 +283,20 @@ private:
 	};
 
 protected:
+   swtchInptHwCfg_t _lftHndInpCfg{};
    swtchBhvrCfg_t _lftHndBhvrCfg{};
-   swtchInptHwCfg_t _lftHndInpCfg;
-   MpbOtpts_t _lftHndSwtchStts{0};
+   swtchInptHwCfg_t _rghtHndInpCfg{};
+   swtchBhvrCfg_t _rghtHndBhvrCfg{};
+   swtchInptHwCfg_t _ftInpCfg{};
+   swtchBhvrCfg_t _ftBhvrCfg{};
+
+   MpbOtpts_t _lftHndSwtchStts{};
    TmVdblMPBttn* _undrlLftHndMPBPtr{nullptr};
 
-   swtchBhvrCfg_t _rghtHndBhvrCfg{};
-   swtchInptHwCfg_t _rghtHndInpCfg;
-   MpbOtpts_t _rghtHndSwtchStts{0};
+   MpbOtpts_t _rghtHndSwtchStts{};
    TmVdblMPBttn* _undrlRghtHndMPBPtr{nullptr};
 
-   swtchBhvrCfg_t _ftBhvrCfg{};
-   swtchInptHwCfg_t _ftInpCfg;
-   MpbOtpts_t _ftSwtchStts{0};
+   MpbOtpts_t _ftSwtchStts{};
    SnglSrvcVdblMPBttn* _undrlFtMPBPtr{nullptr};   
 
    unsigned long int _undrlSwtchsPollDelay{_minPollDelay};
