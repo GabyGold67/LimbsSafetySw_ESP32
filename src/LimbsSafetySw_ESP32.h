@@ -21,7 +21,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   08/01/2025 11:30 (GMT+0300 DST)
+  *       Last update:   13/01/2025 18:40 (GMT+0300 DST)
   * 
   * @copyright GPL-3.0 license
   *
@@ -312,6 +312,12 @@ protected:
 	fncVdPtrPrmPtrType _fnWhnTrnOffPrdCycl {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnLtchRls {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnPrdCycl {nullptr};
+
+   void* _fnWhnTrnOffLtchRlsArg {nullptr};
+	void* _fnWhnTrnOffPrdCyclArg {nullptr};
+   void* _fnWhnTrnOnLtchRlsArg{nullptr};
+	void* _fnWhnTrnOnPrdCyclArg {nullptr};
+
    fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};
    bool _lsSwtchOtptsChng{false};
    uint32_t _lsSwtchOtptsChngCnt{0};
@@ -500,7 +506,15 @@ public:
     * @retval false: no object's output related behavior flags have changed value since last time **outputsChange** flag was reseted.
 	 */
    const bool getLsSwtchOtptsChng() const;
-
+   /**
+    * @brief Returns the relevant attribute flags values for the object state encoded as a 32 bits value, required to pass current state of the object to another thread/task managing the outputs
+    *
+    * The inter-tasks communication mechanisms implemented on the class includes a xTaskNotify() that works as a light-weigh mailbox, unblocking the receiving tasks and sending to it a 32_bit value notification. This function returns the relevant attribute flags values encoded in a 32 bit value, according the provided encoding documented.
+    *
+    * @return A 32-bit unsigned value representing the attribute flags current values.
+    * 
+    * @note For ease of use and resources optimization the encoded 32 bits value includes state information referenced to the underlying DbncdMPBttn subclasses objects isEnabled and isOn for each one of them. Also the bits positions used for relevant information are not used by the underlying objects analog mechanisms, even if no interaction or interference is possible.
+    */
    uint32_t getLsSwtchOtptsSttsPkgd();
    /**
     * @brief Returns the ltchRlsIsOn attribute flag value
@@ -544,7 +558,13 @@ public:
     * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
     */
    TmVdblMPBttn*  getRghtHndSwtchPtr();
-
+	/**
+	 * @brief Returns the TaskHandle for the task to be unblocked when the object's lsSwtchOtptsChng attribute flags is set to true
+    * 
+    * One of the optional mechanisms activated when any attribute flag that includes the mechanism to modify an output pin is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.
+    * 
+    * @note When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyLsSwtchOtptsChng(const TaskHandle_t &newTaskHandle) method.
+	 */
    const TaskHandle_t getTskToNtfyLsSwtchOtptsChng() const;
 	/**
 	 * @brief Returns the TaskHandle for the task to be unblocked when the object's ltchRlsIsOn attribute flag is set to false
@@ -578,7 +598,11 @@ public:
     * @note When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle) method.
 	 */
    const TaskHandle_t getTskToNtfyTrnOnPrdCycl() const;
-
+	/**
+	 * @brief Resets the LsSwitch behavior automaton to it's **Initial** or **Start State**
+	 *
+	 * This method is provided for security and for error handling purposes, so that in case of unexpected situations detected, the driving **Deterministic Finite Automaton** used to compute the objects' states might be reset to it's initial state to safely restart it, maybe as part of an **Error Handling** procedure.
+	 */
    void resetFda();
 	/**
 	 * @brief Sets the function to be executed when the object's ltchRlsIsOn attribute flag is set to false
@@ -646,6 +670,46 @@ public:
     * @return false The parameter value was not in the valid range, attribute value was not updated.
     */
    bool setPrdCyclTtlTm(const unsigned long int &newVal);
+   /**
+    * @brief Sets the pointer to the arguments for the function to be executed when the object's ltchRlsIsOn attribute flag is set to false
+    * 
+    * The function to be executed is the one set by the setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType) method, that expects a void* argument.
+    * 
+    * @param newVal A void* to the argument to be passed to the mentioned function
+    * 
+    * @note When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set.
+    */
+   void setTrnOffLtchRlsArgPtr(void* &newVal);
+   /**
+    * @brief Sets the pointer to the arguments for the function to be executed when the object's prdCyclIsOn attribute flag is set to false
+    * 
+    * The function to be executed is the one set by the setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType) method, that expects a void* argument.
+    * 
+    * @param newVal A void* to the argument to be passed to the mentioned function
+    * 
+    * @note When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set.
+    */
+	void setTrnOffPrdCyclArgPtr(void* &newVal);
+   /**
+    * @brief Sets the pointer to the arguments for the function to be executed when the object's ltchRlsIsOn attribute flag is set to true
+    * 
+    * The function to be executed is the one set by the setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType) method, that expects a void* argument.
+    * 
+    * @param newVal A void* to the argument to be passed to the mentioned function
+    * 
+    * @note When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set.
+    */
+   void setTrnOnLtchRlsArgPtr(void* &newVal);
+   /**
+    * @brief Sets the pointer to the arguments for the function to be executed when the object's prdCyclIsOn attribute flag is set to true
+    * 
+    * The function to be executed is the one set by the setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType) method, that expects a void* argument.
+    * 
+    * @param newVal A void* to the argument to be passed to the mentioned function
+    * 
+    * @note When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set.
+    */
+	void setTrnOnPrdCyclArgPtr(void* &newVal);
 	/**
 	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the **ANY** of the object's attribute flags changes it's value
     * 

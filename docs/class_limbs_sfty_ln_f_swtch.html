@@ -168,6 +168,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2697d6bd86c2db7fd950bdf23d9e79b1" id="r_a2697d6bd86c2db7fd950bdf23d9e79b1"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2697d6bd86c2db7fd950bdf23d9e79b1">getLsSwtchOtptsChng</a> () const</td></tr>
 <tr class="memdesc:a2697d6bd86c2db7fd950bdf23d9e79b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the <b>lsSwtchOtptsChng</b> attribute flag.  <br /></td></tr>
 <tr class="separator:a2697d6bd86c2db7fd950bdf23d9e79b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3019f4e62269943b22834abf13585d1e" id="r_a3019f4e62269943b22834abf13585d1e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3019f4e62269943b22834abf13585d1e">getLsSwtchOtptsSttsPkgd</a> ()</td></tr>
+<tr class="memdesc:a3019f4e62269943b22834abf13585d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the relevant attribute flags values for the object state encoded as a 32 bits value, required to pass current state of the object to another thread/task managing the outputs.  <br /></td></tr>
+<tr class="separator:a3019f4e62269943b22834abf13585d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a748e9feb751af1c2f429ca6201bc3a09" id="r_a748e9feb751af1c2f429ca6201bc3a09"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a748e9feb751af1c2f429ca6201bc3a09">getLtchRlsIsOn</a> () const</td></tr>
 <tr class="memdesc:a748e9feb751af1c2f429ca6201bc3a09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ltchRlsIsOn attribute flag value.  <br /></td></tr>
 <tr class="separator:a748e9feb751af1c2f429ca6201bc3a09"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,6 +186,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad1ca177c1d59acbab862db8720a60c10" id="r_ad1ca177c1d59acbab862db8720a60c10"><td class="memItemLeft" align="right" valign="top">TmVdblMPBttn *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1ca177c1d59acbab862db8720a60c10">getRghtHndSwtchPtr</a> ()</td></tr>
 <tr class="memdesc:ad1ca177c1d59acbab862db8720a60c10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the rghtHndSwcthPtr attribute value.  <br /></td></tr>
 <tr class="separator:ad1ca177c1d59acbab862db8720a60c10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affc3d73ea4cc9fd48ea45363e3c76724" id="r_affc3d73ea4cc9fd48ea45363e3c76724"><td class="memItemLeft" align="right" valign="top">const TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affc3d73ea4cc9fd48ea45363e3c76724">getTskToNtfyLsSwtchOtptsChng</a> () const</td></tr>
+<tr class="memdesc:affc3d73ea4cc9fd48ea45363e3c76724"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the TaskHandle for the task to be unblocked when the object's lsSwtchOtptsChng attribute flags is set to true.  <br /></td></tr>
+<tr class="separator:affc3d73ea4cc9fd48ea45363e3c76724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a01551d6197533c3f9f9a399c04f8b8" id="r_a0a01551d6197533c3f9f9a399c04f8b8"><td class="memItemLeft" align="right" valign="top">const TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a01551d6197533c3f9f9a399c04f8b8">getTskToNtfyTrnOffLtchRls</a> () const</td></tr>
 <tr class="memdesc:a0a01551d6197533c3f9f9a399c04f8b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the TaskHandle for the task to be unblocked when the object's ltchRlsIsOn attribute flag is set to false.  <br /></td></tr>
 <tr class="separator:a0a01551d6197533c3f9f9a399c04f8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,6 +201,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae6c5ca35f281ca94ec56851044b33edf" id="r_ae6c5ca35f281ca94ec56851044b33edf"><td class="memItemLeft" align="right" valign="top">const TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6c5ca35f281ca94ec56851044b33edf">getTskToNtfyTrnOnPrdCycl</a> () const</td></tr>
 <tr class="memdesc:ae6c5ca35f281ca94ec56851044b33edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the TaskHandle for the task to be unblocked when the object's prdCyclIsOn attribute flag is set to true.  <br /></td></tr>
 <tr class="separator:ae6c5ca35f281ca94ec56851044b33edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5785a92266a8eb4842bd944952a15945" id="r_a5785a92266a8eb4842bd944952a15945"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5785a92266a8eb4842bd944952a15945">resetFda</a> ()</td></tr>
+<tr class="memdesc:a5785a92266a8eb4842bd944952a15945"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the LsSwitch behavior automaton to it's <b>Initial</b> or <b>Start State</b>  <br /></td></tr>
+<tr class="separator:a5785a92266a8eb4842bd944952a15945"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6569552fb82e4fc3095450d85f1924b7" id="r_a6569552fb82e4fc3095450d85f1924b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6569552fb82e4fc3095450d85f1924b7">setFnWhnTrnOffLtchRlsPtr</a> (fncVdPtrPrmPtrType newFnWhnTrnOff)</td></tr>
 <tr class="memdesc:a6569552fb82e4fc3095450d85f1924b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the function to be executed when the object's ltchRlsIsOn attribute flag is set to false.  <br /></td></tr>
 <tr class="separator:a6569552fb82e4fc3095450d85f1924b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -216,6 +225,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a52401b070f3dab87b1ef9c6d74a7cbca" id="r_a52401b070f3dab87b1ef9c6d74a7cbca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52401b070f3dab87b1ef9c6d74a7cbca">setPrdCyclTtlTm</a> (const unsigned long int &amp;newVal)</td></tr>
 <tr class="memdesc:a52401b070f3dab87b1ef9c6d74a7cbca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Production Cycle Total Time (prdCyclTtlTm) attribute value.  <br /></td></tr>
 <tr class="separator:a52401b070f3dab87b1ef9c6d74a7cbca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb84743a06d8fc2adfd810fec981fc53" id="r_adb84743a06d8fc2adfd810fec981fc53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb84743a06d8fc2adfd810fec981fc53">setTrnOffLtchRlsArgPtr</a> (void *&amp;newVal)</td></tr>
+<tr class="memdesc:adb84743a06d8fc2adfd810fec981fc53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pointer to the arguments for the function to be executed when the object's ltchRlsIsOn attribute flag is set to false.  <br /></td></tr>
+<tr class="separator:adb84743a06d8fc2adfd810fec981fc53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed8a61d3905fc78864a7593556016b5d" id="r_aed8a61d3905fc78864a7593556016b5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed8a61d3905fc78864a7593556016b5d">setTrnOffPrdCyclArgPtr</a> (void *&amp;newVal)</td></tr>
+<tr class="memdesc:aed8a61d3905fc78864a7593556016b5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pointer to the arguments for the function to be executed when the object's prdCyclIsOn attribute flag is set to false.  <br /></td></tr>
+<tr class="separator:aed8a61d3905fc78864a7593556016b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8ad47fc9ea6125f787deabb69e0aeb3" id="r_ae8ad47fc9ea6125f787deabb69e0aeb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8ad47fc9ea6125f787deabb69e0aeb3">setTrnOnLtchRlsArgPtr</a> (void *&amp;newVal)</td></tr>
+<tr class="memdesc:ae8ad47fc9ea6125f787deabb69e0aeb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pointer to the arguments for the function to be executed when the object's ltchRlsIsOn attribute flag is set to true.  <br /></td></tr>
+<tr class="separator:ae8ad47fc9ea6125f787deabb69e0aeb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22a5664a394be71a6e3ddf0a3601114f" id="r_a22a5664a394be71a6e3ddf0a3601114f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22a5664a394be71a6e3ddf0a3601114f">setTrnOnPrdCyclArgPtr</a> (void *&amp;newVal)</td></tr>
+<tr class="memdesc:a22a5664a394be71a6e3ddf0a3601114f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pointer to the arguments for the function to be executed when the object's prdCyclIsOn attribute flag is set to true.  <br /></td></tr>
+<tr class="separator:a22a5664a394be71a6e3ddf0a3601114f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78343682545897e6df0cbfc3ff7c16cb" id="r_a78343682545897e6df0cbfc3ff7c16cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78343682545897e6df0cbfc3ff7c16cb">setTskToNtfyLsSwtchOtptsChng</a> (const TaskHandle_t &amp;newTaskHandle)</td></tr>
 <tr class="memdesc:a78343682545897e6df0cbfc3ff7c16cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the task to be unblocked -by a xTaskNotify()- when the <b>ANY</b> of the object's attribute flags changes it's value.  <br /></td></tr>
 <tr class="separator:a78343682545897e6df0cbfc3ff7c16cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -357,6 +378,16 @@ Public Member Functions</h2></td></tr>
 
 <p>Clears and resets flags, timers and counters modified through the object's signals processing. </p>
 <p>Resets object's attributes to its initialization values to safely continue operations after completing a FDA cycle that might generate unexpected distorsions. This avoids risky behavior of the object due to dangling flags or partially consumed time counters. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_limbs_sfty_ln_f_swtch_aa0a4b4beefe31a5b91c9ca289024503a_icgraph.png" border="0" usemap="#aclass_limbs_sfty_ln_f_swtch_aa0a4b4beefe31a5b91c9ca289024503a_icgraph" alt=""/></div>
+<map name="aclass_limbs_sfty_ln_f_swtch_aa0a4b4beefe31a5b91c9ca289024503a_icgraph" id="aclass_limbs_sfty_ln_f_swtch_aa0a4b4beefe31a5b91c9ca289024503a_icgraph">
+<area shape="rect" title="Clears and resets flags, timers and counters modified through the object&#39;s signals processing." alt="" coords="201,5,348,48"/>
+<area shape="rect" href="class_limbs_sfty_ln_f_swtch.html#a5785a92266a8eb4842bd944952a15945" title="Resets the LsSwitch behavior automaton to it&#39;s Initial or Start State" alt="" coords="5,5,153,48"/>
+<area shape="poly" title=" " alt="" coords="185,29,153,29,153,24,185,24"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -631,6 +662,28 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a3019f4e62269943b22834abf13585d1e" name="a3019f4e62269943b22834abf13585d1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3019f4e62269943b22834abf13585d1e">&#9670;&#160;</a></span>getLsSwtchOtptsSttsPkgd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the relevant attribute flags values for the object state encoded as a 32 bits value, required to pass current state of the object to another thread/task managing the outputs. </p>
+<p>The inter-tasks communication mechanisms implemented on the class includes a xTaskNotify() that works as a light-weigh mailbox, unblocking the receiving tasks and sending to it a 32_bit value notification. This function returns the relevant attribute flags values encoded in a 32 bit value, according the provided encoding documented.</p>
+<dl class="section return"><dt>Returns</dt><dd>A 32-bit unsigned value representing the attribute flags current values.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For ease of use and resources optimization the encoded 32 bits value includes state information referenced to the underlying DbncdMPBttn subclasses objects isEnabled and isOn for each one of them. Also the bits positions used for relevant information are not used by the underlying objects analog mechanisms, even if no interaction or interference is possible. </dd></dl>
+
+</div>
+</div>
 <a id="a748e9feb751af1c2f429ca6201bc3a09" name="a748e9feb751af1c2f429ca6201bc3a09"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a748e9feb751af1c2f429ca6201bc3a09">&#9670;&#160;</a></span>getLtchRlsIsOn()</h2>
 
@@ -748,6 +801,27 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="affc3d73ea4cc9fd48ea45363e3c76724" name="affc3d73ea4cc9fd48ea45363e3c76724"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affc3d73ea4cc9fd48ea45363e3c76724">&#9670;&#160;</a></span>getTskToNtfyLsSwtchOtptsChng()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const TaskHandle_t LimbsSftyLnFSwtch::getTskToNtfyLsSwtchOtptsChng </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the TaskHandle for the task to be unblocked when the object's lsSwtchOtptsChng attribute flags is set to true. </p>
+<p>One of the optional mechanisms activated when any attribute flag that includes the mechanism to modify an output pin is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.</p>
+<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the <a class="el" href="#a78343682545897e6df0cbfc3ff7c16cb" title="Sets the task to be unblocked -by a xTaskNotify()- when the ANY of the object&#39;s attribute flags chang...">setTskToNtfyLsSwtchOtptsChng(const TaskHandle_t &amp;newTaskHandle)</a> method. </dd></dl>
+
+</div>
+</div>
 <a id="a0a01551d6197533c3f9f9a399c04f8b8" name="a0a01551d6197533c3f9f9a399c04f8b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0a01551d6197533c3f9f9a399c04f8b8">&#9670;&#160;</a></span>getTskToNtfyTrnOffLtchRls()</h2>
 
@@ -829,6 +903,36 @@ Public Member Functions</h2></td></tr>
 <p>Returns the TaskHandle for the task to be unblocked when the object's prdCyclIsOn attribute flag is set to true. </p>
 <p>One of the optional mechanisms activated by entering the <b>Production cycle is On</b> (prdCyclIsOn = true) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.</p>
 <dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the <a class="el" href="#a01529d7a2cfe73e8e5ee189b66c563a3" title="Sets the task to be unblocked -by a xTaskNotify()- when the object&#39;s prdCyclIsOn attribute flag is se...">setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &amp;newTaskHandle)</a> method. </dd></dl>
+
+</div>
+</div>
+<a id="a5785a92266a8eb4842bd944952a15945" name="a5785a92266a8eb4842bd944952a15945"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5785a92266a8eb4842bd944952a15945">&#9670;&#160;</a></span>resetFda()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LimbsSftyLnFSwtch::resetFda </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Resets the LsSwitch behavior automaton to it's <b>Initial</b> or <b>Start State</b> </p>
+<p>This method is provided for security and for error handling purposes, so that in case of unexpected situations detected, the driving <b>Deterministic Finite Automaton</b> used to compute the objects' states might be reset to it's initial state to safely restart it, maybe as part of an <b>Error Handling</b> procedure. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_limbs_sfty_ln_f_swtch_a5785a92266a8eb4842bd944952a15945_cgraph.png" border="0" usemap="#aclass_limbs_sfty_ln_f_swtch_a5785a92266a8eb4842bd944952a15945_cgraph" alt=""/></div>
+<map name="aclass_limbs_sfty_ln_f_swtch_a5785a92266a8eb4842bd944952a15945_cgraph" id="aclass_limbs_sfty_ln_f_swtch_a5785a92266a8eb4842bd944952a15945_cgraph">
+<area shape="rect" title="Resets the LsSwitch behavior automaton to it&#39;s Initial or Start State" alt="" coords="5,5,153,48"/>
+<area shape="rect" href="class_limbs_sfty_ln_f_swtch.html#aa0a4b4beefe31a5b91c9ca289024503a" title="Clears and resets flags, timers and counters modified through the object&#39;s signals processing." alt="" coords="201,5,348,48"/>
+<area shape="poly" title=" " alt="" coords="153,24,185,24,185,29,153,29"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -1021,6 +1125,114 @@ false The parameter value was not in the valid range, attribute value was not up
 <dl class="section return"><dt>Returns</dt><dd>true The parameter value was in the valid range, attribute value updated. </dd>
 <dd>
 false The parameter value was not in the valid range, attribute value was not updated. </dd></dl>
+
+</div>
+</div>
+<a id="adb84743a06d8fc2adfd810fec981fc53" name="adb84743a06d8fc2adfd810fec981fc53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb84743a06d8fc2adfd810fec981fc53">&#9670;&#160;</a></span>setTrnOffLtchRlsArgPtr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LimbsSftyLnFSwtch::setTrnOffLtchRlsArgPtr </td>
+          <td>(</td>
+          <td class="paramtype">void *&amp;</td>          <td class="paramname"><span class="paramname"><em>newVal</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the pointer to the arguments for the function to be executed when the object's ltchRlsIsOn attribute flag is set to false. </p>
+<p>The function to be executed is the one set by the <a class="el" href="#a6569552fb82e4fc3095450d85f1924b7" title="Sets the function to be executed when the object&#39;s ltchRlsIsOn attribute flag is set to false.">setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType)</a> method, that expects a void* argument.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newVal</td><td>A void* to the argument to be passed to the mentioned function</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set. </dd></dl>
+
+</div>
+</div>
+<a id="aed8a61d3905fc78864a7593556016b5d" name="aed8a61d3905fc78864a7593556016b5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed8a61d3905fc78864a7593556016b5d">&#9670;&#160;</a></span>setTrnOffPrdCyclArgPtr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LimbsSftyLnFSwtch::setTrnOffPrdCyclArgPtr </td>
+          <td>(</td>
+          <td class="paramtype">void *&amp;</td>          <td class="paramname"><span class="paramname"><em>newVal</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the pointer to the arguments for the function to be executed when the object's prdCyclIsOn attribute flag is set to false. </p>
+<p>The function to be executed is the one set by the <a class="el" href="#ae6b68a52a9fdc7a4b2fa4b0116bd4557" title="Sets the function to be executed when the object&#39;s prdCyclIsOn attribute flag is set to false.">setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType)</a> method, that expects a void* argument.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newVal</td><td>A void* to the argument to be passed to the mentioned function</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set. </dd></dl>
+
+</div>
+</div>
+<a id="ae8ad47fc9ea6125f787deabb69e0aeb3" name="ae8ad47fc9ea6125f787deabb69e0aeb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8ad47fc9ea6125f787deabb69e0aeb3">&#9670;&#160;</a></span>setTrnOnLtchRlsArgPtr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LimbsSftyLnFSwtch::setTrnOnLtchRlsArgPtr </td>
+          <td>(</td>
+          <td class="paramtype">void *&amp;</td>          <td class="paramname"><span class="paramname"><em>newVal</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the pointer to the arguments for the function to be executed when the object's ltchRlsIsOn attribute flag is set to true. </p>
+<p>The function to be executed is the one set by the <a class="el" href="#a641c2d752ab7c8ecc8a508a5f2f091e5" title="Sets the function to be executed when the object&#39;s ltchRlsIsOn attribute flag is set to true.">setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType)</a> method, that expects a void* argument.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newVal</td><td>A void* to the argument to be passed to the mentioned function</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set. </dd></dl>
+
+</div>
+</div>
+<a id="a22a5664a394be71a6e3ddf0a3601114f" name="a22a5664a394be71a6e3ddf0a3601114f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22a5664a394be71a6e3ddf0a3601114f">&#9670;&#160;</a></span>setTrnOnPrdCyclArgPtr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LimbsSftyLnFSwtch::setTrnOnPrdCyclArgPtr </td>
+          <td>(</td>
+          <td class="paramtype">void *&amp;</td>          <td class="paramname"><span class="paramname"><em>newVal</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the pointer to the arguments for the function to be executed when the object's prdCyclIsOn attribute flag is set to true. </p>
+<p>The function to be executed is the one set by the <a class="el" href="#a2b96093cf172d8d02b6d845618272c5e" title="Sets the function to be executed when the object&#39;s prdCyclIsOn attribute flag is set to true.">setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType)</a> method, that expects a void* argument.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newVal</td><td>A void* to the argument to be passed to the mentioned function</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set. </dd></dl>
 
 </div>
 </div>

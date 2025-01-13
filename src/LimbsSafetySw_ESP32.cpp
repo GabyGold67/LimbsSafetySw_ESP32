@@ -9,7 +9,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   10/01/2025 10:10 (GMT+0300 DST)
+  *       Last update:   13/01/2025 18:40 (GMT+0300 DST)
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -302,6 +302,18 @@ void LimbsSftyLnFSwtch::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
 	return;
 }
 
+void LimbsSftyLnFSwtch::resetFda(){
+   portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
+
+	taskENTER_CRITICAL(&mux);
+	clrStatus();
+	_setSttChng();
+	_lsSwtchFdaState = stOffNotBHP;
+	taskEXIT_CRITICAL(&mux);
+
+   return;
+}
+
 void LimbsSftyLnFSwtch::_rstOtptsChngCnt(){
    _lsSwtchOtptsChngCnt = 0;
 
@@ -382,6 +394,34 @@ bool LimbsSftyLnFSwtch::setPrdCyclTtlTm(const unsigned long int &newVal){
 
 void LimbsSftyLnFSwtch::_setSttChng(){
    _sttChng = true;
+
+   return;
+}
+
+void LimbsSftyLnFSwtch::setTrnOffLtchRlsArgPtr(void *&newVal){
+   if(_fnWhnTrnOffLtchRlsArg != newVal)
+      _fnWhnTrnOffLtchRlsArg = newVal;
+
+   return;
+}
+
+void LimbsSftyLnFSwtch::setTrnOffPrdCyclArgPtr(void* &newVal){
+   if(_fnWhnTrnOffPrdCyclArg != newVal)
+      _fnWhnTrnOffPrdCyclArg = newVal;
+
+   return;
+}
+
+void LimbsSftyLnFSwtch::setTrnOnLtchRlsArgPtr(void* &newVal){
+   if(_fnWhnTrnOnLtchRlsArg != newVal)
+      _fnWhnTrnOnLtchRlsArg = newVal;
+
+   return;
+}
+	
+void LimbsSftyLnFSwtch::setTrnOnPrdCyclArgPtr(void* &newVal){
+   if(_fnWhnTrnOnPrdCyclArg != newVal)
+      _fnWhnTrnOnPrdCyclArg = newVal;
 
    return;
 }
@@ -537,7 +577,7 @@ void LimbsSftyLnFSwtch::_turnOffLtchRls(){
       }
 		//---------------->> Functions related actions
 		if(_fnWhnTrnOffLtchRls != nullptr){
-			_fnWhnTrnOffLtchRls(nullptr);
+			_fnWhnTrnOffLtchRls(_fnWhnTrnOffLtchRlsArg);
 		}
 	   //---------------->> Flags related actions
 		taskENTER_CRITICAL(&mux);
@@ -566,7 +606,7 @@ void LimbsSftyLnFSwtch::_turnOffPrdCycl(){
       }
 		//---------------->> Functions related actions
 		if(_fnWhnTrnOffPrdCycl != nullptr){
-			_fnWhnTrnOffPrdCycl(nullptr);
+			_fnWhnTrnOffPrdCycl(_fnWhnTrnOffPrdCyclArg);
 		}
 	   //---------------->> Flags related actions
 		taskENTER_CRITICAL(&mux);
@@ -595,7 +635,7 @@ void LimbsSftyLnFSwtch::_turnOnLtchRls(){
       }
 		//---------------->> Functions related actions
 		if(_fnWhnTrnOnLtchRls != nullptr){
-			_fnWhnTrnOnLtchRls(nullptr);
+			_fnWhnTrnOnLtchRls(_fnWhnTrnOnLtchRlsArg);
 		}
 	   //---------------->> Flags related actions
 		taskENTER_CRITICAL(&mux);
@@ -624,7 +664,7 @@ void LimbsSftyLnFSwtch::_turnOnPrdCycl(){
       }
 		//---------------->> Functions related actions
 		if(_fnWhnTrnOnPrdCycl != nullptr){
-			_fnWhnTrnOnPrdCycl(nullptr);
+			_fnWhnTrnOnPrdCycl(_fnWhnTrnOnPrdCyclArg);
 		}
 	   //---------------->> Flags related actions
 		taskENTER_CRITICAL(&mux);
