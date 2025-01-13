@@ -302,6 +302,12 @@ void LimbsSftyLnFSwtch::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
 	return;
 }
 
+void LimbsSftyLnFSwtch::_rstOtptsChngCnt(){
+   _lsSwtchOtptsChngCnt = 0;
+
+   return;
+}
+
 void LimbsSftyLnFSwtch::setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff){
    if(_fnWhnTrnOffLtchRls != newFnWhnTrnOff)
       _fnWhnTrnOffLtchRls = newFnWhnTrnOff;
@@ -356,9 +362,6 @@ void LimbsSftyLnFSwtch::setLsSwtchOtptsChng(bool newLsSwtchOtptsChng){
 		_lsSwtchOtptsChng = true;
 	else
 		_lsSwtchOtptsChng = false;
-
-	/*if((_taskToNotifyHndl != NULL) && newOutputsChange)
-		_outputsChngTskTrggr = true;*/
 	taskEXIT_CRITICAL(&mux);
 
    return;
@@ -658,7 +661,6 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 			//Out: >>---------------------------------->>
 			if(_sttChng){
             _undrlFtMPBPtr->enable(); // Enable FtSwitch
-            setLsSwtchOtptsChng(true);
          }	// Execute this code only ONCE, when exiting this state
 			break;
 
@@ -668,7 +670,6 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 			//Do: >>---------------------------------->>
 			if(!(_lftHndSwtchStts.isOn && _rghtHndSwtchStts.isOn)){
             _undrlFtMPBPtr->disable(); // Disable FtSwitch
-            setLsSwtchOtptsChng(true);
             _lsSwtchFdaState = stOffNotBHP;
             _setSttChng();
          }
@@ -677,12 +678,9 @@ void LimbsSftyLnFSwtch::_updFdaState(){
             if(_ftSwtchStts.isOn){
                _undrlLftHndMPBPtr->setIsOnDisabled(false);
                _undrlLftHndMPBPtr->disable();
-               setLsSwtchOtptsChng(true);
                _undrlRghtHndMPBPtr->setIsOnDisabled(false);
                _undrlRghtHndMPBPtr->disable();
-               setLsSwtchOtptsChng(true);
                _undrlFtMPBPtr->disable();
-               setLsSwtchOtptsChng(true);
                _lsSwtchFdaState = stStrtRlsStrtCycl;
                _setSttChng();
             }
@@ -728,12 +726,10 @@ void LimbsSftyLnFSwtch::_updFdaState(){
             _undrlLftHndMPBPtr->setIsOnDisabled(true);
             if(_lftHndBhvrCfg.swtchIsEnbld){
                _undrlLftHndMPBPtr->enable();
-               setLsSwtchOtptsChng(true);        
             }
             _undrlRghtHndMPBPtr->setIsOnDisabled(true);
             if(_rghtHndBhvrCfg.swtchIsEnbld){
                _undrlRghtHndMPBPtr->enable();
-               setLsSwtchOtptsChng(true);        
             }
             _lsSwtchFdaState = stOffNotBHP;
             _setSttChng();

@@ -331,7 +331,8 @@ protected:
    bool _cnfgHndSwtch(const bool &isLeft, const swtchBhvrCfg_t &newCfg);
    void _getUndrlSwtchStts();
    uint32_t _lsSwtchOtptsSttsPkgd(uint32_t prevVal = 0);
-	void _setSttChng();
+	void _rstOtptsChngCnt();
+   void _setSttChng();
    void _turnOffLtchRls();
    void _turnOnLtchRls();
    void _turnOffPrdCycl();
