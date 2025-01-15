@@ -40,6 +40,10 @@ setFnWhnTrnOnPrdCyclPtr KEYWORD2
 setLsSwtchOtptsChng  KEYWORD2
 setLtchRlsTtlTm   KEYWORD2
 setPrdCyclTtlTm   KEYWORD2
+setTrnOffLtchRlsArgPtr  KEYWORD2
+setTrnOffPrdCyclArgPtr  KEYWORD2
+setTrnOnLtchRlsArgPtr   KEYWORD2
+setTrnOnPrdCyclArgPtr   KEYWORD2
 setTskToNtfyLsSwtchOtptsChng   KEYWORD2
 setTskToNtfyTrnOffLtchRls  KEYWORD2
 setTskToNtfyTrnOffPrdCycl  KEYWORD2

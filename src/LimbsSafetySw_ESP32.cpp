@@ -9,7 +9,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   13/01/2025 18:40 (GMT+0300 DST)
+  *       Last update:   14/01/2025 20:40 (GMT+0300 DST)
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -53,8 +53,8 @@ LimbsSftyLnFSwtch::LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg, swtchBhvrCfg
 
 LimbsSftyLnFSwtch::~LimbsSftyLnFSwtch(){
    _undrlFtMPBPtr->~SnglSrvcVdblMPBttn();
-   _undrlRghtHndMPBPtr->~TmVdblMPBttn();
-   _undrlLftHndMPBPtr->~TmVdblMPBttn();
+   // _undrlRghtHndMPBPtr->~TmVdblMPBttn();
+   // _undrlLftHndMPBPtr->~TmVdblMPBttn();
 }
 
 bool LimbsSftyLnFSwtch::begin(unsigned long int pollDelayMs){
@@ -92,10 +92,11 @@ bool LimbsSftyLnFSwtch::begin(unsigned long int pollDelayMs){
 
 void LimbsSftyLnFSwtch::clrStatus(){
    _ltchRlsIsOn = false;
+   // _turnOffLtchRls();
    _prdCyclIsOn = false;
+   // _turnOffPrdCycl();
    _prdCyclTmrStrt = 0;
    _undrlFtMPBPtr->disable(); // Disable FtSwitch
-   // setLsSwtchOtptsChng(false);
 
    return;
 }
