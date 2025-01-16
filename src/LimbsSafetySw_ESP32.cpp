@@ -41,6 +41,8 @@ LimbsSftyLnFSwtch::LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg, swtchBhvrCfg
    _undrlRghtHndMPBPtr = new TmVdblMPBttn (_rghtHndInpCfg.inptPin, _rghtHndBhvrCfg.swtchVdTm, _rghtHndInpCfg.pulledUp, _rghtHndInpCfg.typeNO, _rghtHndInpCfg.dbncTime, _rghtHndBhvrCfg.swtchStrtDlyTm, true);
    _undrlFtMPBPtr = new SnglSrvcVdblMPBttn(_ftInpCfg.inptPin, _ftInpCfg.pulledUp, _ftInpCfg.typeNO, _ftInpCfg.dbncTime, _ftBhvrCfg.swtchStrtDlyTm);
    
+   _undrlFtMPBPtr-> setFnWhnTrnOnPtr(setLtchRlsPndng); 
+   
    // Configuration of the isEnabled state of both hands switches. Note: TmVdblMPBttn objects are instantiated with _isEnabled = true property value
    if(!_lftHndBhvrCfg.swtchIsEnbld)
       _undrlLftHndMPBPtr->disable();
@@ -741,7 +743,7 @@ void LimbsSftyLnFSwtch::_updFdaState(){
          }
          else{
             // Check the foot switch release signal ok flag
-            if(_ftSwtchStts.isOn){
+            if(_ftSwtchStts.isOn){  //! This flag is not to be used, the main reason to use SnglSht is it's functions execution, change to testing _ltchRlsPndng value, and immediately change it!
                _undrlLftHndMPBPtr->setIsOnDisabled(false);
                _undrlLftHndMPBPtr->disable();
                _undrlRghtHndMPBPtr->setIsOnDisabled(false);
@@ -821,6 +823,12 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 
 	return;
 
+}
+
+fncPtrType LimbsSftyLnFSwtch::setLtchRlsPndng(){
+   _ltchRlsPndng = true;
+
+   return;
 }
 
 //=========================================================================> Class methods delimiter

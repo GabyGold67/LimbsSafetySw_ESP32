@@ -315,6 +315,7 @@ protected:
 
    unsigned long int _curTimeMs{0};
    bool _ltchRlsIsOn{false};
+   bool _ltchRlsPndng{false};
    unsigned long int _ltchRlsTtlTm{0};
    bool _prdCyclIsOn{false};
    unsigned long int _prdCyclTmrStrt{0};
@@ -357,6 +358,8 @@ protected:
    void _turnOnPrdCycl();
    unsigned long int _updCurTimeMs();
    void _updFdaState();
+
+   fncPtrType setLtchRlsPndng;
 
 public:
   /**
