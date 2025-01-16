@@ -9,7 +9,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   14/01/2025 20:40 (GMT+0300 DST)
+  *       Last update:   16/01/2025 12:40 (GMT+0300 DST)
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -177,7 +177,7 @@ const bool LimbsSftyLnFSwtch::getLsSwtchOtptsChng() const{
 }
 
 uint32_t LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd(){
-
+   
    return _lsSwtchOtptsSttsPkgd();
 }
 
@@ -231,42 +231,74 @@ const TaskHandle_t LimbsSftyLnFSwtch::getTskToNtfyTrnOnPrdCycl() const{
    return _tskToNtfyTrnOnPrdCycl;
 }
 
+void LimbsSftyLnFSwtch::_getUndrlSwtchStts(){   
+   _lftHndSwtchStts = otptsSttsUnpkg(_undrlLftHndMPBPtr->getOtptsSttsPkgd());
+   _rghtHndSwtchStts = otptsSttsUnpkg(_undrlRghtHndMPBPtr->getOtptsSttsPkgd());
+   _ftSwtchStts = otptsSttsUnpkg(_undrlFtMPBPtr->getOtptsSttsPkgd());
+
+   return;
+}
+
 uint32_t LimbsSftyLnFSwtch::_lsSwtchOtptsSttsPkgd(uint32_t prevVal){
-	if(_ftSwtchStts.isEnabled)
-		prevVal |= ((uint32_t)1) << IsFtSwtchEnbldBitPos;
+/*
++--+--+--+--+--+--+--+--++--+--+--+--+--+--+--+--++--+--+--+--+--+--+--+--++--+--+--+--+--+--+--+--+
+|31|30|29|28|27|26|25|24||23|22|21|20|19|18|17|16||15|14|13|12|11|10|09|08||07|06|05|04|03|02|01|00|
+                                                                     -- --  -- -- -- -- -- -- -- --
+                                                                      |  |   |  |  |  |  |  |  |  |
+                                                                      |  |   |  |  |  |  |  |  |  lftHndSwtchIsEnbld
+                                                                      |  |   |  |  |  |  |  |  lftHndSwtchIsOn
+                                                                      |  |   |  |  |  |  |  lftHndSwtchIsVdd
+                                                                      |  |   |  |  |  |  rghtHndSwtchIsEnbld
+                                                                      |  |   |  |  |  rghtHndSwtchIsOn
+                                                                      |  |   |  |  rghtHndSwtchIsVdd
+                                                                      |  |   |  ftSwtchIsEnbld
+                                                                      |  |   ftSwtchIsOn
+                                                                      |  LsSwtchLtchRlsIsOn
+                                                                      LsSwtchPrdCyclIsOn
+*/   
+	if(_lftHndSwtchStts.isEnabled)
+		prevVal |= ((uint32_t)1) << lftHndSwtchIsEnbldBP;
 	else
-		prevVal &= ~(((uint32_t)1) << IsFtSwtchEnbldBitPos);
+		prevVal &= ~(((uint32_t)1) << lftHndSwtchIsEnbldBP);
+   if(_lftHndSwtchStts.isOn)
+		prevVal |= ((uint32_t)1) << lftHndSwtchIsOnBP;
+	else
+		prevVal &= ~(((uint32_t)1) << lftHndSwtchIsOnBP);
+   if(_lftHndSwtchStts.isVoided)
+		prevVal |= ((uint32_t)1) << lftHndSwtchIsVddBP;
+	else
+		prevVal &= ~(((uint32_t)1) << lftHndSwtchIsVddBP);
+
+	if(_rghtHndSwtchStts.isEnabled)
+		prevVal |= ((uint32_t)1) << rghtHndSwtchIsEnbldBP;
+	else
+		prevVal &= ~(((uint32_t)1) << rghtHndSwtchIsEnbldBP);
+	if(_rghtHndSwtchStts.isOn)
+		prevVal |= ((uint32_t)1) << rghtHndSwtchIsOnBP;
+	else
+		prevVal &= ~(((uint32_t)1) << rghtHndSwtchIsOnBP);
+	if(_rghtHndSwtchStts.isVoided)
+		prevVal |= ((uint32_t)1) << rghtHndSwtchIsVddBP;
+	else
+		prevVal &= ~(((uint32_t)1) << rghtHndSwtchIsVddBP);
+
+	if(_ftSwtchStts.isEnabled)
+		prevVal |= ((uint32_t)1) << ftSwtchIsEnbldBP;
+	else
+		prevVal &= ~(((uint32_t)1) << ftSwtchIsEnbldBP);
+	if(_ftSwtchStts.isOn)
+		prevVal |= ((uint32_t)1) << ftSwtchIsOnBP;
+	else
+		prevVal &= ~(((uint32_t)1) << ftSwtchIsOnBP);
 
 	if(_ltchRlsIsOn)
-		prevVal |= ((uint32_t)1) << IsOnLtchRlsBitPos;
+		prevVal |= ((uint32_t)1) << LsSwtchLtchRlsIsOnBP;
 	else
-		prevVal &= ~(((uint32_t)1) << IsOnLtchRlsBitPos);
-
+		prevVal &= ~(((uint32_t)1) << LsSwtchLtchRlsIsOnBP);
 	if(_prdCyclIsOn)
-		prevVal |= ((uint32_t)1) << IsOnPrdCyclBitPos;
+		prevVal |= ((uint32_t)1) << LsSwtchPrdCyclIsOnBP;
 	else
-		prevVal &= ~(((uint32_t)1) << IsOnPrdCyclBitPos);
-
-   // Attribute flags from the underlying MPBttns, included for practicity, might be replaced by other values in future development iterations.
-	if(_lftHndSwtchStts.isEnabled)
-		prevVal |= ((uint32_t)1) << IsEnbldLftHndBitPos;
-	else
-		prevVal &= ~(((uint32_t)1) << IsEnbldLftHndBitPos);
-
-   if(_lftHndSwtchStts.isOn)
-		prevVal |= ((uint32_t)1) << IsOnLftHndBitPos;
-	else
-		prevVal &= ~(((uint32_t)1) << IsOnLftHndBitPos);
-      
-	if(_rghtHndSwtchStts.isEnabled)
-		prevVal |= ((uint32_t)1) << IsEnbldRghtHndBitPos;
-	else
-		prevVal &= ~(((uint32_t)1) << IsEnbldRghtHndBitPos);
-
-	if(_rghtHndSwtchStts.isOn)
-		prevVal |= ((uint32_t)1) << IsOnRghtHndBitPos;
-	else
-		prevVal &= ~(((uint32_t)1) << IsOnRghtHndBitPos);
+		prevVal &= ~(((uint32_t)1) << LsSwtchPrdCyclIsOnBP);
 
    return prevVal;
 }
@@ -553,14 +585,6 @@ bool LimbsSftyLnFSwtch::setUndrlSwtchsPollDelay(const unsigned long int &newVal)
    return result;
 }
 
-void LimbsSftyLnFSwtch::_getUndrlSwtchStts(){   
-   _lftHndSwtchStts = otptsSttsUnpkg(_undrlLftHndMPBPtr->getOtptsSttsPkgd());
-   _rghtHndSwtchStts = otptsSttsUnpkg(_undrlRghtHndMPBPtr->getOtptsSttsPkgd());
-   _ftSwtchStts = otptsSttsUnpkg(_undrlFtMPBPtr->getOtptsSttsPkgd());
-
-   return;
-}
-
 void LimbsSftyLnFSwtch::_turnOffLtchRls(){
    portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
    
@@ -812,41 +836,52 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 lsSwtchOtpts_t lssOtptsSttsUnpkg(uint32_t pkgOtpts){
 	lsSwtchOtpts_t lssCurSttsDcdd {0};
 
-	if(pkgOtpts & (((uint32_t)1) << IsFtSwtchEnbldBitPos))
-		lssCurSttsDcdd.ftSwIsEnbld = true;
-	else
-		lssCurSttsDcdd.ftSwIsEnbld = false;
-
-	if(pkgOtpts & (((uint32_t)1) << IsOnLtchRlsBitPos))
-		lssCurSttsDcdd.ltchRlsIsOn = true;
-	else
-		lssCurSttsDcdd.ltchRlsIsOn = false;
-
-	if(pkgOtpts & (((uint32_t)1) << IsOnPrdCyclBitPos))
-		lssCurSttsDcdd.prdCyclIsOn = true;
-	else
-		lssCurSttsDcdd.prdCyclIsOn = false;
-
-	// From here on the attribute flags are from the underlying DbncdMPBttn elements and it's status might be obtained from them by using the respective pointers and getters
-	if(pkgOtpts & (((uint32_t)1) << IsEnbldLftHndBitPos))
+	// Attribute flags from the underlying DbncdMPBttn elements and it's status might be obtained from them by using the respective pointers and getters
+	if(pkgOtpts & (((uint32_t)1) << lftHndSwtchIsEnbldBP))
 		lssCurSttsDcdd.lftHndIsEnbld = true;
 	else
 		lssCurSttsDcdd.lftHndIsEnbld = false;
-
-	if(pkgOtpts & (((uint32_t)1) << IsOnLftHndBitPos))
+	if(pkgOtpts & (((uint32_t)1) << lftHndSwtchIsOnBP))
 		lssCurSttsDcdd.lftHndIsOn = true;
 	else
 		lssCurSttsDcdd.lftHndIsOn = false;
+	if(pkgOtpts & (((uint32_t)1) << lftHndSwtchIsVddBP))
+		lssCurSttsDcdd.lftHndIsVdd = true;
+	else
+		lssCurSttsDcdd.lftHndIsVdd = false;
 
-	if(pkgOtpts & (((uint32_t)1) << IsEnbldRghtHndBitPos))
+	if(pkgOtpts & (((uint32_t)1) << rghtHndSwtchIsEnbldBP))
 		lssCurSttsDcdd.rghtHndIsEnbld = true;
 	else
 		lssCurSttsDcdd.rghtHndIsEnbld = false;
-
-	if(pkgOtpts & (((uint32_t)1) << IsOnRghtHndBitPos))
+	if(pkgOtpts & (((uint32_t)1) << rghtHndSwtchIsOnBP))
 		lssCurSttsDcdd.rghtHndIsOn = true;
 	else
 		lssCurSttsDcdd.rghtHndIsOn = false;
 
+	if(pkgOtpts & (((uint32_t)1) << rghtHndSwtchIsVddBP))
+		lssCurSttsDcdd.rghtHndIsVdd = true;
+	else
+		lssCurSttsDcdd.rghtHndIsVdd = false;
+
+   if(pkgOtpts & (((uint32_t)1) << ftSwtchIsEnbldBP))
+		lssCurSttsDcdd.ftSwIsEnbld = true;
+	else
+		lssCurSttsDcdd.ftSwIsEnbld = false;
+
+   if(pkgOtpts & (((uint32_t)1) << ftSwtchIsOnBP))
+		lssCurSttsDcdd.ftSwIsOn = true;
+	else
+		lssCurSttsDcdd.ftSwIsOn = false;
+
+	if(pkgOtpts & (((uint32_t)1) << LsSwtchLtchRlsIsOnBP))
+		lssCurSttsDcdd.ltchRlsIsOn = true;
+	else
+		lssCurSttsDcdd.ltchRlsIsOn = false;
+	if(pkgOtpts & (((uint32_t)1) << LsSwtchPrdCyclIsOnBP))
+		lssCurSttsDcdd.prdCyclIsOn = true;
+	else
+		lssCurSttsDcdd.prdCyclIsOn = false;
+   
 	return lssCurSttsDcdd;
 }

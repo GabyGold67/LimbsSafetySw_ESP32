@@ -22,7 +22,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   14/01/2025 20:40 (GMT+0300 DST)
+  *       Last update:   16/01/2025 12:40 (GMT+0300 DST)
   * 
   * @copyright GPL-3.0 license
   *
@@ -62,13 +62,16 @@
 #define _minPollDelay 20UL
 
 /*---------------- xTaskNotify() mechanism related constants BEGIN -------*/
-const uint8_t IsFtSwtchEnbldBitPos{8};
-const uint8_t IsOnLtchRlsBitPos{9};
-const uint8_t IsOnPrdCyclBitPos{10};
-const uint8_t IsEnbldLftHndBitPos{11};
-const uint8_t IsOnLftHndBitPos{12};
-const uint8_t IsEnbldRghtHndBitPos{13};
-const uint8_t IsOnRghtHndBitPos{14};
+const uint8_t lftHndSwtchIsEnbldBP{0x00};
+const uint8_t lftHndSwtchIsOnBP{0x01};
+const uint8_t lftHndSwtchIsVddBP{0x02};
+const uint8_t rghtHndSwtchIsEnbldBP{0x03};
+const uint8_t rghtHndSwtchIsOnBP{0x04};
+const uint8_t rghtHndSwtchIsVddBP{0x05};
+const uint8_t ftSwtchIsEnbldBP{0x06};
+const uint8_t ftSwtchIsOnBP{0x07};
+const uint8_t LsSwtchLtchRlsIsOnBP{0x08};
+const uint8_t LsSwtchPrdCyclIsOnBP{0x09};
 //=================================================>> END User defined constants
 
 // Definition workaround to let a function/method return value to be a function pointer to a function that receives no arguments and returns no values: void (funcName*)()
@@ -196,24 +199,31 @@ struct swtchOtptHwCfg_t{
  * 
  * Holds the values for the relevant attribute flags that define the Limbs Safety Switch outputs state.
  * 
- * @param ftSwIsEnbld Holds the computed value of the _undrlFtMPBPtr's _isEnabled attribute flag
- * @param ltchRlsIsOn Holds the value of the _ltchRlsIsOn attribute flag
- * @param prdCyclIsOn Holds the value of the _prdCyclIsOn attribute flag
  * @param lftHndIsEnbld Holds the value of the _isEnabled attribute flag for the _undrlLftHnd MPBttn
  * @param lftHndIsOn Holds the value of the _isOn attribute flag for the _undrlLftHnd MPBttn
+ * @param lftHndIsVdd Holds the value of the _isVoided attribute flag for the _undrlLftHnd MPBttn
  * @param rghtHndIsEnbld Holds the value of the _isEnabled attribute flag for the _undrlRghtHnd MPBttn
- * @param rghtHndIsOn Holds the value of the _isOn attribute flag for the _undrRghttHnd MPBttn
+ * @param rghtHndIsOn Holds the value of the _isOn attribute flag for the _undrlRghttHnd MPBttn
+ * @param rghtHndIsVdd Holds the value of the _isVoided attribute flag for the _undrlRghttHnd MPBttn
+ * @param ftSwIsEnbld Holds the computed value of the _undrlFtMPBPtr's _isEnabled attribute flag
+ * @param ftSwIsOn Holds the computed value of the _undrlFtMPBPtr's _isOn attribute flag
+ * @param ltchRlsIsOn Holds the value of the _ltchRlsIsOn attribute flag
+ * @param prdCyclIsOn Holds the value of the _prdCyclIsOn attribute flag
  * 
  */
 struct lsSwtchOtpts_t{
-   bool ftSwIsEnbld;
-   bool ltchRlsIsOn;
-   bool prdCyclIsOn;
-   //--------------- Underlying MPBttns AF values kept for praticity, might be changed in future development iterations as there are other resources to get these values
+   // Underlying MPBttns AF values kept for praticity, might be changed in future development iterations as there are other resources to get these values
    bool lftHndIsEnbld;
    bool lftHndIsOn;
+   bool lftHndIsVdd;
    bool rghtHndIsEnbld;
    bool rghtHndIsOn;
+   bool rghtHndIsVdd;
+   bool ftSwIsEnbld;
+   bool ftSwIsOn;
+   // LsSwtch AF specific values 
+   bool ltchRlsIsOn;
+   bool prdCyclIsOn;   
 };
 
 /**
