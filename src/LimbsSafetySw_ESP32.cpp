@@ -177,6 +177,7 @@ const bool LimbsSftyLnFSwtch::getLsSwtchOtptsChng() const{
 }
 
 uint32_t LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd(){
+   // _getUndrlSwtchStts();   //! Warning, this line to update underlying MPBttns inserted by logic, no test case proven!!
    
    return _lsSwtchOtptsSttsPkgd();
 }
@@ -286,7 +287,7 @@ uint32_t LimbsSftyLnFSwtch::_lsSwtchOtptsSttsPkgd(uint32_t prevVal){
 		prevVal |= ((uint32_t)1) << ftSwtchIsEnbldBP;
 	else
 		prevVal &= ~(((uint32_t)1) << ftSwtchIsEnbldBP);
-	if(_ftSwtchStts.isOn)
+	if(_ftSwtchStts.isOn)   //! The ftSwtch is a SnglShtMPBttn object, the isOn flag makes no stable signal source!!
 		prevVal |= ((uint32_t)1) << ftSwtchIsOnBP;
 	else
 		prevVal &= ~(((uint32_t)1) << ftSwtchIsOnBP);
