@@ -32,7 +32,7 @@ getTskToNtfyTrnOffLtchRls  KEYWORD2
 getTskToNtfyTrnOffPrdCycl  KEYWORD2
 getTskToNtfyTrnOnLtchRls   KEYWORD2
 getTskToNtfyTrnOnPrdCycl   KEYWORD2
-resetFda KEYWORD2 
+resetFda KEYWORD2
 setFnWhnTrnOffLtchRlsPtr   KEYWORD2
 setFnWhnTrnOffPrdCyclPtr   KEYWORD2
 setFnWhnTrnOnLtchRlsPtr KEYWORD2

@@ -107,15 +107,16 @@ $(function(){initNavTree('structlimb_sfty_sw_conf__t.html',''); initResizable(tr
 <p><code>#include &lt;<a class="el" href="_limbs_safety_sw___e_s_p32_8h_source.html">LimbsSafetySw_ESP32.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Limbs Safety Switch Configuration parameters. </p>
-<p>Holds the required set of parameters needed for the configuration of each of the three DbncdMPBttn subclass switches needed for input (left hand's TmVdblMPBttn, right hand's TmVdblMPBttn, foot's SnglSrvcVdblMPBttn). Each parameter has default values assigned for a standard <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> configuration. The provided default values are expected to be only used if no explicit values are provided by the object instantiating software (from previous) executions configured values.</p>
+<p>Holds the required set of parameters needed for the configuration of each of the three DbncdMPBttn subclass switches needed for input (left hand's TmVdblMPBttn, right hand's TmVdblMPBttn, foot's SnglSrvcVdblMPBttn). Each parameter has default values assigned for a standard <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> configuration.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">swtchStrtDlyTm</td><td>Corresponds to the DbncdMPBttn subclasses strtDelay class attribute. </td></tr>
     <tr><td class="paramname">swtchIsEnbld</td><td>Corresponds to the DbncdMPBttn subclasses _isEnabled attribute flag </td></tr>
-    <tr><td class="paramname">swtchVdTm</td><td>Corresponds to the TmVdblMPBttn class voidTime attribute, will be used as an activation time limit for the hands controlled TmVdblMPBttn </td></tr>
+    <tr><td class="paramname">swtchVdTm</td><td>Corresponds to the TmVdblMPBttn class voidTime attribute, will be used as an activation time limit for the hands controlled TmVdblMPBttn</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>The provided default values are expected to be only used if no explicit values are provided by the object instantiating software. In a standard use case these values are expected to be saved from previous configured values, and be part of the configuration being set by supervisor level users. </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

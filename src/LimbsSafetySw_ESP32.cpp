@@ -9,7 +9,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   16/01/2025 12:40 (GMT+0300 DST)
+  *       Last update:   17/01/2025 13:20 (GMT+0300 DST)
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -28,6 +28,11 @@
 
 #include "LimbsSafetySw_ESP32.h"
 
+
+//=======================================> Static variables initialization BEGIN
+bool LimbsSftyLnFSwtch::_ltchRlsPndng = false;
+//=========================================> Static variables initialization END
+
 //=========================================================================> Class methods delimiter
 LimbsSftyLnFSwtch::LimbsSftyLnFSwtch()
 {
@@ -36,19 +41,26 @@ LimbsSftyLnFSwtch::LimbsSftyLnFSwtch()
 LimbsSftyLnFSwtch::LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg, swtchBhvrCfg_t lftHndBhvrCfg, swtchInptHwCfg_t rghtHndInpCfg, swtchBhvrCfg_t rghtHndBhvrCfg, swtchInptHwCfg_t ftInpCfg, swtchBhvrCfg_t ftBhvrCfg, lsSwtchSwCfg_t lsSwtchWrkngCnfg)
 :_lftHndInpCfg{lftHndInpCfg}, _lftHndBhvrCfg{lftHndBhvrCfg}, _rghtHndInpCfg{rghtHndInpCfg}, _rghtHndBhvrCfg{rghtHndBhvrCfg}, _ftInpCfg{ftInpCfg}, _ftBhvrCfg{ftBhvrCfg}
 {
-   // Build DbncdMPBttn objects and pointers
+   // Build underlying DbncdMPBttn objects and pointers
    _undrlLftHndMPBPtr = new TmVdblMPBttn(_lftHndInpCfg.inptPin, _lftHndBhvrCfg.swtchVdTm, _lftHndInpCfg.pulledUp, _lftHndInpCfg.typeNO, _lftHndInpCfg.dbncTime, _lftHndBhvrCfg.swtchStrtDlyTm, true);
    _undrlRghtHndMPBPtr = new TmVdblMPBttn (_rghtHndInpCfg.inptPin, _rghtHndBhvrCfg.swtchVdTm, _rghtHndInpCfg.pulledUp, _rghtHndInpCfg.typeNO, _rghtHndInpCfg.dbncTime, _rghtHndBhvrCfg.swtchStrtDlyTm, true);
    _undrlFtMPBPtr = new SnglSrvcVdblMPBttn(_ftInpCfg.inptPin, _ftInpCfg.pulledUp, _ftInpCfg.typeNO, _ftInpCfg.dbncTime, _ftBhvrCfg.swtchStrtDlyTm);
    
-   _undrlFtMPBPtr-> setFnWhnTrnOnPtr(setLtchRlsPndng); 
+   // Configure underlying DbncdMPBttn objects and pointers
+   // Foot SnglSrvcVdblMPBttn   
+   _undrlFtMPBPtr-> setFnWhnTrnOnPtr(_setLtchRlsPndng); 
    
-   // Configuration of the isEnabled state of both hands switches. Note: TmVdblMPBttn objects are instantiated with _isEnabled = true property value
+   // Left Hand TmVdblMPBttn
+   // isEnabled state. Note: TmVdblMPBttn objects are instantiated with _isEnabled = true property value
    if(!_lftHndBhvrCfg.swtchIsEnbld)
       _undrlLftHndMPBPtr->disable();
+
+   // Right Hand TmVdblMPBttn
+   // isEnabled state. Note: TmVdblMPBttn objects are instantiated with _isEnabled = true property value
    if(!_rghtHndBhvrCfg.swtchIsEnbld)
       _undrlRghtHndMPBPtr->disable();
 
+   // Configure LimbsSftyLnFSwtch attributes
    _ltchRlsTtlTm = lsSwtchWrkngCnfg.ltchRlsActvTm;
    _prdCyclTtlTm = lsSwtchWrkngCnfg.prdCyclActvTm;      
 }
@@ -743,7 +755,10 @@ void LimbsSftyLnFSwtch::_updFdaState(){
          }
          else{
             // Check the foot switch release signal ok flag
-            if(_ftSwtchStts.isOn){  //! This flag is not to be used, the main reason to use SnglSht is it's functions execution, change to testing _ltchRlsPndng value, and immediately change it!
+            // if(_ftSwtchStts.isOn){  //! This flag is not to be used, the main reason to use SnglSht is it's functions execution, change to testing _ltchRlsPndng value, and immediately change it!
+               
+            if(_ltchRlsPndng){
+                _ltchRlsPndng = false;
                _undrlLftHndMPBPtr->setIsOnDisabled(false);
                _undrlLftHndMPBPtr->disable();
                _undrlRghtHndMPBPtr->setIsOnDisabled(false);
@@ -825,11 +840,12 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 
 }
 
-fncPtrType LimbsSftyLnFSwtch::setLtchRlsPndng(){
+void LimbsSftyLnFSwtch::_setLtchRlsPndng(){
    _ltchRlsPndng = true;
 
    return;
 }
+
 
 //=========================================================================> Class methods delimiter
 

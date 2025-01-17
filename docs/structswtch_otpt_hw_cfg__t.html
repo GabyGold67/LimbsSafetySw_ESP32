@@ -119,16 +119,16 @@ Collaboration diagram for swtchOtptHwCfg_t:</div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Switch Output Hardware Configuration data structure. </p>
-<p>Holds the configuration parameters for the GPIO pins assigned to output the state of the isOn, isVoided and isEnabled attribute flag for the <b>underlying switches</b>.</p>
+<p>Holds the configuration parameters for the GPIO pins assigned to output the state of the isOn, isVoided and isEnabled attribute flag for the <b>underlying switches</b>. The configuration information is a <a class="el" href="structgpio_pin_otpt_hw_cfg__t.html" title="GPIO Generic Pin for Output Mode Configuration data structure.">gpioPinOtptHwCfg_t</a> type value</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">isOnPin</td><td>Holds the isOn flag attribute state output pin characteristics </td></tr>
-    <tr><td class="paramname">isVoidedPin</td><td>Holds the isVoided flag attribute state output pin characteristics </td></tr>
-    <tr><td class="paramname">isEnabledPin</td><td>Holds the isEnabled flag attribute state output pin characteristics</td></tr>
+    <tr><td class="paramname">isOnPin</td><td>Holds the isOn flag attribute state output pin configuration properties </td></tr>
+    <tr><td class="paramname">isVoidedPin</td><td>Holds the isVoided flag attribute state output pin configuration properties </td></tr>
+    <tr><td class="paramname">isEnabledPin</td><td>Holds the isEnabled flag attribute state output pin configuration properties</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>The pins included in this structure are used for operator information related output. The use or lack of use of those pins are not related to the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> class objects behavior, as the attribute flags values that might be reflected by those pins are computed independently of being later used to activate hardware hints. </dd>
+<dl class="section note"><dt>Note</dt><dd>The pins included in this structure are used for operator information related output. The use or lack of use of those pins are not related to the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> class objects behavior, as the attribute flags values that might be reflected by those pins are always computed, independently of being later used to activate hardware hints. </dd>
 <dd>
 For the hands switches all three parameters are relevant, for the SnglSrvcVdblMPBttn foot switch only the isOnPin and the isEnabledPin parameters will be considered, being the values of the other parameter ignored.</dd></dl>
 <dl class="section attention"><dt>Attention</dt><dd>Hardware construction related!! The information must be provided by the hardware developers </dd></dl>

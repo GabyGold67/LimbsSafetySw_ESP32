@@ -101,6 +101,7 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__c_1_2_users_2_dev_padawan_2_documents_2_my_01_projects_2_training_01_projects_2_libs_dev___e_s_p32_2lib_2_limbs_safety_sw___e_s_p32_2_r_e_a_d_m_e"></a></p>
+<h1><a href="https://wokwi.com/projects/415018098762515457">See the working simulation at WOKWI Site</a></h1>
 <p>An ESP32-Arduino library that includes the class, data structures and functions required to model a <b>Limbs Safety Activation Switch for Launch and Forget Cycle Machines and Devices (<a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>)</b>.</p>
 <p>The definition above imposes requirements and limitations both to the logic development and to the range of machines it might be connected to. <br  />
 </p>
@@ -151,151 +152,10 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <li>It must ensure a configurable minimum press time before a pressing event is to be considered valid.</li>
 <li>Must be kept disabled until both hands switches are generating a valid enabling signal.</li>
 <li>When enabled the hands switches must still be monitored to ensure both keep a valid state, disabling this switch if the situation changes.</li>
-<li>When enabled and pressed it triggers the machine <b>Start</b>|**Release** signal.</li>
+<li>When enabled and pressed it triggers the machine <b>Start</b>|**Release** signal. </li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<h3>Configuration and parameters for the <em><b>LimbsSftySnglShtSw</b></em> class objects:</h3>
-<ul>
-<li>The configuration of the <b>LimbsSftySnglShtSw</b> must be understood as separated by areas or <b>categories</b>, strongly related to:<ol type="1">
-<li>Hardware <b>LimbsSftySnglShtSw</b> implementation.</li>
-<li>Logic implementation of the <b>LimbsSftySnglShtSw</b> class, as composed by several <b>DbncdMPBttn</b> subclasses objects.</li>
-<li>Hardware <b>LimbsSftySnglShtSw</b> - machine interface.</li>
-<li>Logic parametrization for different production related use cases (keeping 1., 2. and 3. settings fixed).</li>
-</ol>
-</li>
-</ul>
-<p>The parameters for each category must be provided by different sources and be available for use at different points of execution of the control firmware using the <b>LimbsSftySnglShtSw</b>: </p><h3>1. Hardware implementation related parameters:</h3>
-<p>Must be provided by the hardware implementation documentation, including the switch selected characteristics and connection to the MCU. So this category must include the following configuration parameters:</p><ul>
-<li>Left hand switch<ul>
-<li>Required:<ul>
-<li>Input connection pin</li>
-<li>Type of switch: NO|NC</li>
-<li>Connection logic: PullUp|PullDown</li>
-<li>Debounce time</li>
-</ul>
-</li>
-<li>Optional:<ul>
-<li>isOn attribute flag state<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-</ul>
-</li>
-<li>isDisabled attribute flag state<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-</ul>
-</li>
-<li>isVoided attribute flag state<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Right hand switch<ul>
-<li>Required:<ul>
-<li>Input connection pin</li>
-<li>Type of switch: NO|NC</li>
-<li>Connection logic: PullUp|PullDown</li>
-<li>Debounce time</li>
-</ul>
-</li>
-<li>Optional:<ul>
-<li>isOn attribute flag state<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-</ul>
-</li>
-<li>isDisabled attribute flag state<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-</ul>
-</li>
-<li>isVoided attribute flag state<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Foot switch<ul>
-<li>Required:<ul>
-<li>Input connection pin</li>
-<li>Type of switch: NO|NC</li>
-<li>Connection logic: PullUp|PullDown</li>
-<li>Debounce time</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Other hardware related parameters<ul>
-<li>Optional:<ul>
-<li>Foot switch enabled state (Both hands isOn == true)<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-</ul>
-</li>
-<li>Release latch mechanism timer active.<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-<li>Activation time</li>
-</ul>
-</li>
-<li>Production cycle timer active.<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-<li>Activation time</li>
-</ul>
-</li>
-<li>End of cycle signal<ul>
-<li>Output pin</li>
-<li>Activation level</li>
-<li>Activation time</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3>2. Logic implementation of the class related parameters</h3>
-<p>For the class to present the behavior described in the requirements the DbncdMPBttn subclasses components' attributes must be configured ideally at LimbsSftySnglShtSw object constructor. If not possible it must be done before the LimbsSftySnglShtSw <code>.begin()</code> method is executed. <br  />
-</p><ul>
-<li>For the TmVdblMPBttn hands switches<ul>
-<li>All the parameters at the hands switches constructor<ul>
-<li>VoidTime</li>
-<li>StartDelayTime</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>For the SnglSrvcMPBttn foot switch<ul>
-<li>All the parameters at the foot switch constructor<ul>
-<li>StartDelayTime</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3>3. Hardware LimbsSftySnglShtSw - machine interface.</h3>
-<ul>
-<li>Production Cycle time (prdCyclTm)</li>
-<li>Release Latch time (rlsLtchTm)</li>
-</ul>
-<h3>4. Logic parametrization for production related use cases</h3>
-<ul>
-<li>Left hand switch<ul>
-<li>isEnabled</li>
-</ul>
-</li>
-<li>Right hand switch <h1>- isEnabled </h1>
 </li>
 </ul>
 </div></div><!-- PageDoc -->

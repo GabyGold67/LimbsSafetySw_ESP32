@@ -22,7 +22,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   16/01/2025 12:40 (GMT+0300 DST)
+  *       Last update:   17/01/2025 13:20 (GMT+0300 DST)
   * 
   * @copyright GPL-3.0 license
   *
@@ -315,7 +315,7 @@ protected:
 
    unsigned long int _curTimeMs{0};
    bool _ltchRlsIsOn{false};
-   bool _ltchRlsPndng{false};
+   static bool _ltchRlsPndng;
    unsigned long int _ltchRlsTtlTm{0};
    bool _prdCyclIsOn{false};
    unsigned long int _prdCyclTmrStrt{0};
@@ -351,6 +351,7 @@ protected:
    void _getUndrlSwtchStts();
    uint32_t _lsSwtchOtptsSttsPkgd(uint32_t prevVal = 0);
 	void _rstOtptsChngCnt();
+   static void _setLtchRlsPndng();
    void _setSttChng();
    void _turnOffLtchRls();
    void _turnOnLtchRls();
@@ -358,8 +359,6 @@ protected:
    void _turnOnPrdCycl();
    unsigned long int _updCurTimeMs();
    void _updFdaState();
-
-   fncPtrType setLtchRlsPndng;
 
 public:
   /**
