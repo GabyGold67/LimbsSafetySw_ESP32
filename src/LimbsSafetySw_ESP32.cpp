@@ -10,7 +10,12 @@
   * @version v1.0.0
   * @date First release: 11/11/2024 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   *       Last update:   20/01/2025 12:20 (GMT+0300 DST)
+=======
+  *       Last update:   19/01/2025 13:15 (GMT+0300 DST)
+  * 
+>>>>>>> Stashed changes
 =======
   *       Last update:   19/01/2025 13:15 (GMT+0300 DST)
   * 
