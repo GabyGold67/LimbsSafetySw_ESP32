@@ -9,7 +9,12 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
+<<<<<<< Updated upstream
   *       Last update:   20/01/2025 12:20 (GMT+0300 DST)
+=======
+  *       Last update:   19/01/2025 13:15 (GMT+0300 DST)
+  * 
+>>>>>>> Stashed changes
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -46,6 +51,10 @@ LimbsSftyLnFSwtch::LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg, swtchBhvrCfg
    _undrlRghtHndMPBPtr = new TmVdblMPBttn (_rghtHndInpCfg.inptPin, _rghtHndBhvrCfg.swtchVdTm, _rghtHndInpCfg.pulledUp, _rghtHndInpCfg.typeNO, _rghtHndInpCfg.dbncTime, _rghtHndBhvrCfg.swtchStrtDlyTm, true);
    _undrlFtMPBPtr = new SnglSrvcVdblMPBttn(_ftInpCfg.inptPin, _ftInpCfg.pulledUp, _ftInpCfg.typeNO, _ftInpCfg.dbncTime, _ftBhvrCfg.swtchStrtDlyTm);
    
+   //FTPO For testing porposes, delete if not effective
+   _undrlLftHndBasePtr = (VdblMPBttn*)_undrlLftHndMPBPtr;
+   _undrlRghtHndBasePtr = (VdblMPBttn*)_undrlRghtHndMPBPtr;
+
    // Configure underlying DbncdMPBttn objects and pointers
    // Foot SnglSrvcVdblMPBttn   
    _undrlFtMPBPtr-> setFnWhnTrnOnPtr(_setLtchRlsPndng); 
@@ -84,10 +93,10 @@ bool LimbsSftyLnFSwtch::begin(unsigned long int pollDelayMs){
             if(result){
                if (!_lsSwtchPollTmrHndl){        
                   _lsSwtchPollTmrHndl = xTimerCreate(
-                     _swtchPollTmrName.c_str(),  //Timer name
-                     pdMS_TO_TICKS(pollDelayMs),  //Timer period in ticks
-                     pdTRUE,     //Auto-reload true
-                     this,       //TimerID: the data passed as parametert to the callback function is this same object
+                     _swtchPollTmrName.c_str(),  // Timer name
+                     pdMS_TO_TICKS(pollDelayMs),  // Timer period in ticks
+                     pdTRUE,     // Auto-reload true
+                     this,       // TimerID: the data passed as parametert to the callback function is this same object
                      lsSwtchPollCb	  //Callback function
                   );
                   if (_lsSwtchPollTmrHndl != NULL){
@@ -106,9 +115,7 @@ bool LimbsSftyLnFSwtch::begin(unsigned long int pollDelayMs){
 
 void LimbsSftyLnFSwtch::clrStatus(){
    _ltchRlsIsOn = false;
-   // _turnOffLtchRls();
    _prdCyclIsOn = false;
-   // _turnOffPrdCycl();
    _prdCyclTmrStrt = 0;
    _undrlFtMPBPtr->disable(); // Disable FtSwitch
 
@@ -185,13 +192,19 @@ TmVdblMPBttn* LimbsSftyLnFSwtch::getLftHndSwtchPtr(){
    return _undrlLftHndMPBPtr;
 }
 
+//FTPO Test code to use base class pointers instead of class pointers to get polimorphic calls
+VdblMPBttn *LimbsSftyLnFSwtch::getLftHndBasePtr(){
+
+   return _undrlLftHndBasePtr;
+}
+
 const bool LimbsSftyLnFSwtch::getLsSwtchOtptsChng() const{
 
 	return _lsSwtchOtptsChng;
 }
 
 uint32_t LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd(){
-   // _getUndrlSwtchStts();   //! Warning, this line to update underlying MPBttns inserted by logic, no test case proven!!
+   _getUndrlSwtchStts();
    
    return _lsSwtchOtptsSttsPkgd();
 }
@@ -326,7 +339,7 @@ void LimbsSftyLnFSwtch::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
    // Underlying switches status recovery
    lsssSwtchObj->_getUndrlSwtchStts();
    //------------
-   // Flags, Triggers and timers calculation & update
+   // Set the time base for Flags, Triggers and Timers calculation & update
  	lsssSwtchObj->_updCurTimeMs();
    //------------
 	// State machine update
@@ -339,7 +352,7 @@ void LimbsSftyLnFSwtch::lsSwtchPollCb(TimerHandle_t lssTmrCbArg){
 	if (lsssSwtchObj->getLsSwtchOtptsChng()){
 		if(lsssSwtchObj->getTskToNtfyLsSwtchOtptsChng() != NULL){
 			xReturned = xTaskNotify(
-				lsssSwtchObj->getTskToNtfyLsSwtchOtptsChng(),	//TaskHandle_t of the task receiving notification
+				lsssSwtchObj->getTskToNtfyLsSwtchOtptsChng(),	// TaskHandle_t of the task receiving notification
 				static_cast<uint32_t>(lsssSwtchObj->getLsSwtchOtptsSttsPkgd()),
 				eSetValueWithOverwrite
 			);
@@ -608,9 +621,9 @@ void LimbsSftyLnFSwtch::_turnOffLtchRls(){
       //---------------->> Specific Task for Latch Release turned off related actions
       if(getTskToNtfyTrnOffLtchRls() != NULL){
          xReturned = xTaskNotify(
-            getTskToNtfyTrnOffLtchRls(),	//TaskHandle_t of the task receiving notification
+            getTskToNtfyTrnOffLtchRls(),	// TaskHandle_t of the task receiving notification
             static_cast<uint32_t>(0x00),
-            eSetValueWithOverwrite	//In this specific case using eSetBits is also a valid option
+            eSetValueWithOverwrite	// In this specific case using eSetBits is also a valid option
          );
          if (xReturned != pdPASS)
             errorFlag = pdTRUE;
@@ -637,9 +650,9 @@ void LimbsSftyLnFSwtch::_turnOffPrdCycl(){
       //---------------->> Specific Task for Latch Release turned off related actions
       if(getTskToNtfyTrnOffPrdCycl() != NULL){
          xReturned = xTaskNotify(
-            getTskToNtfyTrnOffPrdCycl(),	//TaskHandle_t of the task receiving notification
+            getTskToNtfyTrnOffPrdCycl(),	// TaskHandle_t of the task receiving notification
             static_cast<uint32_t>(0x00),
-            eSetValueWithOverwrite	//In this specific case using eSetBits is also a valid option
+            eSetValueWithOverwrite	// In this specific case using eSetBits is also a valid option
          );
          if (xReturned != pdPASS)
             errorFlag = pdTRUE;
@@ -666,9 +679,9 @@ void LimbsSftyLnFSwtch::_turnOnLtchRls(){
       //---------------->> Specific Task for Latch Release turned off related actions
       if(getTskToNtfyTrnOnLtchRls() != NULL){
          xReturned = xTaskNotify(
-            getTskToNtfyTrnOnLtchRls(),	//TaskHandle_t of the task receiving notification
+            getTskToNtfyTrnOnLtchRls(),	// TaskHandle_t of the task receiving notification
             static_cast<uint32_t>(0x00),
-            eSetValueWithOverwrite	//In this specific case using eSetBits is also a valid option
+            eSetValueWithOverwrite	// In this specific case using eSetBits is also a valid option
          );
          if (xReturned != pdPASS)
             errorFlag = pdTRUE;
@@ -695,9 +708,9 @@ void LimbsSftyLnFSwtch::_turnOnPrdCycl(){
       //---------------->> Specific Task for Latch Release turned off related actions
       if(getTskToNtfyTrnOnPrdCycl() != NULL){
          xReturned = xTaskNotify(
-            getTskToNtfyTrnOnPrdCycl(),	//TaskHandle_t of the task receiving notification
+            getTskToNtfyTrnOnPrdCycl(),	// TaskHandle_t of the task receiving notification
             static_cast<uint32_t>(0x00),
-            eSetValueWithOverwrite	//In this specific case using eSetBits is also a valid option
+            eSetValueWithOverwrite	// In this specific case using eSetBits is also a valid option
          );
          if (xReturned != pdPASS)
             errorFlag = pdTRUE;
@@ -750,19 +763,20 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 			//Do: >>---------------------------------->>
 			if(!(_lftHndSwtchStts.isOn && _rghtHndSwtchStts.isOn)){
             _undrlFtMPBPtr->disable(); // Disable FtSwitch
+            _bthHndsOnAbrtd = true;
             _lsSwtchFdaState = stOffNotBHP;
             _setSttChng();
          }
          else{
             // Check the foot switch release signal ok flag
-            // if(_ftSwtchStts.isOn){  //! This flag is not to be used, the main reason to use SnglSht is it's functions execution, change to testing _ltchRlsPndng value, and immediately change it!
-               
             if(_ltchRlsPndng){
-                _ltchRlsPndng = false;
+               _ltchRlsPndng = false;
                _undrlLftHndMPBPtr->setIsOnDisabled(false);
                _undrlLftHndMPBPtr->disable();
+               //! _undrlLftHndMPBPtr->_turnOff(); Here if the previous two commands don't ensure immediate status update we'll have a pending turn off!!
                _undrlRghtHndMPBPtr->setIsOnDisabled(false);
                _undrlRghtHndMPBPtr->disable();
+               //! _undrlRghtHndMPBPtr->_turnOff(); Here if the previous two commands don't ensure immediate status update we'll have a pending turn off!!
                _undrlFtMPBPtr->disable();
                _lsSwtchFdaState = stStrtRlsStrtCycl;
                _setSttChng();
@@ -784,7 +798,7 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 			_setSttChng();
 			//Out: >>---------------------------------->>
 			if(_sttChng){}	// Execute this code only ONCE, when exiting this state
-//!			break;	// This state makes no conditional next state setting, and it's next state is next in line, let it cascade
+         break;
 
 		case stEndRls:
 			//In: >>---------------------------------->>

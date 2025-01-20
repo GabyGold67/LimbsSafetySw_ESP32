@@ -22,7 +22,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   17/01/2025 13:20 (GMT+0300 DST)
+  *       Last update:   19/01/2025 13:15 (GMT+0300 DST)
   * 
   * @copyright GPL-3.0 license
   *
@@ -303,16 +303,19 @@ protected:
 
    MpbOtpts_t _lftHndSwtchStts{};
    TmVdblMPBttn* _undrlLftHndMPBPtr{nullptr};
+   VdblMPBttn* _undrlLftHndBasePtr{nullptr};
 
 
    MpbOtpts_t _rghtHndSwtchStts{};
    TmVdblMPBttn* _undrlRghtHndMPBPtr{nullptr};
+   VdblMPBttn* _undrlRghtHndBasePtr{nullptr};
 
    MpbOtpts_t _ftSwtchStts{};
    SnglSrvcVdblMPBttn* _undrlFtMPBPtr{nullptr};   
 
    unsigned long int _undrlSwtchsPollDelay{_minPollDelay};
 
+   bool _bthHndsOnAbrtd{false};  //! Create function call point to execute after setting this flag as true, reset after
    unsigned long int _curTimeMs{0};
    bool _ltchRlsIsOn{false};
    static bool _ltchRlsPndng;
@@ -325,11 +328,13 @@ protected:
 	fncVdPtrPrmPtrType _fnWhnTrnOffPrdCycl {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnLtchRls {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnPrdCycl {nullptr};
+   fncVdPtrPrmPtrType _fnWhnBthHndsOnFail{nullptr};
 
    void* _fnWhnTrnOffLtchRlsArg {nullptr};
 	void* _fnWhnTrnOffPrdCyclArg {nullptr};
    void* _fnWhnTrnOnLtchRlsArg{nullptr};
 	void* _fnWhnTrnOnPrdCyclArg {nullptr};
+	void* _fnWhnBthHndsOnFailArg {nullptr};
 
    fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};
    bool _lsSwtchOtptsChng{false};
@@ -509,6 +514,8 @@ public:
     * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways.
     */
    TmVdblMPBttn*  getLftHndSwtchPtr();
+
+   VdblMPBttn* getLftHndBasePtr();
    /**
 	 * @brief Returns the value of the **lsSwtchOtptsChng** attribute flag.
 	 *
