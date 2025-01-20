@@ -3,7 +3,7 @@
   * @file   LimbsSafetySw_ESP32.h
   * @brief  Header file for the LimbsSafetySw_ESP32 library
   *
-  * @details The library implements Limbs Safety Switches for industrial production machines and dangerous devices. The switches cumpliments the following properties:
+  * @details The library implements Limbs Safety Switches for industrial production machines and dangerous devices. The switches fullfills the following properties:
   * 
   * - Its input signals are analog to those produced by an MPB, including but not limited to:
   *   - MPBs
@@ -86,7 +86,7 @@ void myFunction(void* data) {
    Do whatever with the data in the function, 
 }
 
-Function that returns a funtion pointer to the function previously defined
+Function that returns a function pointer to the function previously defined
 ptrToTrnFncVdPtr getFunctionPointer() {
     fncVdPtrPrmPtrType ptr = myFunction;
     return ptr;
@@ -116,7 +116,7 @@ struct gpioPinOtptHwCfg_t{
  * 
  * Holds the parameters for the creation and configuration of the Execution Core (for multicore MCUs) and Task Execution Priority level for the switch status update code execution.
  * 
- * @attention Software construction related!! The information must be provided by the software developers as it is related to the general develpment parameters.
+ * @attention Software construction related!! The information must be provided by the software developers as it is related to the general development parameters.
  * The core selection for the Task Execution might be provided by the hardware development team or automatically determined by O.S. as the core executing the applications.
  * 
  * @param lsSwExecTskCore Core where the code is expected to run
