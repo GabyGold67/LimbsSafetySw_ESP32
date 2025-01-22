@@ -51,18 +51,18 @@ LimbsSftyLnFSwtch::LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg, swtchBhvrCfg
    _undrlRghtHndBasePtr = (VdblMPBttn*)_undrlRghtHndMPBPtr;
 
    // Configure underlying DbncdMPBttn objects and pointers
-   // Foot SnglSrvcVdblMPBttn   
-   _undrlFtMPBPtr-> setFnWhnTrnOnPtr(_setLtchRlsPndng); 
-   
-   // Left Hand TmVdblMPBttn
-   // isEnabled state. Note: TmVdblMPBttn objects are instantiated with _isEnabled = true property value
-   if(!_lftHndBhvrCfg.swtchIsEnbld)
+  
+   // Left Hand TmVdblMPBttn   
+   if(!_lftHndBhvrCfg.swtchIsEnbld) // TmVdblMPBttn objects are instantiated with _isEnabled = true property value
       _undrlLftHndMPBPtr->disable();
 
-   // Right Hand TmVdblMPBttn
-   // isEnabled state. Note: TmVdblMPBttn objects are instantiated with _isEnabled = true property value
-   if(!_rghtHndBhvrCfg.swtchIsEnbld)
+   // Right Hand TmVdblMPBttn   
+   if(!_rghtHndBhvrCfg.swtchIsEnbld)   // TmVdblMPBttn objects are instantiated with _isEnabled = true property value
       _undrlRghtHndMPBPtr->disable();
+
+   // Foot SnglSrvcVdblMPBttn   
+   _undrlRghtHndMPBPtr->disable();
+   _undrlFtMPBPtr-> setFnWhnTrnOnPtr(_setLtchRlsPndng); 
 
    // Configure LimbsSftyLnFSwtch attributes
    _ltchRlsTtlTm = lsSwtchWrkngCnfg.ltchRlsActvTm;
@@ -71,8 +71,8 @@ LimbsSftyLnFSwtch::LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg, swtchBhvrCfg
 
 LimbsSftyLnFSwtch::~LimbsSftyLnFSwtch(){
    _undrlFtMPBPtr->~SnglSrvcVdblMPBttn();
-   // _undrlRghtHndMPBPtr->~TmVdblMPBttn();
-   // _undrlLftHndMPBPtr->~TmVdblMPBttn();
+   _undrlRghtHndMPBPtr->~TmVdblMPBttn();
+   _undrlLftHndMPBPtr->~TmVdblMPBttn();
 }
 
 bool LimbsSftyLnFSwtch::begin(unsigned long int pollDelayMs){

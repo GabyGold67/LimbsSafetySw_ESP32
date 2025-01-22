@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file	: LimbsSftyLnFSwtch_Example_01.cpp
+  * @file	: LimbsSftyLnFSwtch_Example_01rc01.cpp
   * @brief  : Implementation of a Limbs Safety switch using a LimbsSftyLnFSwtch class object
   * 
   * Example for the LimbsSftySw_ESP32 library LimbsSftyLnFSwtch class
