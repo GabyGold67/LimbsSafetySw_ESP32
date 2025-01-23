@@ -46,22 +46,18 @@ LimbsSftyLnFSwtch::LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg, swtchBhvrCfg
    _undrlRghtHndMPBPtr = new TmVdblMPBttn (_rghtHndInpCfg.inptPin, _rghtHndBhvrCfg.swtchVdTm, _rghtHndInpCfg.pulledUp, _rghtHndInpCfg.typeNO, _rghtHndInpCfg.dbncTime, _rghtHndBhvrCfg.swtchStrtDlyTm, true);
    _undrlFtMPBPtr = new SnglSrvcVdblMPBttn(_ftInpCfg.inptPin, _ftInpCfg.pulledUp, _ftInpCfg.typeNO, _ftInpCfg.dbncTime, _ftBhvrCfg.swtchStrtDlyTm);
    
-   //FTPO For testing purposes, delete if not effective
-   _undrlLftHndBasePtr = (VdblMPBttn*)_undrlLftHndMPBPtr;
-   _undrlRghtHndBasePtr = (VdblMPBttn*)_undrlRghtHndMPBPtr;
-
    // Configure underlying DbncdMPBttn objects and pointers
   
    // Left Hand TmVdblMPBttn   
    if(!_lftHndBhvrCfg.swtchIsEnbld) // TmVdblMPBttn objects are instantiated with _isEnabled = true property value
-      _undrlLftHndMPBPtr->disable();
+      _undrlLftHndMPBPtr->setBeginDisabled(true);
 
    // Right Hand TmVdblMPBttn   
    if(!_rghtHndBhvrCfg.swtchIsEnbld)   // TmVdblMPBttn objects are instantiated with _isEnabled = true property value
-      _undrlRghtHndMPBPtr->disable();
+      _undrlRghtHndMPBPtr->setBeginDisabled(true);
 
    // Foot SnglSrvcVdblMPBttn   
-   _undrlRghtHndMPBPtr->disable();
+   _undrlRghtHndMPBPtr->setBeginDisabled(true);
    _undrlFtMPBPtr-> setFnWhnTrnOnPtr(_setLtchRlsPndng); 
 
    // Configure LimbsSftyLnFSwtch attributes

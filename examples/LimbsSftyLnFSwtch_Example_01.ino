@@ -1,15 +1,18 @@
 /**
   ******************************************************************************
-  * @file	: LimbsSftyLnFSwtch_Example_01rc01.cpp
-  * @brief  : Implementation of a Limbs Safety switch using a LimbsSftyLnFSwtch class object
+  * @file	: LimbsSftyLnFSwtch_Example_01rc02.cpp
+  * @brief  : Implements of a Limbs Safety switch using a LimbsSftyLnFSwtch class object
   * 
-  * Example for the LimbsSftySw_ESP32 library LimbsSftyLnFSwtch class
+  * Example for the LimbsSftySw_ESP32 library LimbsSftyLnFSwtch class.
   * 
-  * This example creates ONE Task in the standard Arduino LoopTask, and makes the LoopTask to delete itself.
-  * The task created as the Main Control Task will operate locally, including:
-  * - Input pins configuration parameters
-  * - Output pins configuration parameters
-  * - Behavior configuration parameters
+  * This example builds a Limbs Safety switch for a Launch and Forget device by
+  * using the most basic resources provided by the LimbsSftyLnFSwtch class. 
+  * The example creates ONE Task in the standard Arduino setup(), and makes the 
+  * LoopTask to delete itself.
+  * The task created as the Main Control Task will then proceed with the execution:
+  * - Input pins configuration parameters setting
+  * - Output pins configuration parameters setting
+  * - Behavior configuration parameters setting
   * - Underlying DbncdMPBttn sublclasses objects' Attribute Flags related outputs update
   * - LimbsSftyLnFSwtch object Attribute Flags related outputs update
   *
@@ -19,7 +22,7 @@
   * @author	: Gabriel D. Goldman
   *
   * @date First release: 28/11/2024 
-  *       Last update:   16/01/2025 13:55 GMT+0300
+  *       Last update:   19/01/2025 14:50 GMT+0300
   ******************************************************************************
   * @attention	This library gives no guarantees whatsoever about it's compliance
   * to any expectations but as those from it's own designers. Use under your own 
@@ -49,17 +52,15 @@ limbSftyFwConf_t mnCtrlTskConf{
 };
 
 void setup() { 
-  //Create the Main control task for setup and execution of the main code
+  // Create the Main control task for setup and execution of the main code
    xReturned = xTaskCreatePinnedToCore(
-      mainCtrlTsk,  //Callback function/task to be called
-      "MainControlTask",  //Name of the task
-      2048,   //Stack size (in bytes in ESP32, words in FreeRTOS), the minimum value is in the config file, for this is 768 bytes
-      NULL,  //Pointer to the parameters for the function to work with
-      // configTIMER_TASK_PRIORITY,  //Priority level given to the task
-      mnCtrlTskConf.lsSwExecTskPrrtyCnfg,
-      &mainCtrlTskHndl, //Task handle
-      // xPortGetCoreID() //Run in the App Core if it's a dual core mcu (ESP-FreeRTOS specific)
-      mnCtrlTskConf.lsSwExecTskCore
+      mainCtrlTsk,  // Callback function/task to be called
+      "MainControlTask",  // Name of the task
+      2048,   // Stack size (in bytes in ESP32, words in FreeRTOS), the minimum value is in the config file, for this is 768 bytes
+      NULL,  // Pointer to the parameters for the function to work with
+      mnCtrlTskConf.lsSwExecTskPrrtyCnfg, // Priority level given to the task
+      &mainCtrlTskHndl, // Task handle
+      mnCtrlTskConf.lsSwExecTskCore // Run in the App Core if it's a dual core mcu (ESP-FreeRTOS specific)
    );
    if(xReturned != pdPASS)
       Error_Handler();
@@ -162,8 +163,7 @@ void mainCtrlTsk(void *pvParameters){
    //-------------------------------------------->> Behavior related parameters values END
    //===============================>> LimbsSftyLnFSwtch switch configuration parameters values END
    
-   LimbsSftyLnFSwtch stampSftySwtch (lftHndHwAttrbts, lftHndBhvrSUp, rghtHndHwAttrbts, rghtHndBhvrSUp, ftHwAttrbts, ftBhvrSUp, lsssSwtchWrkngPrm);
-
+   //===========================>> LimbsSftyLnFSwtch Outputs configuration BEGIN
    //------------------>> Left hand TmVdblMPBttn output pins configuration BEGIN
    if((lftHndHwOtpts.isOnPin.gpioOtptPin != _InvalidPinNum) && (lftHndHwOtpts.isOnPin.gpioOtptPin <= _maxValidPinNum)){
       pinMode(lftHndHwOtpts.isOnPin.gpioOtptPin, INPUT);
@@ -239,7 +239,7 @@ void mainCtrlTsk(void *pvParameters){
       Error_Handler();
    }
 
-   //The rest of the possible connected pins are configured as OUTPUTS, setting its' starting values at the INACTIVE value
+   // The rest of the possible connected pins are configured as OUTPUTS, setting its' starting values at the INACTIVE value
    if((prdCyclIsOnOtpt.gpioOtptPin != _InvalidPinNum) && (prdCyclIsOnOtpt.gpioOtptPin <= _maxValidPinNum)){
       digitalWrite(prdCyclIsOnOtpt.gpioOtptPin, (prdCyclIsOnOtpt.gpioOtptActHgh)?LOW:HIGH);
       pinMode(prdCyclIsOnOtpt.gpioOtptPin, OUTPUT);
@@ -251,72 +251,83 @@ void mainCtrlTsk(void *pvParameters){
    pinMode(ltchRlsIsOnOtpt.gpioOtptPin, OUTPUT); // Setting the main activation output pin to OUTPUT mode
    //------------------>> LimbsSftyLnFSwtch output pins configuration END
 
+   //FTPO Instane when all inputs and outputs are set
+   LimbsSftyLnFSwtch stampSftySwtch (lftHndHwAttrbts, lftHndBhvrSUp, rghtHndHwAttrbts, rghtHndBhvrSUp, ftHwAttrbts, ftBhvrSUp, lsssSwtchWrkngPrm);
+   stampSftySwtch.getFtSwtchPtr()->setBeginDisabled(true);
+   stampSftySwtch.setUndrlSwtchsPollDelay(25);
    stampSftySwtch.begin(50);
 
    for(;;){
       // Keep the _undrlLftHndMPB object outputs updated.		
-      if(stampSftySwtch.getLftHndSwtchPtr()->getOutputsChange()){
-         while(stampSftySwtch.getLftHndSwtchPtr()->getOutputsChange()){
+      // if(stampSftySwtch.getLftHndSwtchPtr()->getOutputsChange()){
+         // while(stampSftySwtch.getLftHndSwtchPtr()->getOutputsChange()){
             if(lftHndHwOtpts.isOnPin.gpioOtptPin != _InvalidPinNum){ // Keep the left hand switch isOn output updated
-               if(digitalRead(lftHndHwOtpts.isOnPin.gpioOtptPin) != ((stampSftySwtch.getLftHndSwtchPtr()->getIsOn() == lftHndHwOtpts.isOnPin.gpioOtptActHgh)?HIGH:LOW))
+               // if(digitalRead(lftHndHwOtpts.isOnPin.gpioOtptPin) != ((stampSftySwtch.getLftHndSwtchPtr()->getIsOn() == lftHndHwOtpts.isOnPin.gpioOtptActHgh)?HIGH:LOW))
                   digitalWrite(lftHndHwOtpts.isOnPin.gpioOtptPin, (stampSftySwtch.getLftHndSwtchPtr()->getIsOn() == lftHndHwOtpts.isOnPin.gpioOtptActHgh)?HIGH:LOW);
             }
             if(lftHndHwOtpts.isEnabledPin.gpioOtptPin != _InvalidPinNum){  // Keep the left hand switch isEnabled output updated
-               if(digitalRead(lftHndHwOtpts.isEnabledPin.gpioOtptPin) != ((stampSftySwtch.getLftHndSwtchPtr()->getIsEnabled() == lftHndHwOtpts.isEnabledPin.gpioOtptActHgh)?HIGH:LOW))
+               // if(digitalRead(lftHndHwOtpts.isEnabledPin.gpioOtptPin) != ((stampSftySwtch.getLftHndSwtchPtr()->getIsEnabled() == lftHndHwOtpts.isEnabledPin.gpioOtptActHgh)?HIGH:LOW))
                   digitalWrite(lftHndHwOtpts.isEnabledPin.gpioOtptPin, (stampSftySwtch.getLftHndSwtchPtr()->getIsEnabled() == lftHndHwOtpts.isEnabledPin.gpioOtptActHgh)?HIGH:LOW);
             }
             if(lftHndHwOtpts.isVoidedPin.gpioOtptPin != _InvalidPinNum){   // Keep the left hand switch isVoided output updated
-               if(digitalRead(lftHndHwOtpts.isVoidedPin.gpioOtptPin) != ((stampSftySwtch.getLftHndSwtchPtr()->getIsVoided() == lftHndHwOtpts.isVoidedPin.gpioOtptActHgh)?HIGH:LOW))
+               // if(digitalRead(lftHndHwOtpts.isVoidedPin.gpioOtptPin) != ((stampSftySwtch.getLftHndSwtchPtr()->getIsVoided() == lftHndHwOtpts.isVoidedPin.gpioOtptActHgh)?HIGH:LOW))
                   digitalWrite(lftHndHwOtpts.isVoidedPin.gpioOtptPin, (stampSftySwtch.getLftHndSwtchPtr()->getIsVoided() == lftHndHwOtpts.isVoidedPin.gpioOtptActHgh)?HIGH:LOW);
             }
          
             stampSftySwtch.getLftHndSwtchPtr()->setOutputsChange(false);
-         }      
-      }
+      //    }      
+      // }
 
       // Keep the _undrlRghtHndMPB object outputs updated.
-      if(stampSftySwtch.getRghtHndSwtchPtr()->getOutputsChange()){
-         while(stampSftySwtch.getRghtHndSwtchPtr()->getOutputsChange()){
+      // if(stampSftySwtch.getRghtHndSwtchPtr()->getOutputsChange()){
+      //    while(stampSftySwtch.getRghtHndSwtchPtr()->getOutputsChange()){
             if(rghtHndHwOtpts.isOnPin.gpioOtptPin != _InvalidPinNum){
-               if(digitalRead(rghtHndHwOtpts.isOnPin.gpioOtptPin) != ((stampSftySwtch.getRghtHndSwtchPtr()->getIsOn() == rghtHndHwOtpts.isOnPin.gpioOtptActHgh)?HIGH:LOW))
+               // if(digitalRead(rghtHndHwOtpts.isOnPin.gpioOtptPin) != ((stampSftySwtch.getRghtHndSwtchPtr()->getIsOn() == rghtHndHwOtpts.isOnPin.gpioOtptActHgh)?HIGH:LOW))
                   digitalWrite(rghtHndHwOtpts.isOnPin.gpioOtptPin, (stampSftySwtch.getRghtHndSwtchPtr()->getIsOn() == rghtHndHwOtpts.isOnPin.gpioOtptActHgh)?HIGH:LOW);
             }
             if(rghtHndHwOtpts.isEnabledPin.gpioOtptPin != _InvalidPinNum){
-               if(digitalRead(rghtHndHwOtpts.isEnabledPin.gpioOtptPin) != ((stampSftySwtch.getRghtHndSwtchPtr()->getIsEnabled() == rghtHndHwOtpts.isEnabledPin.gpioOtptActHgh)?HIGH:LOW))
+               // if(digitalRead(rghtHndHwOtpts.isEnabledPin.gpioOtptPin) != ((stampSftySwtch.getRghtHndSwtchPtr()->getIsEnabled() == rghtHndHwOtpts.isEnabledPin.gpioOtptActHgh)?HIGH:LOW))
                   digitalWrite(rghtHndHwOtpts.isEnabledPin.gpioOtptPin, (stampSftySwtch.getRghtHndSwtchPtr()->getIsEnabled() == rghtHndHwOtpts.isEnabledPin.gpioOtptActHgh)?HIGH:LOW);
             }
             if(rghtHndHwOtpts.isVoidedPin.gpioOtptPin != _InvalidPinNum){
-               if(digitalRead(rghtHndHwOtpts.isVoidedPin.gpioOtptPin) != ((stampSftySwtch.getRghtHndSwtchPtr()->getIsVoided() == rghtHndHwOtpts.isVoidedPin.gpioOtptActHgh)?HIGH:LOW))
+               // if(digitalRead(rghtHndHwOtpts.isVoidedPin.gpioOtptPin) != ((stampSftySwtch.getRghtHndSwtchPtr()->getIsVoided() == rghtHndHwOtpts.isVoidedPin.gpioOtptActHgh)?HIGH:LOW))
                   digitalWrite(rghtHndHwOtpts.isVoidedPin.gpioOtptPin, (stampSftySwtch.getRghtHndSwtchPtr()->getIsVoided() == rghtHndHwOtpts.isVoidedPin.gpioOtptActHgh)?HIGH:LOW);
             }
 
             stampSftySwtch.getRghtHndSwtchPtr()->setOutputsChange(false);
-         }
-      }
+      //    }
+      // }
+
+
 
       // Keep the _undrlFtdMPB object outputs updated.	      
-      if(stampSftySwtch.getFtSwtchPtr()->getOutputsChange()){
-         while(stampSftySwtch.getFtSwtchPtr()->getOutputsChange()){
+      // if(stampSftySwtch.getFtSwtchPtr()->getOutputsChange()){
+      //    while(stampSftySwtch.getFtSwtchPtr()->getOutputsChange()){
             if(ftSwtchIsEnbldOtpt.gpioOtptPin != _InvalidPinNum){
-               if(digitalRead(ftSwtchIsEnbldOtpt.gpioOtptPin) != ((stampSftySwtch.getFtSwtchPtr()->getIsEnabled() == ftSwtchIsEnbldOtpt.gpioOtptActHgh)?HIGH:LOW))
+               // if(digitalRead(ftSwtchIsEnbldOtpt.gpioOtptPin) != ((stampSftySwtch.getFtSwtchPtr()->getIsEnabled() == ftSwtchIsEnbldOtpt.gpioOtptActHgh)?HIGH:LOW))
                   digitalWrite(ftSwtchIsEnbldOtpt.gpioOtptPin, (stampSftySwtch.getFtSwtchPtr()->getIsEnabled() == ftSwtchIsEnbldOtpt.gpioOtptActHgh)?HIGH:LOW);
             }
             stampSftySwtch.getFtSwtchPtr()->setOutputsChange(false);         
-         }
-      }
+      //    }
+      // }
+
+   for(;;){
+   }
 
       // Keep the LimbsSftyLnFSwtch object outputs updated.
-      while(stampSftySwtch.getLsSwtchOtptsChng()){
-         if(digitalRead(ltchRlsIsOnOtpt.gpioOtptPin) != ((stampSftySwtch.getLtchRlsIsOn() == ltchRlsIsOnOtpt.gpioOtptActHgh)?HIGH:LOW))
+      // while(stampSftySwtch.getLsSwtchOtptsChng()){
+         // if(digitalRead(ltchRlsIsOnOtpt.gpioOtptPin) != ((stampSftySwtch.getLtchRlsIsOn() == ltchRlsIsOnOtpt.gpioOtptActHgh)?HIGH:LOW))
             digitalWrite(ltchRlsIsOnOtpt.gpioOtptPin, (stampSftySwtch.getLtchRlsIsOn() == ltchRlsIsOnOtpt.gpioOtptActHgh)?HIGH:LOW);
 
          if(prdCyclIsOnOtpt.gpioOtptPin != _InvalidPinNum){
-            if(digitalRead(prdCyclIsOnOtpt.gpioOtptPin) != ((stampSftySwtch.getPrdCyclIsOn() == prdCyclIsOnOtpt.gpioOtptActHgh)?HIGH:LOW))
+            // if(digitalRead(prdCyclIsOnOtpt.gpioOtptPin) != ((stampSftySwtch.getPrdCyclIsOn() == prdCyclIsOnOtpt.gpioOtptActHgh)?HIGH:LOW))
                digitalWrite(prdCyclIsOnOtpt.gpioOtptPin, (stampSftySwtch.getPrdCyclIsOn() == prdCyclIsOnOtpt.gpioOtptActHgh)?HIGH:LOW);
          }
 
          stampSftySwtch.setLsSwtchOtptsChng(false);
-      }
+      // }
+      //FTPO Trying to let some time for lesser level tasks
+      taskYIELD();
    }
 }
 //===============================>> User Tasks Implementations END
