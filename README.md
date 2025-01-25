@@ -2,8 +2,7 @@
 ## [See the working simulation at WOKWI Site](https://wokwi.com/projects/415018098762515457)
 ## [See complete manual at Github Pages](https://gabygold67.github.io/LimbsSafetySw_ESP32/)
 
-
-An ESP32-Arduino library that includes the class, data structures and functions required to model a **Limbs Safety Activation Switch for Launch and  Forget Cycle Machines and Devices (LimbsSftyLnFSwtch)**.
+An ESP32-Arduino library that includes the class, data structures and functions required to model a **Limbs Safety Activation Switch for Launch and Forget Cycle Machines and Devices (LimbsSftyLnFSwtch)**.
 
 The definition above imposes requirements and limitations both to the logic development and to the range of machines it might be connected to.  
 
