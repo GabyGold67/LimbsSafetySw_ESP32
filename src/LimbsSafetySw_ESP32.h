@@ -22,7 +22,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   20/01/2025 14:15 (GMT+0300 DST)
+  *       Last update:   26/01/2025 19:50 (GMT+0200)
   * 
   * @copyright GPL-3.0 license
   *
@@ -512,8 +512,6 @@ public:
     * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways.
     */
    TmVdblMPBttn*  getLftHndSwtchPtr();
-
-   VdblMPBttn* getLftHndBasePtr();
    /**
 	 * @brief Returns the value of the **lsSwtchOtptsChng** attribute flag.
 	 *

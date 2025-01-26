@@ -9,7 +9,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   20/01/2025 14:40 (GMT+0300 DST)
+  *       Last update:   26/01/2025 19:40 (GMT+0200)
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -46,16 +46,13 @@ LimbsSftyLnFSwtch::LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg, swtchBhvrCfg
    _undrlRghtHndMPBPtr = new TmVdblMPBttn (_rghtHndInpCfg.inptPin, _rghtHndBhvrCfg.swtchVdTm, _rghtHndInpCfg.pulledUp, _rghtHndInpCfg.typeNO, _rghtHndInpCfg.dbncTime, _rghtHndBhvrCfg.swtchStrtDlyTm, true);
    _undrlFtMPBPtr = new SnglSrvcVdblMPBttn(_ftInpCfg.inptPin, _ftInpCfg.pulledUp, _ftInpCfg.typeNO, _ftInpCfg.dbncTime, _ftBhvrCfg.swtchStrtDlyTm);
    
-   // Configure underlying DbncdMPBttn objects and pointers
-  
+   // Configure underlying DbncdMPBttn objects and pointers  
    // Left Hand TmVdblMPBttn   
    if(!_lftHndBhvrCfg.swtchIsEnbld) // TmVdblMPBttn objects are instantiated with _isEnabled = true property value
       _undrlLftHndMPBPtr->setBeginDisabled(true);
-
    // Right Hand TmVdblMPBttn   
    if(!_rghtHndBhvrCfg.swtchIsEnbld)   // TmVdblMPBttn objects are instantiated with _isEnabled = true property value
       _undrlRghtHndMPBPtr->setBeginDisabled(true);
-
    // Foot SnglSrvcVdblMPBttn   
    _undrlRghtHndMPBPtr->setBeginDisabled(true);
    _undrlFtMPBPtr-> setFnWhnTrnOnPtr(_setLtchRlsPndng); 
@@ -110,6 +107,17 @@ void LimbsSftyLnFSwtch::clrStatus(){
    _prdCyclTmrStrt = 0;
    _undrlFtMPBPtr->disable(); // Disable FtSwitch
 
+   //todo Check why this must be forced!! BEGIN
+   _undrlLftHndMPBPtr->setIsOnDisabled(true);
+   if(_lftHndBhvrCfg.swtchIsEnbld){
+      _undrlLftHndMPBPtr->enable();
+   }
+   _undrlRghtHndMPBPtr->setIsOnDisabled(true);
+   if(_rghtHndBhvrCfg.swtchIsEnbld){
+      _undrlRghtHndMPBPtr->enable();
+   }
+   //todo Check why this must be forced!! END
+
    return;
 }
 
@@ -121,24 +129,33 @@ void LimbsSftyLnFSwtch::_clrSttChng(){
 
 void LimbsSftyLnFSwtch::cnfgFtSwtch(const swtchBhvrCfg_t &newCfg){
    _undrlFtMPBPtr->setStrtDelay(newCfg.swtchStrtDlyTm);
+   _ftBhvrCfg.swtchStrtDlyTm = newCfg.swtchStrtDlyTm;
 
    return;
 }
 
 bool LimbsSftyLnFSwtch::_cnfgHndSwtch(const bool &isLeft, const swtchBhvrCfg_t &newCfg){
    bool result{false};
-   TmVdblMPBttn* hndSwtchToCnf {nullptr};
 
-   if(isLeft)
-      hndSwtchToCnf = _undrlLftHndMPBPtr;
-   else
-      hndSwtchToCnf = _undrlRghtHndMPBPtr;
-   hndSwtchToCnf->setStrtDelay(newCfg.swtchStrtDlyTm);
-   if(newCfg.swtchIsEnbld)
-      hndSwtchToCnf->enable();
-   else
-      hndSwtchToCnf->disable();
-   result = hndSwtchToCnf->setVoidTime(newCfg.swtchVdTm);
+   if((isLeft?_undrlLftHndMPBPtr:_undrlRghtHndMPBPtr)->getStrtDelay() != newCfg.swtchStrtDlyTm){
+      (isLeft?_undrlLftHndMPBPtr:_undrlRghtHndMPBPtr)->setStrtDelay(newCfg.swtchStrtDlyTm);
+      (isLeft?_lftHndBhvrCfg:_rghtHndBhvrCfg).swtchStrtDlyTm = newCfg.swtchStrtDlyTm;
+   }
+   
+   if((isLeft?_undrlLftHndMPBPtr:_undrlRghtHndMPBPtr)->getIsEnabled() != newCfg.swtchIsEnbld){
+      if(newCfg.swtchIsEnbld)
+         (isLeft?_undrlLftHndMPBPtr:_undrlRghtHndMPBPtr)->enable();
+      else
+         (isLeft?_undrlLftHndMPBPtr:_undrlRghtHndMPBPtr)->disable();
+      
+      (isLeft?_lftHndBhvrCfg:_rghtHndBhvrCfg).swtchIsEnbld = newCfg.swtchIsEnbld;
+   }
+   
+   if((isLeft?_undrlLftHndMPBPtr:_undrlRghtHndMPBPtr)->getVoidTime() != newCfg.swtchVdTm){
+      result = (isLeft?_undrlLftHndMPBPtr:_undrlRghtHndMPBPtr)->setVoidTime(newCfg.swtchVdTm);
+      if(result)
+         (isLeft?_lftHndBhvrCfg:_rghtHndBhvrCfg).swtchVdTm = newCfg.swtchVdTm;
+   }
 
    return result;
 }
@@ -181,12 +198,6 @@ SnglSrvcVdblMPBttn* LimbsSftyLnFSwtch::getFtSwtchPtr(){
 TmVdblMPBttn* LimbsSftyLnFSwtch::getLftHndSwtchPtr(){
 
    return _undrlLftHndMPBPtr;
-}
-
-//FTPO Test code to use base class pointers instead of class pointers to get polymorphic calls
-VdblMPBttn *LimbsSftyLnFSwtch::getLftHndBasePtr(){
-
-   return _undrlLftHndBasePtr;
 }
 
 const bool LimbsSftyLnFSwtch::getLsSwtchOtptsChng() const{
