@@ -158,7 +158,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file for the LimbsSafetySw_ESP32 library. </p>
-<p>The library implements Limbs Safety Switches for industrial production machines and dangerous devices. The switches cumpliments the following properties:</p>
+<p>The library implements Limbs Safety Switches for industrial production machines and dangerous devices. The switches fullfills the following properties:</p>
 <ul>
 <li>Its input signals are analog to those produced by an MPB, including but not limited to:<ul>
 <li>MPBs</li>
@@ -184,7 +184,7 @@ Functions</h2></td></tr>
 </ul>
 <dl class="section author"><dt>Author</dt><dd>: Gabriel D. Goldman </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>v1.0.0 </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>First release: 11/11/2024 Last update: 17/01/2025 13:20 (GMT+0300 DST)</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>First release: 11/11/2024 Last update: 26/01/2025 19:50 (GMT+0200)</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>GPL-3.0 license</dd></dl>
 <dl class="section attention"><dt>Attention</dt><dd>This library was developed as part of the refactoring process for an industrial machines safety enforcement and productivity control (hardware &amp; firmware update). As such every class included complies <b>AT LEAST</b> with the provision of the attributes and methods to make the hardware &amp; firmware replacement transparent to the controlled machines. Generic use attribute and methods were added to extend the usability to other projects and application environments, but no fitness nor completeness of those are given but for the intended refactoring project.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd><b>Use of this library is under your own responsibility</b> </dd></dl>
@@ -205,7 +205,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Unpackages a 32-bit value into a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> object status. </p>
-<p>The 32-bit encoded and packaged is used for inter-task object status comunication, passed as a "notification value" in a xTaskNotify() execution. For each bit value attribute flag represented see <a class="el" href="class_limbs_sfty_ln_f_swtch.html#a3019f4e62269943b22834abf13585d1e" title="Returns the relevant attribute flags values for the object state encoded as a 32 bits value,...">LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd()</a></p>
+<p>The 32-bit encoded and packaged is used for inter-task object status communication, passed as a "notification value" in a xTaskNotify() execution. For each bit value attribute flag represented see <a class="el" href="class_limbs_sfty_ln_f_swtch.html#a3019f4e62269943b22834abf13585d1e" title="Returns the relevant attribute flags values for the object state encoded as a 32 bits value,...">LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd()</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pkgOtpts</td><td>A 32-bit value holding a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> status encoded </td></tr>

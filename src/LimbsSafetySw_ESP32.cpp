@@ -112,9 +112,15 @@ void LimbsSftyLnFSwtch::clrStatus(){
    if(_lftHndBhvrCfg.swtchIsEnbld){
       _undrlLftHndMPBPtr->enable();
    }
+   else{
+      _undrlLftHndMPBPtr->disable();
+   }
    _undrlRghtHndMPBPtr->setIsOnDisabled(true);
    if(_rghtHndBhvrCfg.swtchIsEnbld){
       _undrlRghtHndMPBPtr->enable();
+   }
+   else{
+      _undrlRghtHndMPBPtr->disable();
    }
    //todo Check why this must be forced!! END
 
@@ -383,28 +389,35 @@ void LimbsSftyLnFSwtch::_rstOtptsChngCnt(){
    return;
 }
 
-void LimbsSftyLnFSwtch::setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff){
+void LimbsSftyLnFSwtch::setFnWhnBthHndsOnOpLst(fncVdPtrPrmPtrType &newFnWhnBthHndsOnOpLst){
+   if(_fnWhnBthHndsOnOpLst != newFnWhnBthHndsOnOpLst)
+      _fnWhnBthHndsOnOpLst = newFnWhnBthHndsOnOpLst;
+
+   return;
+}
+
+void LimbsSftyLnFSwtch::setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType &newFnWhnTrnOff){
    if(_fnWhnTrnOffLtchRls != newFnWhnTrnOff)
       _fnWhnTrnOffLtchRls = newFnWhnTrnOff;
 
    return;
 }
 
-void LimbsSftyLnFSwtch::setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOff){
+void LimbsSftyLnFSwtch::setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType &newFnWhnTrnOff){
    if(_fnWhnTrnOffPrdCycl != newFnWhnTrnOff)
       _fnWhnTrnOffPrdCycl = newFnWhnTrnOff;
 
    return;
 }
 
-void LimbsSftyLnFSwtch::setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOn){
+void LimbsSftyLnFSwtch::setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType &newFnWhnTrnOn){
    if(_fnWhnTrnOnLtchRls != newFnWhnTrnOn)
       _fnWhnTrnOnLtchRls = newFnWhnTrnOn;
 
    return;
 }
 
-void LimbsSftyLnFSwtch::setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn){
+void LimbsSftyLnFSwtch::setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType &newFnWhnTrnOn){
    if(_fnWhnTrnOnPrdCycl != newFnWhnTrnOn)
       _fnWhnTrnOnPrdCycl = newFnWhnTrnOn;
 
@@ -765,7 +778,8 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 			//Do: >>---------------------------------->>
 			if(!(_lftHndSwtchStts.isOn && _rghtHndSwtchStts.isOn)){
             _undrlFtMPBPtr->disable(); // Disable FtSwitch
-            _bthHndsOnAbrtd = true;
+            if(_fnWhnBthHndsOnOpLst != nullptr)
+               _fnWhnBthHndsOnOpLst(_fnWhnBthHndsOnOpLstArg);
             _lsSwtchFdaState = stOffNotBHP;
             _setSttChng();
          }
@@ -774,10 +788,12 @@ void LimbsSftyLnFSwtch::_updFdaState(){
             if(_ltchRlsPndng){
                _ltchRlsPndng = false;
                _undrlLftHndMPBPtr->setIsOnDisabled(false);
-               _undrlLftHndMPBPtr->disable();
+               if(_lftHndBhvrCfg.swtchIsEnbld)
+                  _undrlLftHndMPBPtr->disable();
                //! _undrlLftHndMPBPtr->_turnOff(); Here if the previous two commands don't ensure immediate status update we'll have a pending turn off!!
                _undrlRghtHndMPBPtr->setIsOnDisabled(false);
-               _undrlRghtHndMPBPtr->disable();
+               if(_rghtHndBhvrCfg.swtchIsEnbld)
+                  _undrlRghtHndMPBPtr->disable();
                //! _undrlRghtHndMPBPtr->_turnOff(); Here if the previous two commands don't ensure immediate status update we'll have a pending turn off!!
                _undrlFtMPBPtr->disable();
                _lsSwtchFdaState = stStrtRlsStrtCycl;

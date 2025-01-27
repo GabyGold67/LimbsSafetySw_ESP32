@@ -313,7 +313,6 @@ protected:
 
    unsigned long int _undrlSwtchsPollDelay{_minPollDelay};
 
-   bool _bthHndsOnAbrtd{false};  //! Create function call point to execute after setting this flag as true, reset after
    unsigned long int _curTimeMs{0};
    bool _ltchRlsIsOn{false};
    static bool _ltchRlsPndng;
@@ -322,17 +321,17 @@ protected:
    unsigned long int _prdCyclTmrStrt{0};
    unsigned long int _prdCyclTtlTm{0};  
 	
+   fncVdPtrPrmPtrType _fnWhnBthHndsOnOpLst{nullptr};
    fncVdPtrPrmPtrType _fnWhnTrnOffLtchRls {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOffPrdCycl {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnLtchRls {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnPrdCycl {nullptr};
-   fncVdPtrPrmPtrType _fnWhnBthHndsOnFail{nullptr};
 
    void* _fnWhnTrnOffLtchRlsArg {nullptr};
 	void* _fnWhnTrnOffPrdCyclArg {nullptr};
    void* _fnWhnTrnOnLtchRlsArg{nullptr};
 	void* _fnWhnTrnOnPrdCyclArg {nullptr};
-	void* _fnWhnBthHndsOnFailArg {nullptr};
+	void* _fnWhnBthHndsOnOpLstArg {nullptr};
 
    fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};
    bool _lsSwtchOtptsChng{false};
@@ -341,6 +340,7 @@ protected:
    bool _sttChng{true};
    String _swtchPollTmrName{"lsSwtchPollTmr"};
 
+   //TODO Add _tskToNtfyBthHndsOnOpLst{}
    TaskHandle_t _tskToNtfyLsSwtchOtptsChng{NULL};
    TaskHandle_t _tskToNtfyTrnOffLtchRls{NULL};
    TaskHandle_t _tskToNtfyTrnOffPrdCycl{NULL};
@@ -575,7 +575,10 @@ public:
     * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
     */
    TmVdblMPBttn*  getRghtHndSwtchPtr();
-	/**
+	
+   //TODO Add getTskToNtfyBthHndsOnOpLst()
+   
+   /**
 	 * @brief Returns the TaskHandle for the task to be unblocked when the object's lsSwtchOtptsChng attribute flags is set to true
     * 
     * One of the optional mechanisms activated when any attribute flag that includes the mechanism to modify an output pin is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.
@@ -621,7 +624,9 @@ public:
 	 * This method is provided for security and for error handling purposes, so that in case of unexpected situations detected, the driving **Deterministic Finite Automaton** used to compute the objects' states might be reset to it's initial state to safely restart it, maybe as part of an **Error Handling** procedure.
 	 */
    void resetFda();
-	/**
+	
+	void setFnWhnBthHndsOnOpLst(fncVdPtrPrmPtrType &newFnWhnBthHndsOnOpLst);
+   /**
 	 * @brief Sets the function to be executed when the object's ltchRlsIsOn attribute flag is set to false
     * 
     * One of the optional mechanisms activated by entering the **Latch Release is Off** (ltchRlsIsOn = false) state is the execution of a fncVdPtrPrmPtrType function, i.e. void (*FnWhnTrnOff)(void*). This method sets the pointer to the function.
@@ -630,7 +635,7 @@ public:
     * 
     * @note When the object is instantiated the function pointer is set to nullptr, value that disables the mechanism. Once a pointer to a function is provided the mechanism will become available. The mechanism can be disabled by setting the pointer value back to nullptr.
 	 */
-	void setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
+	void setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType &newFnWhnTrnOff);
 	/**
 	 * @brief Sets the function to be executed when the object's prdCyclIsOn attribute flag is set to false
     * 
@@ -640,7 +645,7 @@ public:
 	 * 
     * @note When the object is instantiated the function pointer is set to nullptr, value that disables the mechanism. Once a pointer to a function is provided the mechanism will become available. The mechanism can be disabled by setting the pointer value back to nullptr.
     */
-	void setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOff);
+	void setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType &newFnWhnTrnOff);
 	/**
 	 * @brief Sets the function to be executed when the object's ltchRlsIsOn attribute flag is set to true
     * 
@@ -649,7 +654,7 @@ public:
 	 * @param newFnWhnTrnOn Function pointer to the function to be executed when the object enters the "Latch Release is On" state.
     * @note When the object is instantiated the function pointer is set to nullptr, value that disables the mechanism. Once a pointer to a function is provided the mechanism will become available. The mechanism can be disabled by setting the pointer value back to nullptr.
 	 */
-	void setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
+	void setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType &newFnWhnTrnOn);
 	/**
 	 * @brief Sets the function to be executed when the object's prdCyclIsOn attribute flag is set to true
     * 
@@ -658,7 +663,7 @@ public:
 	 * @param newFnWhnTrnOff Function pointer to the function to be executed when the object enters the "Production Cycle is Off" state.
     * @note When the object is instantiated the function pointer is set to nullptr, value that disables the mechanism. Once a pointer to a function is provided the mechanism will become available. The mechanism can be disabled by setting the pointer value back to nullptr.
 	 */
-	void setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType newFnWhnTrnOn);
+	void setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType &newFnWhnTrnOn);
    /**
 	 * @brief Sets the value of the attribute flag indicating if a change took place in any of the output attribute flags
 	 *
@@ -727,6 +732,9 @@ public:
     * @note When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set.
     */
 	void setTrnOnPrdCyclArgPtr(void* &newVal);
+	
+   //TODO Add setTskToNtfyBthHndsOnOpLst()
+   
 	/**
 	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the **ANY** of the object's attribute flags changes it's value
     * 

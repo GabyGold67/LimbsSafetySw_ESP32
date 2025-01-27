@@ -144,12 +144,12 @@ void mainCtrlTsk(void *pvParameters){
    //------------------------------------------>> Behavior related parameters values BEGIN
    swtchBhvrCfg_t lftHndBhvrSUp{ // Left hand switch behavior configuration properties
       .swtchStrtDlyTm = 100,
-      .swtchIsEnbld = true,
+      .swtchIsEnbld = true,   //FTPO This is the value to swap to have the object keep track of the left hand MPB or not
       .swtchVdTm = 5000,
    };
    swtchBhvrCfg_t rghtHndBhvrSUp{   // Right hand switch behavior configuration properties
       .swtchStrtDlyTm = 100,
-      .swtchIsEnbld = true,
+      .swtchIsEnbld = true,   //FTPO This is the value to swap to have the object keep track of the right hand MPB or not
       .swtchVdTm = 5000,
    };
    swtchBhvrCfg_t ftBhvrSUp{  // Foot switch behavior configuration properties
