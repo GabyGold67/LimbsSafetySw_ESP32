@@ -242,6 +242,11 @@ TmVdblMPBttn* LimbsSftyLnFSwtch::getRghtHndSwtchPtr(){
    return _undrlRghtHndMPBPtr;
 }
 
+const TaskHandle_t LimbsSftyLnFSwtch::getTskToNtfyBthHndsOnMssd() const{
+   
+   return _tskToNtfyBthHndsOnMssd;
+}
+
 const TaskHandle_t LimbsSftyLnFSwtch::getTskToNtfyLsSwtchOtptsChng() const{
    
    return _tskToNtfyLsSwtchOtptsChng;
@@ -389,9 +394,9 @@ void LimbsSftyLnFSwtch::_rstOtptsChngCnt(){
    return;
 }
 
-void LimbsSftyLnFSwtch::setFnWhnBthHndsOnOpLst(fncVdPtrPrmPtrType &newFnWhnBthHndsOnOpLst){
-   if(_fnWhnBthHndsOnOpLst != newFnWhnBthHndsOnOpLst)
-      _fnWhnBthHndsOnOpLst = newFnWhnBthHndsOnOpLst;
+void LimbsSftyLnFSwtch::setFnWhnBthHndsOnMssd(fncVdPtrPrmPtrType &newFnWhnBthHndsOnMssd){
+   if(_fnWhnBthHndsOnMssd != newFnWhnBthHndsOnMssd)
+      _fnWhnBthHndsOnMssd = newFnWhnBthHndsOnMssd;
 
    return;
 }
@@ -500,6 +505,29 @@ void LimbsSftyLnFSwtch::setTrnOnPrdCyclArgPtr(void* &newVal){
       _fnWhnTrnOnPrdCyclArg = newVal;
 
    return;
+}
+
+void LimbsSftyLnFSwtch::setTskToNtfyBthHndsOnMssd(const TaskHandle_t &newTaskHandle){
+   portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
+	eTaskState taskToNtfyStt{};
+
+   taskENTER_CRITICAL(&mux);
+   if(_tskToNtfyBthHndsOnMssd != newTaskHandle){
+      if(_tskToNtfyBthHndsOnMssd != NULL){
+         taskToNtfyStt = eTaskGetState(_tskToNtfyBthHndsOnMssd);
+         if (taskToNtfyStt != eSuspended){
+            if(taskToNtfyStt != eDeleted){
+               vTaskSuspend(_tskToNtfyBthHndsOnMssd);
+               _tskToNtfyBthHndsOnMssd = NULL;
+            }
+         }
+      }
+      if (newTaskHandle != NULL)
+         _tskToNtfyBthHndsOnMssd = newTaskHandle;
+   }
+   taskEXIT_CRITICAL(&mux);
+
+	return;
 }
 
 void LimbsSftyLnFSwtch::setTskToNtfyLsSwtchOtptsChng(const TaskHandle_t &newTaskHandle){
@@ -778,8 +806,9 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 			//Do: >>---------------------------------->>
 			if(!(_lftHndSwtchStts.isOn && _rghtHndSwtchStts.isOn)){
             _undrlFtMPBPtr->disable(); // Disable FtSwitch
-            if(_fnWhnBthHndsOnOpLst != nullptr)
-               _fnWhnBthHndsOnOpLst(_fnWhnBthHndsOnOpLstArg);
+            if(_fnWhnBthHndsOnMssd != nullptr)
+               _fnWhnBthHndsOnMssd(_fnWhnBthHndsOnMssdArg);
+            //TODO Add the code to unblock the task dealing with the same situation as the _fnWhnBthHndsOnMssd function
             _lsSwtchFdaState = stOffNotBHP;
             _setSttChng();
          }
