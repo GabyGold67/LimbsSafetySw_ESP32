@@ -65,9 +65,73 @@ The library must model a switch that ensures the hands positioned in a secure pl
       - When enabled and pressed it triggers the machine **Start**|**Release** signal.
       
 ### Configuration and parameters for the ***LimbsSafetySw*** library class objects:
-Modeling such devices that demand strict compliance to certain rules to ensure the security of the operator and being flexible enough to apply it to a diverse universe of machines demands it to be configurable to adapt to large range of possible scenarios.  
+Modeling such devices that demand strict compliance to certain rules to ensure the security of the operator and being flexible enough to apply them to a diverse universe of machines demands it to be configurable to adapt to large range of possible scenarios.  
 So the configuration of the **LimbsSafetySw** library objects must be understood as separated by areas or **categories**, strongly related to:
    1. **Hardware** implementation of the _LimbsSafetySw_ switch.
    2. **Logic** implementation of the _LimbsSafetySw_, as composed by several **DbncdMPBttn** subclasses' objects.
    3. **Hardware** implementation of the _LimbsSafetySw_-machine interface.
    4. **Logic** parametrization for different production related use cases.
+
+The parameters for each category will have to be provided by different sources and be available for use at different points of execution of the control firmware using the ***LimbsSafetySw***. Also considering the security provided by the final instantiated model will depend on the right configuration of it, and as specifically required by the **ISO 13849-1 (2023)**, the access to some parameters configuration must be granted to be protected and limited to administration clearence level operators.
+
+So to make a general description of the parameters required by each category, it's source and stage they are required:
+
+   ### 1. Hardware implementation related parameters: 
+   Must be provided by the hardware implementation documentation, ahead of the solution implementation. If the hardware design gives some grade of liberty, a hardware implementation source of information must be given in the form of dip switches, non-volatile memory registers or other, information set and granted by the hardware design team, including the switch selected and connection to the MCU characteristics. So this category must include the following information configuration parameters:
+   For the hands switches:
+   - Required:
+      - Input connection pin
+      - Type of switch: NO|NC
+      - Connection logic: PullUp|PullDown
+      - Debounce time
+   - Optional:
+      - isOn attribute flag state
+         - Output pin
+         - Activation level
+      - isDisabled attribute flag state
+         - Output pin
+         - Activation level
+      - isVoided attribute flag state
+         - Output pin
+         - Activation level
+   For the foot switch
+      - Required:
+         - Input connection pin
+         - Type of switch: NO|NC
+         - Connection logic: PullUp|PullDown
+         - Debounce time
+      - Optional:
+         - Foot switch enabled state
+            - Output pin
+            - Activation level
+   - For the latch release mechanism
+      - Required:
+         - Output pin
+         - Activation level
+- Other optional hardware related parameters
+   - Production cycle timer active.
+      - Output pin
+      - Activation level
+   ### 2. Logic implementation of the class related parameters
+   For the class to present the behavior described in the requirements the DbncdMPBttn subclasses components' attributes must be configured ideally at LimbsSftySnglShtSw object constructor. If not possible it must be done before the LimbsSftySnglShtSw `.begin()` method is executed.  
+   The information must be provided by the security policy administrator, depending on his evaluation of the controlled machine characteristics, the standard operator expected behavior and productity policies.
+   - For the TmVdblMPBttn hands switches
+      - Missing parameters at the hands switches constructor
+         - VoidTime
+         - StartDelayTime
+   - For the  SnglSrvcMPBttn foot switch
+      - Missing parameters at the foot switch constructor
+         - StartDelayTime
+
+
+   ###   3. Hardware LimbsSftySnglShtSw - machine interface.
+      - Production Cycle time (prdCyclTm)
+      - Release Latch time (rlsLtchTm)
+
+
+   ### 4. Logic parametrization for production related use cases
+   - Left hand switch
+      - isEnabled
+   - Right hand switch
+      - isEnabled
+=========================================================================
