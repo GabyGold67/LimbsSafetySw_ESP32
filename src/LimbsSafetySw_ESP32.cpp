@@ -828,9 +828,7 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 			//Do: >>---------------------------------->>
 			if(!(_lftHndSwtchStts.isOn && _rghtHndSwtchStts.isOn)){
             _undrlFtMPBPtr->disable(); // Disable FtSwitch
-            if(_fnWhnBthHndsOnMssd != nullptr)
-               _fnWhnBthHndsOnMssd(_fnWhnBthHndsOnMssdArg);
-            //TODO Add the code to unblock the task dealing with the same situation as the _fnWhnBthHndsOnMssd function
+            _ackBthHndsOnMssd();
             _lsSwtchFdaState = stOffNotBHP;
             _setSttChng();
          }
