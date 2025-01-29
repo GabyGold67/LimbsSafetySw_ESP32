@@ -13,10 +13,11 @@ var searchData=
   ['getprdcyclison_10',['getPrdCyclIsOn',['../class_limbs_sfty_ln_f_swtch.html#a4996e99105816b1dc7e8f604bab2ed25',1,'LimbsSftyLnFSwtch']]],
   ['getprdcyclttltm_11',['getPrdCyclTtlTm',['../class_limbs_sfty_ln_f_swtch.html#ad0ee00e15b1a27b33757681c57760fb6',1,'LimbsSftyLnFSwtch']]],
   ['getrghthndswtchptr_12',['getRghtHndSwtchPtr',['../class_limbs_sfty_ln_f_swtch.html#ad1ca177c1d59acbab862db8720a60c10',1,'LimbsSftyLnFSwtch']]],
-  ['gettsktontfylsswtchotptschng_13',['getTskToNtfyLsSwtchOtptsChng',['../class_limbs_sfty_ln_f_swtch.html#affc3d73ea4cc9fd48ea45363e3c76724',1,'LimbsSftyLnFSwtch']]],
-  ['gettsktontfytrnoffltchrls_14',['getTskToNtfyTrnOffLtchRls',['../class_limbs_sfty_ln_f_swtch.html#a0a01551d6197533c3f9f9a399c04f8b8',1,'LimbsSftyLnFSwtch']]],
-  ['gettsktontfytrnoffprdcycl_15',['getTskToNtfyTrnOffPrdCycl',['../class_limbs_sfty_ln_f_swtch.html#a1760f9e8b3db3a8a51c1b2bc00d2c919',1,'LimbsSftyLnFSwtch']]],
-  ['gettsktontfytrnonltchrls_16',['getTskToNtfyTrnOnLtchRls',['../class_limbs_sfty_ln_f_swtch.html#adfc54fb463da60286fbca24213332bcd',1,'LimbsSftyLnFSwtch']]],
-  ['gettsktontfytrnonprdcycl_17',['getTskToNtfyTrnOnPrdCycl',['../class_limbs_sfty_ln_f_swtch.html#ae6c5ca35f281ca94ec56851044b33edf',1,'LimbsSftyLnFSwtch']]],
-  ['gpiopinotpthwcfg_5ft_18',['gpioPinOtptHwCfg_t',['../structgpio_pin_otpt_hw_cfg__t.html',1,'']]]
+  ['gettsktontfybthhndsonmssd_13',['getTskToNtfyBthHndsOnMssd',['../class_limbs_sfty_ln_f_swtch.html#a942ce44568b1a24932eaf8d460698cea',1,'LimbsSftyLnFSwtch']]],
+  ['gettsktontfylsswtchotptschng_14',['getTskToNtfyLsSwtchOtptsChng',['../class_limbs_sfty_ln_f_swtch.html#affc3d73ea4cc9fd48ea45363e3c76724',1,'LimbsSftyLnFSwtch']]],
+  ['gettsktontfytrnoffltchrls_15',['getTskToNtfyTrnOffLtchRls',['../class_limbs_sfty_ln_f_swtch.html#a0a01551d6197533c3f9f9a399c04f8b8',1,'LimbsSftyLnFSwtch']]],
+  ['gettsktontfytrnoffprdcycl_16',['getTskToNtfyTrnOffPrdCycl',['../class_limbs_sfty_ln_f_swtch.html#a1760f9e8b3db3a8a51c1b2bc00d2c919',1,'LimbsSftyLnFSwtch']]],
+  ['gettsktontfytrnonltchrls_17',['getTskToNtfyTrnOnLtchRls',['../class_limbs_sfty_ln_f_swtch.html#adfc54fb463da60286fbca24213332bcd',1,'LimbsSftyLnFSwtch']]],
+  ['gettsktontfytrnonprdcycl_18',['getTskToNtfyTrnOnPrdCycl',['../class_limbs_sfty_ln_f_swtch.html#ae6c5ca35f281ca94ec56851044b33edf',1,'LimbsSftyLnFSwtch']]],
+  ['gpiopinotpthwcfg_5ft_19',['gpioPinOtptHwCfg_t',['../structgpio_pin_otpt_hw_cfg__t.html',1,'']]]
 ];

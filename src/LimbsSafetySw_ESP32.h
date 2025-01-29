@@ -22,7 +22,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   26/01/2025 19:50 (GMT+0200)
+  *       Last update:   29/01/2025 17:10 (GMT+0200)
   * 
   * @copyright GPL-3.0 license
   *
@@ -327,11 +327,11 @@ protected:
 	fncVdPtrPrmPtrType _fnWhnTrnOnLtchRls {nullptr};
 	fncVdPtrPrmPtrType _fnWhnTrnOnPrdCycl {nullptr};
 
+	void* _fnWhnBthHndsOnMssdArg {nullptr};
    void* _fnWhnTrnOffLtchRlsArg {nullptr};
 	void* _fnWhnTrnOffPrdCyclArg {nullptr};
    void* _fnWhnTrnOnLtchRlsArg{nullptr};
 	void* _fnWhnTrnOnPrdCyclArg {nullptr};
-	void* _fnWhnBthHndsOnMssdArg {nullptr};
 
    fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};
    bool _lsSwtchOtptsChng{false};
@@ -349,6 +349,7 @@ protected:
 
 	static void lsSwtchPollCb(TimerHandle_t lssTmrCbArg);
 
+   void _ackBthHndsOnMssd();
    void _clrSttChng();
    bool _cnfgHndSwtch(const bool &isLeft, const swtchBhvrCfg_t &newCfg);
    void _getUndrlSwtchStts();
@@ -575,9 +576,14 @@ public:
     * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
     */
    TmVdblMPBttn*  getRghtHndSwtchPtr();
-	
-   const TaskHandle_t getTskToNtfyBthHndsOnMssd() const;
-   
+   /**
+	 * @brief Returns the TaskHandle for the task to be unblocked when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.
+    * 
+    * When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, wich is the main purpose of the use of the machine, was wasted. The opportunity of unblocking of a task blocked by a xTaskNotifyWait() as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time. This method returns the TaskHandle for the task to unblock.
+    * 
+    * @note When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyBthHndsOnMssd(const TaskHandle_t &newTaskHandle) method.
+	 */   
+   const TaskHandle_t getTskToNtfyBthHndsOnMssd() const;   
    /**
 	 * @brief Returns the TaskHandle for the task to be unblocked when the object's lsSwtchOtptsChng attribute flags is set to true
     * 
@@ -739,21 +745,35 @@ public:
     * 
     * @note When no arguments are expected to be passed the newVal value must be nullptr, that is the instantiation default value set.
     */
-	void setTrnOnPrdCyclArgPtr(void* &newVal);
-	
-   //TODO Add warning about setting a new task (does not check for the new task status) and the replacement of a previous task (suspending and not deleting)
-   void setTskToNtfyBthHndsOnMssd(const TaskHandle_t &newTaskHandle);
-   
+	void setTrnOnPrdCyclArgPtr(void* &newVal);	
 	/**
-	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the **ANY** of the object's attribute flags changes it's value
+	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.
+    * 
+    * One of the optional mechanisms activated when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock.
+    * When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, wich is the main purpose of the use of the machine, was wasted. The opportunity of unblocking of a task blocked by a xTaskNotifyWait() as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time. This method sets the TaskHandle for the task to unblock.
+    * 
+	 * @param newTaskHandle The task handle of the task to be unblocked when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.
+    * 
+    * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+    * 
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * 
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
+	 */
+   void setTskToNtfyBthHndsOnMssd(const TaskHandle_t &newTaskHandle);   
+	/**
+	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when **ANY** of the object's attribute flags changes it's value
     * 
     * One of the optional mechanisms activated when any of the relevant attribute flags changes it's state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock. This tool is of great importance for the integration between the electronic logic control and the mechanical device it is intended to control. While the "Latch Release status" (ltchRlsIsOn AF) and the "Production Cycle status" (prdCyclIsOn AF) have their own dedicated tasks assignation capabilities, this generic task handle provides for all the relevant AFs, including both aforementioned.
     * 
 	 * @param newTaskHandle The task handle of the task to be unblocked when one or more of the object's relevant AF changes it's value.
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+    * 
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * 
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
 	 */
-   //TODO Add warning about setting a new task (does not check for the new task status) and the replacement of a previous task (suspending and not deleting)
    void setTskToNtfyLsSwtchOtptsChng(const TaskHandle_t &newTaskHandle);
 	/**
 	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's ltchRlsIsOn attribute flag is set to false
@@ -763,8 +783,11 @@ public:
 	 * @param newTaskHandle The task handle of the task to be unblocked when the object enters the "Latch Release is Off" state.
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+    * 
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * 
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
 	 */
-   //TODO Add warning about setting a new task (does not check for the new task status) and the replacement of a previous task (suspending and not deleting)
    void setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle);    
 	/**
 	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's prdCyclIsOn attribute flag is set to false
@@ -774,8 +797,11 @@ public:
 	 * @param newTaskHandle The task handle of the task to be unblocked when the object enters the "Production cycle is Off" state.
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+    * 
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * 
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
 	 */
-   //TODO Add warning about setting a new task (does not check for the new task status) and the replacement of a previous task (suspending and not deleting)
 	void setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHandle);    
 	/**
 	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's ltchRlsIsOn attribute flag is set to true
@@ -785,8 +811,11 @@ public:
 	 * @param newTaskHandle The task handle of the task to be unblocked when the object enters the "Latch Release is On" state.
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+    * 
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * 
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
 	 */
-   //TODO Add warning about setting a new task (does not check for the new task status) and the replacement of a previous task (suspending and not deleting)
    void setTskToNtfyTrnOnLtchRls(const TaskHandle_t &newTaskHandle);    
 	/**
 	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's prdCyclIsOn attribute flag is set to true
@@ -796,8 +825,11 @@ public:
 	 * @param newTaskHandle The task handle of the task to be unblocked when the object enters the "Production cycle is On" state.
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
+    * 
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * 
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
 	 */
-   //TODO Add warning about setting a new task (does not check for the new task status) and the replacement of a previous task (suspending and not deleting)
 	void setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle);    
    /**
     * @brief Sets the update period length for the DbncdMPBttn subclasses objects used as input by the LimbsSftyLnFSwtch

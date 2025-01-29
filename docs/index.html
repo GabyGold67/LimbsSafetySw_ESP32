@@ -103,29 +103,38 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <div class="textblock"><p><a class="anchor" id="md__c_1_2_users_2_dev_padawan_2_documents_2_my_01_projects_2_training_01_projects_2_libs_dev___e_s_p32_2lib_2_limbs_safety_sw___e_s_p32_2_r_e_a_d_m_e"></a></p>
 <h1><a href="https://wokwi.com/projects/415018098762515457">See the working simulation at WOKWI Site</a></h1>
 <h1><a href="https://gabygold67.github.io/LimbsSafetySw_ESP32/">See complete manual at Github Pages</a></h1>
-<p>An ESP32-Arduino library that includes the class, data structures and functions required to model a <b>Limbs Safety Activation Switch for Launch and Forget Cycle Machines and Devices (<a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>)</b>.</p>
-<p>The definition above imposes requirements and limitations both to the logic development and to the range of machines it might be connected to. <br  />
+<p>This is an ESP32-Arduino library that includes the class, data structures and functions required to model a <b>Limbs Safety Activation Switch for Launch and Forget Cycle Machines and Devices (<a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>)</b>. The switches implemented through the propper use of the tools provided in this library lets the developer generate <b>ISO 13849-1 (2023)</b> compliant secure machine complete or partial required controls (please read the corresponding normative documentation at the <a href="https://www.iso.org/obp/ui/#iso:std:iso:13849:-1:ed-4:v1:en">ISO Online Browsing Platform</a>)</p>
+<p>The definition above imposes the need to detail the requirements and limitations both to the logic development and to the range of machines it might be connected to. <br  />
 </p>
 <h1>Requirements:</h1>
 <p>The software must model a device that enforces conditioned activation of several sensors to ensure limbs security when the equipment controlled is activated. This enforced conditions include sequenced activation order and timings as main parameters. The most basic configuration requires each hand to be positioned in a certain monitored location to ensure their safety, to enable a <b>release signal generator</b> device. The signal generated then will activate the start of the production cycle. The most simple and usual devices employed are two pushbuttons for the hands position monitor, which enables a foot switch. The enabled foot switch, when pressed, activates the machine production cycle. <br  />
 </p>
 <h1>Limitations:</h1>
-<p>The software is specifically designed to be applied in the activation of <b>"launch and forget" cycle machines</b>, although it might be applied to other kind of machines, previous security fitness analysis and testing.</p>
+<p>The software is specifically designed to be applied in the activation of <b>"launch and forget" cycle machines</b>, although it might be applied to other kind of machines, previous security fitness analysis and testing required, not only as a complete solution for the specified security requirement, but also as part of a more complex security solution depending on the machine controlled. <br  />
+</p>
 <p>The <b>"launch and forget" cycle machines</b> specific type the software is developed for have the following characteristics:</p><ul>
-<li>The switch starts -"launches"- an individual production cycle.</li>
+<li>The switch starts -_launches_- an individual production cycle.</li>
 <li>Once started there is no control over the cycle execution, including Emergency Exception activations.</li>
 <li>The machine has no signal provision to ensure the successful execution of the cycle start.</li>
 <li>The machine has no signal provision to inform about the production cycle evolution.</li>
 <li>The machine has no signal provision to inform about the production cycle successful end.</li>
 </ul>
 <p>The switches modeled by this class ensures the required enforced security practices, while letting some aspects to be configured for specific production tasks on the machine, or to adapt the switch to machines with different security needs.</p>
-<p>Once the physical security of the operator is ensured, having a programmable device installed and connected to the actionable mechanisms of the machine opens the door to the multiple benefits the modern controlled machines offer: machine failure detection, production control, time and energy use optimization and generated data analysis, local or remotely done by the use of IoT technologies... as was stated: <b>once the programmable device is properly installed and connected</b>. <br  />
-</p>
+<h1>Projecting beyond the limitations</h1>
+<p>Once the physical security of the operator is ensured, having a programmable device installed and connected to the actionable mechanisms of the machine opens the door to the multiple benefits the modern controlled machines offer:</p><ul>
+<li>machine failure detection</li>
+<li>production control</li>
+<li>time and energy use optimization</li>
+<li>generated data analysis (local or remotely done by the use of IoT technologies) ... as was stated: <b>once the programmable device is properly installed and connected</b>. <br  />
+</li>
+</ul>
 <h1>Definitions:</h1>
 <h2>Industrial mechanical cycle machines and devices:</h2>
-<p>Are machines that perform a series of mechanical operations in a repeating sequence: the <b>production cycle</b>. The machine's mechanical power source (usually electric motor) is activated in advance and a release mechanism -trigger- starts a sequence of actions for the production that ends with the machine in the same state and position it started from. Many of these machines have no way of stopping it's production cycle before reaching the end/restart point.</p>
+<p>Are machines that perform a series of mechanical operations in a repeating sequence: the <b>production cycle</b>. The machine's mechanical power source (usually electric motor) is activated in advance and a release mechanism -trigger- starts a sequence of actions for the production that ends with the machine in the same state and position it started from. Many of these machines have no way of stopping it's production cycle before reaching the end/restart point. <br  />
+</p>
 <h1>Limbs Safety Single Shot Switch class (<a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>)</h1>
-<p>The <em><b><a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a></b></em> class models a switch for safely activate <b>"launch and forget" cycle machines</b> and devices, which originally provides no other mechanism than a latch release mechanical trigger. This means that once activated the machine will complete a production cycle, return to the starting point and wait for a new <b>Start</b>|**Release** signal. As such, the minimum security primitive is to ensure no limbs are placed inside any dangerous machine zone before releasing the cycle trigger. The software development will consider then that the physical action needed to release the latch or trigger is replaced with a device such as a electromagnetic pull, an electrovalve commanded pneumatic actuator or similar device with the ability to be temporarily activated by an electric signal. Once the production cycle is started the limbs security will be the same as the one provided by the machine before the electronic upgrade.</p>
+<p>The <em><b><a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a></b></em> class models a switch for safely activate <b>"launch and forget" cycle machines</b> and devices, which originally provides no other mechanism than a latch release mechanical trigger. This means that once activated the machine will complete a production cycle, return to the starting point and wait for a new <b>Start</b>|**Release** signal. As such, the minimum security primitive is to ensure no limbs are placed inside any dangerous machine zone before releasing the cycle trigger. The software development will consider then that the physical action needed to release the latch or trigger is replaced with a device such as a electromagnetic pull, an electrovalve commanded pneumatic actuator or similar device with the ability to be temporarily activated by an electric signal. Once the production cycle is started the limbs security will be the same as the one provided by the machine before the electronic upgrade. <br  />
+</p>
 <hr  />
 <h2>Requirements for the <em><b><a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a></b></em> class objects:</h2>
 <p>The library must model a switch that ensures the hands positioned in a secure place and a foot to be used to activate the release mechanism, so it must include <b>three inputs</b> and <b>one output</b> in this most basic configuration:</p><ul>
@@ -153,12 +162,20 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <li>It must ensure a configurable minimum press time before a pressing event is to be considered valid.</li>
 <li>Must be kept disabled until both hands switches are generating a valid enabling signal.</li>
 <li>When enabled the hands switches must still be monitored to ensure both keep a valid state, disabling this switch if the situation changes.</li>
-<li>When enabled and pressed it triggers the machine <b>Start</b>|**Release** signal. </li>
+<li>When enabled and pressed it triggers the machine <b>Start</b>|**Release** signal.</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
+<h3>Configuration and parameters for the <em><b>LimbsSafetySw</b></em> library class objects:</h3>
+<p>Modeling such devices that demand strict compliance to certain rules to ensure the security of the operator and being flexible enough to apply it to a diverse universe of machines demands it to be configurable to adapt to large range of possible scenarios. <br  />
+ So the configuration of the <b>LimbsSafetySw</b> library objects must be understood as separated by areas or <b>categories</b>, strongly related to:</p><ol type="1">
+<li><b>Hardware</b> implementation of the <em>LimbsSafetySw</em> switch.</li>
+<li><b>Logic</b> implementation of the <em>LimbsSafetySw</em>, as composed by several <b>DbncdMPBttn</b> subclasses' objects.</li>
+<li><b>Hardware</b> implementation of the <em>LimbsSafetySw</em>-machine interface.</li>
+<li><b>Logic</b> parametrization for different production related use cases. </li>
+</ol>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->

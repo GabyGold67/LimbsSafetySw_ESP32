@@ -9,7 +9,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   26/01/2025 19:40 (GMT+0200)
+  *       Last update:   29/01/2025 11:10 (GMT+0200)
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -68,6 +68,28 @@ LimbsSftyLnFSwtch::~LimbsSftyLnFSwtch(){
    _undrlLftHndMPBPtr->~TmVdblMPBttn();
 }
 
+void LimbsSftyLnFSwtch::_ackBthHndsOnMssd(){
+   portMUX_TYPE mux portMUX_INITIALIZER_UNLOCKED;
+   
+      //---------------->> Tasks related actions
+      if(getTskToNtfyBthHndsOnMssd() != NULL){
+         xReturned = xTaskNotify(
+            getTskToNtfyBthHndsOnMssd(),	// TaskHandle_t of the task receiving notification
+            static_cast<uint32_t>(0x00),
+            eSetValueWithOverwrite	// In this specific case using eSetBits is also a valid option
+         );
+         if (xReturned != pdPASS)
+            errorFlag = pdTRUE;
+      }
+		//---------------->> Functions related actions
+		if(_fnWhnBthHndsOnMssd != nullptr){
+			_fnWhnBthHndsOnMssd(_fnWhnBthHndsOnMssdArg);
+		}
+	   //---------------->> Flags related actions
+
+   return;
+}
+
 bool LimbsSftyLnFSwtch::begin(unsigned long int pollDelayMs){
    bool result {false};
 	BaseType_t tmrModResult {pdFAIL};
@@ -107,7 +129,7 @@ void LimbsSftyLnFSwtch::clrStatus(){
    _prdCyclTmrStrt = 0;
    _undrlFtMPBPtr->disable(); // Disable FtSwitch
 
-   //todo Check why this must be forced!! BEGIN
+   //todo Check why this must be forced!! BEGIN -----------------> Not right, go directly to the _isEnabled flag value!!!
    _undrlLftHndMPBPtr->setIsOnDisabled(true);
    if(_lftHndBhvrCfg.swtchIsEnbld){
       _undrlLftHndMPBPtr->enable();
