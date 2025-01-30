@@ -22,7 +22,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   29/01/2025 17:10 (GMT+0200)
+  *       Last update:   30/01/2025 14:00 (GMT+0200)
   * 
   * @copyright GPL-3.0 license
   *

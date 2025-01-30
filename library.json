@@ -3,12 +3,12 @@
     "version": "1.0.0",
     
     "description": "This Esp32-Arduino library includes the class, data structures and functions required to model a Limbs Safety Activation Switch for Launch and  Forget Cycle Machines and Devices (LimbsSftyLnFSwtch).",
-    "keywords": "switch, security",
+    "keywords": "switch, security, ISO, safety, limbs",
     
     "repository":
     {
       "type": "git",
-      "url": "https://github.com/GabyGold67/"
+      "url": "https://github.com/GabyGold67/LimbsSafetySw_ESP32"
     },
     "authors":
     [
