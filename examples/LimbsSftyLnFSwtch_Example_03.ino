@@ -15,7 +15,7 @@
   *    - A task to manage the left hand switch outputs hardware configuration and updates
   *    - A task to manage the right hand switch outputs hardware configuration and updates
   *    - A task to manage the foot switch outputs hardware configuration and updates
-  * - Create ONE to manage the LimbsSftyLnFSwtch object's outputs' hardware configuration and updates
+  * - Create ONE Task to manage the LimbsSftyLnFSwtch object's outputs' hardware configuration and updates
   * - LimbsSftyLnFSwtch **object instantiation** and timer activation (using the .begin() method)
   *
   * Framework: Arduino
@@ -48,21 +48,21 @@
 void Error_Handler();
 //========================================>> General use function prototypes END
 
-//======================================>> Task Callback function prototypes BEGIN
+//====================================>> Task Callback function prototypes BEGIN
 void mainCtrlTsk(void *pvParameters);
 void leftHandCtrlTsk(void *pvParameters);
 void rghtHandCtrlTsk(void *pvParameters);
 void footCtrlTsk(void *pvParameters);
 void lmbSftyCtrlTsk(void *pvParameters);
-//========================================>> Task Callback function prototypes END
+//======================================>> Task Callback function prototypes END
 
-//===========================>> Tasks Handles declarations BEGIN
+//===========================================>> Tasks Handles declarations BEGIN
 TaskHandle_t mainCtrlTskHndl {NULL};
 TaskHandle_t lftHndSwtchTskHndl{NULL};
 TaskHandle_t rghtHndSwtchTskHndl{NULL};
 TaskHandle_t ftSwtchTskHndl{NULL};
 TaskHandle_t lmbSftySwtchTskHndl{NULL};
-//===========================>> Tasks Handles declarations END
+//=============================================>> Tasks Handles declarations END
 
 limbSftyFwConf_t mnCtrlTskConf{
    .lsSwExecTskCore = xPortGetCoreID(),
@@ -90,6 +90,7 @@ void loop() {
 
 //===============================>> User Tasks Implementations BEGIN
 void mainCtrlTsk(void *pvParameters){
+   delay(10);  //FTPO Part of the WOKWI simulator suggestions for simulation needs
    TickType_t loopTmrStrtTm{0};
    TickType_t* loopTmrStrtTmPtr{&loopTmrStrtTm};
    TickType_t totalDelay {LoopDlyTtlTm};
@@ -166,17 +167,17 @@ void mainCtrlTsk(void *pvParameters){
       .pulledUp = true,
       .dbncTime = 0UL
    };
-
    //------------------------------->> Hardware construction related parameters values END
+   
    //------------------------------------------>> Behavior related parameters values BEGIN
    swtchBhvrCfg_t lftHndBhvrSUp{ // Left hand switch behavior configuration properties
       .swtchStrtDlyTm = 100,
-      .swtchIsEnbld = true,   //FTPO This is the value to swap to have the object keep track of the left hand MPB or not
+      .swtchIsEnbld = false,   //FTPO This is the value to swap to have the object keep track of the left hand MPB or not
       .swtchVdTm = 5000,
    };
    swtchBhvrCfg_t rghtHndBhvrSUp{   // Right hand switch behavior configuration properties
       .swtchStrtDlyTm = 100,
-      .swtchIsEnbld = true,   //FTPO This is the value to swap to have the object keep track of the right hand MPB or not
+      .swtchIsEnbld = false,   //FTPO This is the value to swap to have the object keep track of the right hand MPB or not
       .swtchVdTm = 5000,
    };
    swtchBhvrCfg_t ftBhvrSUp{  // Foot switch behavior configuration properties
@@ -186,14 +187,14 @@ void mainCtrlTsk(void *pvParameters){
    //-------------------------------------------->> Behavior related parameters values END
    //===============================>> Underlying switches configuration parameters values END
 
-   //=============================>> LimbsSftyLnFSwtch switch configuration parameters values BEGIN
+   //====================>> LimbsSftyLnFSwtch switch configuration parameters values BEGIN
    //------------------------------------------>> Behavior related parameters values BEGIN
    lsSwtchSwCfg_t lsssSwtchWrkngPrm{
       .ltchRlsActvTm = 1500,
       .prdCyclActvTm = 6000,
    };
    //-------------------------------------------->> Behavior related parameters values END
-   //===============================>> LimbsSftyLnFSwtch switch configuration parameters values END
+   //=======================> LimbsSftyLnFSwtch switch configuration parameters values END
    
    LimbsSftyLnFSwtch stampSftySwtch (lftHndHwAttrbts, lftHndBhvrSUp, rghtHndHwAttrbts, rghtHndBhvrSUp, ftHwAttrbts, ftBhvrSUp, lsssSwtchWrkngPrm);
 
@@ -213,6 +214,7 @@ void mainCtrlTsk(void *pvParameters){
 }
 
 void leftHandCtrlTsk(void *pvParameters){
+   delay(10);  //FTPO Part of the WOKWI simulator suggestions for simulation needs
    swtchOtptHwCfg_t lftHndHwOtpts{  // Left hand switch hardware outputs configuration properties
       .isOnPin{
          .gpioOtptPin = GPIO_NUM_27,
@@ -286,7 +288,8 @@ void leftHandCtrlTsk(void *pvParameters){
 }
 
 void rghtHandCtrlTsk(void *pvParameters){
-   swtchOtptHwCfg_t rghtHndHwOtpts{ // Right hand switch hardware outputs configuration properties
+   delay(10);  //FTPO Part of the WOKWI simulator suggestions for simulation needs
+swtchOtptHwCfg_t rghtHndHwOtpts{ // Right hand switch hardware outputs configuration properties
       .isOnPin{
          .gpioOtptPin = GPIO_NUM_33,
          .gpioOtptActHgh = true,
@@ -359,6 +362,7 @@ void rghtHandCtrlTsk(void *pvParameters){
 }
 
 void footCtrlTsk(void *pvParameters){
+   delay(10);  //FTPO Part of the WOKWI simulator suggestions for simulation needs
    gpioPinOtptHwCfg_t ftSwtchIsEnbldOtpt{ // Foot switch hardware outputs configuration properties
       .gpioOtptPin = GPIO_NUM_17,
       .gpioOtptActHgh = true,
@@ -398,6 +402,7 @@ void footCtrlTsk(void *pvParameters){
 }
 
 void lmbSftyCtrlTsk(void *pvParameters){
+   delay(10);  //FTPO Part of the WOKWI simulator suggestions for simulation needs
    gpioPinOtptHwCfg_t prdCyclIsOnOtpt{   // Production cycle hardware outputs configuration properties
       .gpioOtptPin = GPIO_NUM_22,
       .gpioOtptActHgh = true,

@@ -813,9 +813,6 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 			}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>         
 			if(_lftHndSwtchStts.isOn && _rghtHndSwtchStts.isOn){
-               Serial.print("BM00-State 0: lftHndIsOn = true, rghtHndIsOn = true"); //FTPO
-               Serial.print(", ftIsEnabled = ");         //FTPO
-               Serial.println(_ftSwtchStts.isEnabled);   //FTPO            
             _lsSwtchFdaState = stOffBHPNotFP;
 				_setSttChng();	//Set flag to execute exiting OUT code
 			}
@@ -828,21 +825,9 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 		case stOffBHPNotFP:
 			//In: >>---------------------------------->>
 			if(_sttChng){
-               Serial.print("BM01-State 1, In Section: lftHndIsOn = ");   //FTPO
-               Serial.print(_lftHndSwtchStts.isOn);      //FTPO
-               Serial.print(", rghtHndIsOn = ");         //FTPO
-               Serial.print(_rghtHndSwtchStts.isOn);   //FTPO            
-               Serial.print(", ftIsEnabled = ");         //FTPO
-               Serial.println(_ftSwtchStts.isEnabled);   //FTPO            
             _clrSttChng();}	// Execute this code only ONCE, when entering this state
 			//Do: >>---------------------------------->>
 			if(!(_lftHndSwtchStts.isOn && _rghtHndSwtchStts.isOn)){
-               Serial.print("BM02-State 1, returning to State 0: lftHndIsOn = ");   //FTPO
-               Serial.print(_lftHndSwtchStts.isOn);      //FTPO
-               Serial.print(", rghtHndIsOn = ");         //FTPO
-               Serial.print(_rghtHndSwtchStts.isOn);     //FTPO
-               Serial.print(", ftIsEnabled = ");         //FTPO
-               // Serial.println(_ftSwtchStts.isEnabled);   //FTPO            
             _undrlFtMPBPtr->disable(); // Disable FtSwitch
             _ackBthHndsOnMssd();
             _lsSwtchFdaState = stOffNotBHP;
@@ -851,21 +836,13 @@ void LimbsSftyLnFSwtch::_updFdaState(){
          else{
             // Check the foot switch release signal ok flag
             if(_ltchRlsPndng){
-                  Serial.print("BM03-State 1, latch release signal received: lftHndIsOn = ");   //FTPO
-                  Serial.print(_lftHndSwtchStts.isOn);      //FTPO
-                  Serial.print(", rghtHndIsOn = ");         //FTPO
-                  Serial.print(_rghtHndSwtchStts.isOn);     //FTPO
-                  Serial.print(", ftIsEnabled = ");         //FTPO
-                  Serial.println(_ftSwtchStts.isEnabled);   //FTPO            
                _ltchRlsPndng = false;
                _undrlLftHndMPBPtr->setIsOnDisabled(false);
                if(_lftHndBhvrCfg.swtchIsEnbld)
                   _undrlLftHndMPBPtr->disable();
-               //! _undrlLftHndMPBPtr->_turnOff(); Here if the previous two commands don't ensure immediate status update we'll have a pending turn off!!
                _undrlRghtHndMPBPtr->setIsOnDisabled(false);
                if(_rghtHndBhvrCfg.swtchIsEnbld)
                   _undrlRghtHndMPBPtr->disable();
-               //! _undrlRghtHndMPBPtr->_turnOff(); Here if the previous two commands don't ensure immediate status update we'll have a pending turn off!!
                _undrlFtMPBPtr->disable();
                _lsSwtchFdaState = stStrtRlsStrtCycl;
                _setSttChng();
@@ -910,13 +887,11 @@ void LimbsSftyLnFSwtch::_updFdaState(){
             _turnOffPrdCycl();
             // Restore modified isOnDisabled, isEnabled for the underlying switches
             _undrlLftHndMPBPtr->setIsOnDisabled(true);
-            if(_lftHndBhvrCfg.swtchIsEnbld){
+            if(_lftHndBhvrCfg.swtchIsEnbld)
                _undrlLftHndMPBPtr->enable();
-            }
             _undrlRghtHndMPBPtr->setIsOnDisabled(true);
-            if(_rghtHndBhvrCfg.swtchIsEnbld){
+            if(_rghtHndBhvrCfg.swtchIsEnbld)
                _undrlRghtHndMPBPtr->enable();
-            }
             _lsSwtchFdaState = stOffNotBHP;
             _setSttChng();
          }
@@ -940,7 +915,6 @@ void LimbsSftyLnFSwtch::_updFdaState(){
 	taskEXIT_CRITICAL(&mux);
 
 	return;
-
 }
 
 void LimbsSftyLnFSwtch::_setLtchRlsPndng(){
