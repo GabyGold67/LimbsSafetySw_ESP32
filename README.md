@@ -2,7 +2,9 @@
 ## [See the working simulation at WOKWI Site](https://wokwi.com/projects/415018098762515457)
 ## [See complete manual at Github Pages](https://gabygold67.github.io/LimbsSafetySw_ESP32/)
 
-This is an ESP32-Arduino library that includes the class, data structures and functions required to model a **Limbs Safety Activation Switch for Launch and Forget Cycle Machines and Devices (LimbsSftyLnFSwtch)**. The switches implemented through the propper use of the tools provided in this library lets the developer generate **ISO 13849-1 (2023)** compliant secure machine complete or partial required controls (please read the corresponding normative documentation at the [ISO Online Browsing Platform](https://www.iso.org/obp/ui/#iso:std:iso:13849:-1:ed-4:v1:en))
+This is an ESP32-Arduino library that includes the class, data structures and functions required to model a **Limbs Safety Activation Switch for Launch and Forget Cycle Machines and Devices (LimbsSftyLnFSwtch)**. The switches implemented through the proper use of the tools provided in this library lets the developer generate **ISO 13849-1 (2023)** compliant secure machine required activation controls (please read the corresponding normative documentation at the [ISO Online Browsing Platform](https://www.iso.org/obp/ui/#iso:std:iso:13849:-1:ed-4:v1:en)).
+
+The provided API gives access to enough tools included to extend this control into the center of a real-time productivity control, data logger, data analysis and IoT node.
 
 The definition above imposes the need to detail the requirements and limitations both to the logic development and to the range of machines it might be connected to.  
 
@@ -72,66 +74,74 @@ So the configuration of the **LimbsSafetySw** library objects must be understood
    3. **Hardware** implementation of the _LimbsSafetySw_-machine interface.
    4. **Logic** parametrization for different production related use cases.
 
-The parameters for each category will have to be provided by different sources and be available for use at different points of execution of the control firmware using the ***LimbsSafetySw***. Also considering the security provided by the final instantiated model will depend on the right configuration of it, and as specifically required by the **ISO 13849-1 (2023)**, the access to some parameters configuration must be granted to be protected and limited to administration clearence level operators.
+The parameters for each category will have to be provided by different sources and be available for use at different points of execution of the control firmware using the ***LimbsSftyLnFSwtch***. Also considering the security provided by the final instantiated model will depend on the right configuration of it, and as specifically required by the **ISO 13849-1 (2023)**, the access to some parameters configuration must be granted to be protected and limited to administration clearance level operators.
 
-So to make a general description of the parameters required by each category, it's source and stage they are required:
+So to make a general description of the parameters required by each category, it's source and execution stage at which they are required:
 
-   ### 1. Hardware implementation related parameters: 
-   Must be provided by the hardware implementation documentation, ahead of the solution implementation. If the hardware design gives some grade of liberty, a hardware implementation source of information must be given in the form of dip switches, non-volatile memory registers or other, information set and granted by the hardware design team, including the switch selected and connection to the MCU characteristics. So this category must include the following information configuration parameters:
-   For the hands switches:
+### 1. Hardware implementation related parameters: 
+Must be provided by the hardware implementation documentation, ahead of the solution implementation. If the hardware design gives some grade of liberty, a hardware implementation source of information must be given in the form of dip switches, non-volatile memory registers or other, information set and granted by the hardware design team, including the switch selected and connection to the MCU characteristics. So this category must include the following information configuration parameters:
+For the hands switches:
+- Required:
+   - Input connection pin
+   - Type of switch: NO|NC
+   - Connection logic: PullUp|PullDown
+   - Debounce time
+- Optional:
+   - isOn attribute flag state
+      - Output pin
+      - Activation level
+   - isDisabled attribute flag state
+      - Output pin
+      - Activation level
+   - isVoided attribute flag state
+      - Output pin
+      - Activation level
+For the foot switch
    - Required:
       - Input connection pin
       - Type of switch: NO|NC
       - Connection logic: PullUp|PullDown
       - Debounce time
    - Optional:
-      - isOn attribute flag state
+      - Foot switch enabled state
          - Output pin
          - Activation level
-      - isDisabled attribute flag state
-         - Output pin
-         - Activation level
-      - isVoided attribute flag state
-         - Output pin
-         - Activation level
-   For the foot switch
-      - Required:
-         - Input connection pin
-         - Type of switch: NO|NC
-         - Connection logic: PullUp|PullDown
-         - Debounce time
-      - Optional:
-         - Foot switch enabled state
-            - Output pin
-            - Activation level
-   - For the latch release mechanism
-      - Required:
-         - Output pin
-         - Activation level
-- Other optional hardware related parameters
-   - Production cycle timer active.
+- For the latch release mechanism
+   - Required:
       - Output pin
       - Activation level
-   ### 2. Logic implementation of the class related parameters
-   For the class to present the behavior described in the requirements the DbncdMPBttn subclasses components' attributes must be configured ideally at LimbsSftySnglShtSw object constructor. If not possible it must be done before the LimbsSftySnglShtSw `.begin()` method is executed.  
-   The information must be provided by the security policy administrator, depending on his evaluation of the controlled machine characteristics, the standard operator expected behavior and productity policies.
-   - For the TmVdblMPBttn hands switches
-      - Missing parameters at the hands switches constructor
-         - VoidTime
-         - StartDelayTime
-   - For the  SnglSrvcMPBttn foot switch
-      - Missing parameters at the foot switch constructor
-         - StartDelayTime
+- Other optional hardware related parameters
+- Production cycle timer active.
+   - Output pin
+   - Activation level
 
+### 2. Logic implementation of the class related parameters
+For the class to present the behavior described in the requirements the DbncdMPBttn subclasses components' attributes must be configured ideally at LimbsSftySnglShtSw object constructor. If not possible it must be done before the ***LimbsSftyLnFSwtch*** `.begin()` method is invoked by the use of the corresponding "setters" methods. It's important to note that default values are provided in the corresponding constructors to enable the instantiation of the required objects adjusted to standard values that guarantees the security, but are not optimized for productivity performance per se.  
+The information must be provided by the security policy administrator, depending on his evaluation of the controlled machine characteristics, the standard operator expected behavior and productivity policies. The parameters might be changed by **Security Administrator** level user.
+- For the TmVdblMPBttn hands switches
+   - Missing parameters at the hands switches constructor
+      - VoidTime
+      - StartDelayTime
+- For the  SnglSrvcMPBttn foot switch
+   - Missing parameters at the foot switch constructor
+      - StartDelayTime
 
-   ###   3. Hardware LimbsSftySnglShtSw - machine interface.
-      - Production Cycle time (prdCyclTm)
-      - Release Latch time (rlsLtchTm)
+###   3. Hardware LimbsSftySnglShtSw - machine interface.
+Being the ***LimbsSftyLnFSwtch*** class objects designed for machines with the characteristics already described, the following parameters must be set depending on the controlled machine's individual characteristics. The parameters might be changed by a **Security Administrator** or a **Production Administrator** level user. The "Release Latch time" parameter is related to the time needed by the release mechanism to effectively start the production cycle. A too short time will leave the machine locked, a too long time will risk the possibility of letting the machine start a new production cycle without any security policies enforced, and without any warning. The "Production Cycle time" is expected to be set to the total time a complete production cycle takes to complete. As the machine has no sensors to indicate the cycle end, a time based parameter is included to replace it. The time set must be enough to cover the real time the production cycle takes since the moment the Release latch starts to be activated, and until the cycle is completed. Giving a shortest time parameter risks security, giving a longer time parameter compromises the productivity. So setting a longer time than needed is a safe bet. The time might be adjusted by a setter execution, according to the development implemented mechanisms.
+   - Release Latch time (rlsLtchTm)
+   - Production Cycle time (prdCyclTm)
 
-
-   ### 4. Logic parametrization for production related use cases
+### 4. Logic parametrization for production related use cases
    - Left hand switch
       - isEnabled
    - Right hand switch
       - isEnabled
 =========================================================================
+
+Users Levels:
+   - Developer level users
+   - Technical maintenance level users
+   - Security supervisor level users
+   - Administrative level users
+   - Production supervisor level users
+   - Operator level users

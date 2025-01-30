@@ -3,26 +3,28 @@
   * @file   LimbsSafetySw_ESP32.h
   * @brief  Header file for the LimbsSafetySw_ESP32 library
   *
-  * @details The library implements Limbs Safety Switches for industrial production machines and dangerous devices. The switches fullfills the following properties:
+  * @details The library implements Limbs Safety Switches for industrial production machines and dangerous devices. The switches generated are ISO 13849-1 (2023) compliant (configuration dependant).
   * 
-  * - Its input signals are analog to those produced by an MPB, including but not limited to:
+  * The switches generated includes the following properties:
+  * - It accepts any input signals analog to those produced by an MPB, including but not limited to:
   *   - MPBs
   *   - Digital output pressure sensors
   *   - Proximity sensors
   *   - Infrared U-Slot Photoelectric Sensor
-  * - Its main output signal will be limited to:
+  * - Its main output signal is limited to:
   *   - Latch release Activated|Deactivated
-  * - Its secondary outputs signals might include:
-  *   - Both Hands OK = foot switch enabled
+  * - Its secondary outputs signals include:
+  *   - Hands switches status
+  *      - isOn state
+  *      - isVoided state
+  *      - isEnabled state
+  *   - Foot switch isEnabled state indicator
   *   - Production Cycle Active|Inactive
-  *   - Attribute flags state for the underlying composing objects:
-  *      - For Left hand switch and Right hand switch: isOn, isVoided and isEnabled state indicators
-  *      - For the Foot switch: isEnabled state indicator
   *
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   30/01/2025 14:00 (GMT+0200)
+  *       Last update:   30/01/2025 19:00 (GMT+0200)
   * 
   * @copyright GPL-3.0 license
   *
@@ -98,7 +100,7 @@ typedef fncVdPtrPrmPtrType (*ptrToTrnFncVdPtr)(void*);
 //===================================================>> BEGIN User defined types
 /**
  * @struct gpioPinOtptHwCfg_t
- * @brief GPIO Generic Pin for Output Mode Configuration data structure
+ * @brief GPIO Generic Pin for Output Configuration data structure
  * 
  * Resource to keep the class design flexible to be used with different hardware components, this structure holds the output GPIO pin identification and a flag indicating if the voltage level needed to activate the device connected to the output pin. Polarity connection of leds, CC or CA RGB leds or led arrays, low or high level activated relays are examples of where the gpioPinOtptHwCfg_t is a convenient replacement to simple pin configuration as Output Mode.
  * 
@@ -114,13 +116,13 @@ struct gpioPinOtptHwCfg_t{
  * @struct limbSftyFwConf_t
  * @brief Limbs Safety Firmware Configuration parameters
  * 
- * Holds the parameters for the creation and configuration of the Execution Core (for multicore MCUs) and Task Execution Priority level for the switch status update code execution.
+ * Holds the values needed for the configuration of parameters related with code execution.
  * 
- * @attention Software construction related!! The information must be provided by the software developers as it is related to the general development parameters.
+ * @attention Software construction related!! The information is related to the general development parameters.
  * The core selection for the Task Execution might be provided by the hardware development team or automatically determined by O.S. as the core executing the applications.
  * 
  * @param lsSwExecTskCore Core where the code is expected to run
- * @param lsSwExecTskPrrtyCnfg Holds the priority level for the task running the switch code
+ * @param lsSwExecTskPrrtyCnfg Priority level for the tasks running the switch creation code, the different output updates code, including functions and other tasks related.
  */
 struct limbSftyFwConf_t{
   BaseType_t lsSwExecTskCore = xPortGetCoreID();
@@ -128,14 +130,14 @@ struct limbSftyFwConf_t{
 };
 
 /**
- * @struct limbSftySwConf_t
- * @brief Limbs Safety Switch Configuration parameters
+ * @struct swtchBhvrCfg_t
+ * @brief Limbs safety underlying switches behavior configuration parameters
  * 
  * Holds the required set of parameters needed for the configuration of each of the three DbncdMPBttn subclass switches needed for input (left hand's TmVdblMPBttn, right hand's TmVdblMPBttn, foot's SnglSrvcVdblMPBttn). 
  * Each parameter has default values assigned for a standard LimbsSftyLnFSwtch configuration.
  * 
  * @param swtchStrtDlyTm Corresponds to the DbncdMPBttn subclasses strtDelay class attribute.
- * @param swtchIsEnbld Corresponds to the DbncdMPBttn subclasses _isEnabled attribute flag
+ * @param swtchIsEnbld Corresponds to the DbncdMPBttn subclasses isEnabled attribute flag
  * @param swtchVdTm Corresponds to the TmVdblMPBttn class voidTime attribute, will be used as an activation time limit for the hands controlled TmVdblMPBttn
  * 
  * @note The provided default values are expected to be only used if no explicit values are provided by the object instantiating software. In a standard use case these values are expected to be saved from previous configured values, and be part of the configuration being set by supervisor level users.
@@ -148,11 +150,10 @@ struct swtchBhvrCfg_t{
 
 /**
  * @struct swtchInptHwCfg_t
- * @brief Switch Input Hardware Configuration data structure
+ * @brief Switch Input Hardware Configuration parameters
  * 
  * Holds the hardware characteristics of each of the underlying composing switches used, data needed for those switches constructors.
- * As the attributes held in the structure are all hardware related they must be set or modified only when hardware construction or modification happens. The actual parameters must be saved in non volatile memory or by physical means (jumpers, dip switches, etc.) and are non user nor supervisor modifiable. 
- * Only designer level operators might modify them.
+ * As the attributes held in the structure are all hardware related they must be set or modified only when hardware construction or modification happens. The actual parameters must be saved in non volatile memory or by physical means (jumpers, dip switches, etc.). Only technical maintenance level operators might modify them.
  * 
  * @param inptPin GPIO pin number connected to the MPBttn
  * @param typeNO Type of switch, Normal Open (NO=true) or Normal Closed (NO=false). Default value: true
@@ -579,7 +580,7 @@ public:
    /**
 	 * @brief Returns the TaskHandle for the task to be unblocked when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.
     * 
-    * When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, wich is the main purpose of the use of the machine, was wasted. The opportunity of unblocking of a task blocked by a xTaskNotifyWait() as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time. This method returns the TaskHandle for the task to unblock.
+    * When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, which is the main purpose of the use of the machine, was wasted. The opportunity of unblocking of a task blocked by a xTaskNotifyWait() as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time. This method returns the TaskHandle for the task to unblock.
     * 
     * @note When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyBthHndsOnMssd(const TaskHandle_t &newTaskHandle) method.
 	 */   
@@ -633,7 +634,7 @@ public:
 	/**
 	 * @brief Sets the function to be executed when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.
     * 
-    * When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, wich is the main purpose of the use of the machine, was wasted. The opportunity to execute a function as part of that state transition gives a tool to register this situation, as the proportion of these failures compared to the expected behavior may indicate an anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time.
+    * When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, which is the main purpose of the use of the machine, was wasted. The opportunity to execute a function as part of that state transition gives a tool to register this situation, as the proportion of these failures compared to the expected behavior may indicate an anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time.
 	 * 
 	 * @param newFnWhnBthHndsOnMssd Function pointer to the function to be executed when the object makes the transition from  "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.
     * 
@@ -750,15 +751,15 @@ public:
 	 * @brief Sets the task to be unblocked -by a xTaskNotify()- when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.
     * 
     * One of the optional mechanisms activated when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock.
-    * When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, wich is the main purpose of the use of the machine, was wasted. The opportunity of unblocking of a task blocked by a xTaskNotifyWait() as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time. This method sets the TaskHandle for the task to unblock.
+    * When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, which is the main purpose of the use of the machine, was wasted. The opportunity of unblocking of a task blocked by a xTaskNotifyWait() as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time. This method sets the TaskHandle for the task to unblock.
     * 
 	 * @param newTaskHandle The task handle of the task to be unblocked when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
     * 
-    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer.  
     * 
-    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision.
 	 */
    void setTskToNtfyBthHndsOnMssd(const TaskHandle_t &newTaskHandle);   
 	/**
@@ -770,9 +771,9 @@ public:
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
     * 
-    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer.  
     * 
-    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision.
 	 */
    void setTskToNtfyLsSwtchOtptsChng(const TaskHandle_t &newTaskHandle);
 	/**
@@ -784,9 +785,9 @@ public:
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
     * 
-    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer.  
     * 
-    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision.
 	 */
    void setTskToNtfyTrnOffLtchRls(const TaskHandle_t &newTaskHandle);    
 	/**
@@ -798,9 +799,9 @@ public:
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
     * 
-    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer.  
     * 
-    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision.
 	 */
 	void setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &newTaskHandle);    
 	/**
@@ -812,9 +813,9 @@ public:
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
     * 
-    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer.  
     * 
-    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision.
 	 */
    void setTskToNtfyTrnOnLtchRls(const TaskHandle_t &newTaskHandle);    
 	/**
@@ -826,9 +827,9 @@ public:
     * 
     * @note When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.
     * 
-    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer.  
+    * @attention Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer.  
     * 
-    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision.
+    * @attention Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision.
 	 */
 	void setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &newTaskHandle);    
    /**
