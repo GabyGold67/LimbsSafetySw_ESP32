@@ -5,16 +5,17 @@
   *
   * @details The library implements Limbs Safety Switches for industrial production machines and dangerous devices. The switches generated are ISO 13849-1 (2023) compliant (configuration dependant).
   * 
-  * The switches generated includes the following properties:
+  * The switches generated include the following properties:
   * - It accepts any input signals analog to those produced by an MPB, including but not limited to:
   *   - MPBs
   *   - Digital output pressure sensors
-  *   - Proximity sensors
-  *   - Infrared U-Slot Photoelectric Sensor
-  * - Its main output signal is limited to:
+  *   - Digital output proximity sensors
+  *   - Infrared U-slot photoelectric Sensor
+  *   - Laser barriers
+  * - Its main output signal:
   *   - Latch release Activated|Deactivated
   * - Its secondary outputs signals include:
-  *   - Hands switches status
+  *   - Hands switches status (for each one of them)
   *      - isOn state
   *      - isVoided state
   *      - isEnabled state
@@ -121,7 +122,7 @@ struct gpioPinOtptHwCfg_t{
  * @attention Software construction related!! The information is related to the general development parameters.
  * The core selection for the Task Execution might be provided by the hardware development team or automatically determined by O.S. as the core executing the applications.
  * 
- * @param lsSwExecTskCore Core where the code is expected to run
+ * @param lsSwExecTskCore MCU core where the code is expected to run (for multicore MCUs)
  * @param lsSwExecTskPrrtyCnfg Priority level for the tasks running the switch creation code, the different output updates code, including functions and other tasks related.
  */
 struct limbSftyFwConf_t{
@@ -140,7 +141,7 @@ struct limbSftyFwConf_t{
  * @param swtchIsEnbld Corresponds to the DbncdMPBttn subclasses isEnabled attribute flag
  * @param swtchVdTm Corresponds to the TmVdblMPBttn class voidTime attribute, will be used as an activation time limit for the hands controlled TmVdblMPBttn
  * 
- * @note The provided default values are expected to be only used if no explicit values are provided by the object instantiating software. In a standard use case these values are expected to be saved from previous configured values, and be part of the configuration being set by supervisor level users.
+ * @note The provided default values are expected to be only used if no explicit values are provided by the object instantiating software. In a standard use case these values are expected to be saved from previous configured values, and be part of the configuration being set by **Production supervisor level users** and up.
  */
 struct swtchBhvrCfg_t{
   unsigned long int swtchStrtDlyTm = _stdTVMPBttnDelayTime;
@@ -153,7 +154,7 @@ struct swtchBhvrCfg_t{
  * @brief Switch Input Hardware Configuration parameters
  * 
  * Holds the hardware characteristics of each of the underlying composing switches used, data needed for those switches constructors.
- * As the attributes held in the structure are all hardware related they must be set or modified only when hardware construction or modification happens. The actual parameters must be saved in non volatile memory or by physical means (jumpers, dip switches, etc.). Only technical maintenance level operators might modify them.
+ * As the attributes held in the structure are all hardware related they must be set or modified only when hardware construction or modification happens. The actual parameters must be saved in non volatile memory or by physical means (jumpers, dip switches, etc.). Only **Technical maintenance level users** and up might modify them.
  * 
  * @param inptPin GPIO pin number connected to the MPBttn
  * @param typeNO Type of switch, Normal Open (NO=true) or Normal Closed (NO=false). Default value: true
@@ -162,6 +163,7 @@ struct swtchBhvrCfg_t{
  * 
  * @note inptPin = GPIO_NUM_NC (-1) is used to indicate the pin is Not Connected (N/C). 
  * @note GPIO_NUM_MAX is used to indicate the maximum valid number for a GPIO pin (GPIO_NUM_x < GPIO_NUM_MAX)
+ *
  * @attention Hardware construction related!! The information must be provided by the hardware developers
  * @warning Not all the GPIO input pins of every MCU has input mode operation, nor all have a pull-up internal circuit available!
 */
@@ -213,7 +215,7 @@ struct swtchOtptHwCfg_t{
  * 
  */
 struct lsSwtchOtpts_t{
-   // Underlying MPBttns AF values kept for practical use, might be changed in future development iterations as there are other resources to get these values
+   // Underlying MPBttns AF values kept for practical use as there are other resources to get these values
    bool lftHndIsEnbld;
    bool lftHndIsOn;
    bool lftHndIsVdd;
@@ -258,23 +260,12 @@ static BaseType_t errorFlag {pdFALSE};
 /**
  * @class LimbsSftyLnFSwtch
  * 
- * @brief Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for 
- * safely activation of **"launch and forget" cycle machines** and devices.
+ * @brief Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of **"launch and forget" cycle machines** and devices.
  * 
- * This industry grade machinery oriented switch enforces conditioned activation
- * of several switches to ensure limbs security. This enforced conditions 
- * include sequenced pressing order and timings as main parameters.
- * The most basic configuration requires each hand pressing simultaneously two
- * switches to enable a foot switch. The enabled foot switch activates the 
- * machine action.  
- * Operators' or production managers' needs and criteria often end with regular
- * security switches tampered, played down, rigged or other actions that degrade
- * the security provided by regular switches, far below the real needs and the 
- * standards.
- * The switches modeled by this class ensures the required enforced security
- * practices, while letting some aspects to be configured for specific 
- * production tasks on the machine, or to adapt the switch to machines with 
- * different security needs.
+ * This industry grade machinery oriented switch enforces conditioned activation of several switches to ensure limbs security, enabled for ISO 13849-1 standard compliance. This enforced conditions include sequenced pressing order and timings as main parameters.
+ * The most basic configuration requires each hand pressing simultaneously two switches to enable a foot switch. The enabled foot switch activates the machine action.  
+ * Operators' or production managers' needs and criteria often end with regular security switches tampered, played down, rigged or other actions that degrade the security provided by regular switches, far below the real needs and the standards.
+ * The switches modeled by this class ensures the required enforced security practices, while letting some aspects to be configured for specific production tasks on the machine, or to adapt the switch to machines with different security needs.
  * 
  * This class relies on ButtonToSwitch_ESP32 class objects:
  * - A TmVdblMPBttn object for each hand switch
@@ -302,12 +293,12 @@ protected:
 
    MpbOtpts_t _lftHndSwtchStts{};
    TmVdblMPBttn* _undrlLftHndMPBPtr{nullptr};
-   VdblMPBttn* _undrlLftHndBasePtr{nullptr};
+//   VdblMPBttn* _undrlLftHndBasePtr{nullptr}; //TODO Verify use of this variable through all the code!
 
 
    MpbOtpts_t _rghtHndSwtchStts{};
    TmVdblMPBttn* _undrlRghtHndMPBPtr{nullptr};
-   VdblMPBttn* _undrlRghtHndBasePtr{nullptr};
+//   VdblMPBttn* _undrlRghtHndBasePtr{nullptr};   //TODO Verify use of this variable through all the code!
 
    MpbOtpts_t _ftSwtchStts{};
    SnglSrvcVdblMPBttn* _undrlFtMPBPtr{nullptr};   
@@ -331,13 +322,13 @@ protected:
 	void* _fnWhnBthHndsOnMssdArg {nullptr};
    void* _fnWhnTrnOffLtchRlsArg {nullptr};
 	void* _fnWhnTrnOffPrdCyclArg {nullptr};
-   void* _fnWhnTrnOnLtchRlsArg{nullptr};
+   void* _fnWhnTrnOnLtchRlsArg {nullptr};
 	void* _fnWhnTrnOnPrdCyclArg {nullptr};
 
    fdaLsSwtchStts _lsSwtchFdaState {stOffNotBHP};
    bool _lsSwtchOtptsChng{false};
    uint32_t _lsSwtchOtptsChngCnt{0};
-   TimerHandle_t _lsSwtchPollTmrHndl {NULL};   //FreeRTOS returns NULL if creation fails (not nullptr)
+   TimerHandle_t _lsSwtchPollTmrHndl {NULL};
    bool _sttChng{true};
    String _swtchPollTmrName{"lsSwtchPollTmr"};
 
@@ -371,6 +362,7 @@ public:
    * 
    */
   LimbsSftyLnFSwtch();
+//TODO Start checking from this point forward
   /**
    * @brief Class constructor
    * 
