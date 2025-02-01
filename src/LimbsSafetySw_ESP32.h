@@ -25,7 +25,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   30/01/2025 19:00 (GMT+0200)
+  *       Last update:   31/01/2025 13:00 (GMT+0200)
   * 
   * @copyright GPL-3.0 license
   *
@@ -293,12 +293,9 @@ protected:
 
    MpbOtpts_t _lftHndSwtchStts{};
    TmVdblMPBttn* _undrlLftHndMPBPtr{nullptr};
-//   VdblMPBttn* _undrlLftHndBasePtr{nullptr}; //TODO Verify use of this variable through all the code!
-
 
    MpbOtpts_t _rghtHndSwtchStts{};
    TmVdblMPBttn* _undrlRghtHndMPBPtr{nullptr};
-//   VdblMPBttn* _undrlRghtHndBasePtr{nullptr};   //TODO Verify use of this variable through all the code!
 
    MpbOtpts_t _ftSwtchStts{};
    SnglSrvcVdblMPBttn* _undrlFtMPBPtr{nullptr};   
@@ -362,7 +359,6 @@ public:
    * 
    */
   LimbsSftyLnFSwtch();
-//TODO Start checking from this point forward
   /**
    * @brief Class constructor
    * 
@@ -375,7 +371,7 @@ public:
    * @param rghtHndBhvrCfg A swtchBhvrCfg_t structure containing the behavior characteristics for the right hand controlled TmVdblMPBttn
    * @param ftInpCfg A swtchInptHwCfg_t structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn
    * @param ftBhvrCfg A swtchBhvrCfg_t structure containing the behavior characteristics for the foot controlled SnglSrvcVdblMPBttn
-   * @param lsSwtchWrkngCnfg A lsSwtchSwCfg_t structure containing the basic parameters needed for the instantiated object to work. The parameters provided for instantiation might be changed by dedicated setters
+   * @param lsSwtchWrkngCnfg A lsSwtchSwCfg_t structure containing the basic parameters needed for the instantiated object interface with the machine. The parameters provided for instantiation might be changed by dedicated setters
    */
   LimbsSftyLnFSwtch(swtchInptHwCfg_t lftHndInpCfg,
                      swtchBhvrCfg_t lftHndBhvrCfg,
@@ -421,13 +417,14 @@ public:
     * 
     * Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the LimbsSftyLnFSwtch. In the case of the TmVdblMPBttn used as **Left Hand Switch** the attributes available for adjustment are:
     * - **Start Delay** (.swtchStrtDlyTm) value, used to adjust the time the hand switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.
-    * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftyLnFSwtch state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftyLnFSwtch state calculation.
+    * - **Is Enabled** (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the LimbsSftyLnFSwtch state calculation -having to be pressed at the expected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the LimbsSftyLnFSwtch state calculation.
     * - **Switch Voiding Time** (.swtchVdTm) defines the time period the hand switch might be kept pressed before signaling it as voided, having to proceed to release it and press it back to return to the valid pressed (non-voided) state.
     * 
     * @param newCfg A swtchBhvrCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
     * 
-    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
+    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed! To get the current values set for the switch see getLftHndSwtchCnfg()
     */
+   //TODO Declare and define swtchBhvrCfg_t getLftHndSwtchCnfg()
    bool cnfgLftHndSwtch(const swtchBhvrCfg_t &newCfg);
    /**
     * @brief Configures the TmVdblMPBttn class object used as **Right Hand Switch**
@@ -439,8 +436,9 @@ public:
     * 
     * @param newCfg A swtchBhvrCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
     * 
-    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!
+    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed! To get the current values set for the switch see getRghtHndSwtchCnfg()
     */
+   //TODO Declare and define swtchBhvrCfg_t getRghtHndSwtchCnfg()
    bool cnfgRghtHndSwtch(const swtchBhvrCfg_t &newCfg);
 	/**
 	 * @brief Returns the function that is set to execute every time the object's Latch Release is set to **Off State**.
@@ -493,7 +491,7 @@ public:
     * 
     * @return The SnglSrvcVdblMPBttn class pointer to the foot switch
     * 
-    * @warning The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer modify some attributes of the underlying object in unexpected ways. 
+    * @warning The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer modify some attributes of the underlying object in unexpected ways, not compatible with the LimbsSftyLnFSwtch object construction. Limit the use of the SnglSrvcVdblMPBttn set of public members to the getters!
     */
    SnglSrvcVdblMPBttn* getFtSwtchPtr();
    /**
@@ -503,9 +501,10 @@ public:
     * 
     * @return The TmVdblMPBttn class pointer to the left hand switch
     * 
-    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways.
+    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways, not compatible with the LimbsSftyLnFSwtch object construction. Limit the use of the TmVdblMPBttn set of public members to the getters!
     */
    TmVdblMPBttn*  getLftHndSwtchPtr();
+//TODO Start checking from this point forward
    /**
 	 * @brief Returns the value of the **lsSwtchOtptsChng** attribute flag.
 	 *
@@ -566,7 +565,7 @@ public:
     * 
     * @return The TmVdblMPBttn class pointer to the right hand switch
     * 
-    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface.
+    * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways, not compatible with the LimbsSftyLnFSwtch object construction. Limit the use of the TmVdblMPBttn set of public members to the getters!
     */
    TmVdblMPBttn*  getRghtHndSwtchPtr();
    /**
