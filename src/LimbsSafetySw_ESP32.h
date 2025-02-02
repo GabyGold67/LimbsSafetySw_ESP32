@@ -248,6 +248,17 @@ struct lsSwtchSwCfg_t{
 //===================================================>> END User defined types
 
 //======================================>> BEGIN General use function prototypes
+//TODO add ascii scheme description of the significance ot each bit on the encoded 32-bit
+//TODO check doxy description for this function to be present in documentation as this is the function prototype, never tryied!!
+/**
+ * @brief Unpackages a 32-bit value into a LimbsSftyLnFSwtch object status
+ * 
+ * The 32-bit encoded and packaged is used for inter-task object status communication, passed as a "notification value" in a xTaskNotify() execution.
+ * For each bit value attribute flag represented see LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd()
+ * 
+ * @param pkgOtpts A 32-bit value holding a LimbsSftyLnFSwtch status encoded
+ * @return A lsSwtchOtpts_t type element containing the information decoded
+ */
 lsSwtchOtpts_t lssOtptsSttsUnpkg(uint32_t pkgOtpts);
 //========================================>> END General use function prototypes
 
@@ -422,9 +433,8 @@ public:
     * 
     * @param newCfg A swtchBhvrCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
     * 
-    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed! To get the current values set for the switch see getLftHndSwtchCnfg()
+    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current values to ensure only the intended fields are to be changed! For that purpose keep the current configuration values always updated in variables.
     */
-   //TODO Declare and define swtchBhvrCfg_t getLftHndSwtchCnfg()
    bool cnfgLftHndSwtch(const swtchBhvrCfg_t &newCfg);
    /**
     * @brief Configures the TmVdblMPBttn class object used as **Right Hand Switch**
@@ -436,9 +446,8 @@ public:
     * 
     * @param newCfg A swtchBhvrCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object. 
     * 
-    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed! To get the current values set for the switch see getRghtHndSwtchCnfg()
+    * @warning The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed!  For that purpose keep the current configuration values always updated in variables.
     */
-   //TODO Declare and define swtchBhvrCfg_t getRghtHndSwtchCnfg()
    bool cnfgRghtHndSwtch(const swtchBhvrCfg_t &newCfg);
 	/**
 	 * @brief Returns the function that is set to execute every time the object's Latch Release is set to **Off State**.
@@ -504,28 +513,29 @@ public:
     * @warning The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways, not compatible with the LimbsSftyLnFSwtch object construction. Limit the use of the TmVdblMPBttn set of public members to the getters!
     */
    TmVdblMPBttn*  getLftHndSwtchPtr();
-//TODO Start checking from this point forward
    /**
 	 * @brief Returns the value of the **lsSwtchOtptsChng** attribute flag.
 	 *
-	 * The instantiated objects include attributes linked to their evaluated states, -Attribute Flags- some of them for internal use, some of them for **output related purposes**.
-	 * When any of those latter attributes values change, the **outputsChange** flag is set. The flag only signals changes have happened -not which flags, nor how many times changes have taken place- since the last **outputsChange** flag reset, although an internal counter is kept to grant no multithread race conditions affect the correct execution of the outputs updates.
+	 * The instantiated objects includes attributes linked to their evaluated states, -Attribute Flags- some of them for internal use, some of them for **output related purposes**.
+	 * When any of those latter attributes values change, the **outputsChange** flag is set. The flag only signals that **changes have happened** -not which flags, nor how many times changes have taken place- since the last **outputsChange** flag reset, although an internal counter is kept to grant no multithread race conditions affect the correct execution of the outputs updates.
 	 * The **outputsChange** flag must be reset (or set if desired) through the setOutputsChange() method.
 	 *
-    * @retval true: Any of the object's output related behavior flags have changed value since last time **outputsChange** flag was reset.
-    * @retval false: no object's output related behavior flags have changed value since last time **outputsChange** flag was reset.
+    * @retval true: Any of the object's output related behavior attribute flags have changed value since last time **outputsChange** flag was reset.
+    * @retval false: no object's output related behavior attribute flags have changed value since last time **outputsChange** flag was reset.
 	 */
    const bool getLsSwtchOtptsChng() const;
    /**
-    * @brief Returns the relevant attribute flags values for the object state encoded as a 32 bits value, required to pass current state of the object to another thread/task managing the outputs
+    * @brief Returns the relevant attribute flags values for the object state encoded as a 32 bits value, required to pass current state of the object to another thread/task managing the outputs changes.
     *
     * The inter-tasks communication mechanisms implemented on the class includes a xTaskNotify() that works as a light-weigh mailbox, unblocking the receiving tasks and sending to it a 32_bit value notification. This function returns the relevant attribute flags values encoded in a 32 bit value, according the provided encoding documented.
     *
     * @return A 32-bit unsigned value representing the attribute flags current values.
     * 
-    * @note For ease of use and resources optimization the encoded 32 bits value includes state information referenced to the underlying DbncdMPBttn subclasses objects isEnabled and isOn for each one of them. Also the bits positions used for relevant information are not used by the underlying objects analog mechanisms, even if no interaction or interference is possible.
+    * @note For ease of use and resources optimization the encoded 32 bits value includes state information referenced to the underlying DbncdMPBttn subclasses objects isEnabled and isOn for each one of them. 
+    @note For a complete description of the 32-bit value encoded logic see lssOtptsSttsUnpkg(uint32_t) 
     */
    uint32_t getLsSwtchOtptsSttsPkgd();
+//TODO Start checking from this point forward
    /**
     * @brief Returns the ltchRlsIsOn attribute flag value
     * 

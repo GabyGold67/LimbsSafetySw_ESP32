@@ -926,15 +926,6 @@ void LimbsSftyLnFSwtch::_setLtchRlsPndng(){
 
 //=========================================================================> Class methods delimiter
 
-/**
- * @brief Unpackages a 32-bit value into a LimbsSftyLnFSwtch object status
- * 
- * The 32-bit encoded and packaged is used for inter-task object status communication, passed as a "notification value" in a xTaskNotify() execution.
- * For each bit value attribute flag represented see LimbsSftyLnFSwtch::getLsSwtchOtptsSttsPkgd()
- * 
- * @param pkgOtpts A 32-bit value holding a LimbsSftyLnFSwtch status encoded
- * @return A lsSwtchOtpts_t type element containing the information decoded
- */
 lsSwtchOtpts_t lssOtptsSttsUnpkg(uint32_t pkgOtpts){
 	lsSwtchOtpts_t lssCurSttsDcdd {0};
 
