@@ -1,5 +1,5 @@
 <map id="swtchOtptHwCfg_t" name="swtchOtptHwCfg_t">
 <area shape="rect" id="Node000001" title="Switch Output Hardware Configuration data structure." alt="" coords="9,128,143,155"/>
-<area shape="rect" id="Node000002" href="$structgpio_pin_otpt_hw_cfg__t.html" title="GPIO Generic Pin for Output Mode Configuration data structure." alt="" coords="5,5,147,32"/>
+<area shape="rect" id="Node000002" href="$structgpio_pin_otpt_hw_cfg__t.html" title="GPIO Generic Pin for Output Configuration data structure." alt="" coords="5,5,147,32"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,48,79,127,73,127,73,48"/>
 </map>

@@ -103,7 +103,8 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 <div class="textblock"><p><a class="anchor" id="md__c_1_2_users_2_dev_padawan_2_documents_2_my_01_projects_2_training_01_projects_2_libs_dev___e_s_p32_2lib_2_limbs_safety_sw___e_s_p32_2_r_e_a_d_m_e"></a></p>
 <h1><a href="https://wokwi.com/projects/415018098762515457">See the working simulation at WOKWI Site</a></h1>
 <h1><a href="https://gabygold67.github.io/LimbsSafetySw_ESP32/">See complete manual at Github Pages</a></h1>
-<p>This is an ESP32-Arduino library that includes the class, data structures and functions required to model a <b>Limbs Safety Activation Switch for Launch and Forget Cycle Machines and Devices (<a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>)</b>. The switches implemented through the propper use of the tools provided in this library lets the developer generate <b>ISO 13849-1 (2023)</b> compliant secure machine complete or partial required controls (please read the corresponding normative documentation at the <a href="https://www.iso.org/obp/ui/#iso:std:iso:13849:-1:ed-4:v1:en">ISO Online Browsing Platform</a>)</p>
+<p>This is an ESP32-Arduino library that includes the class, data structures and functions required to model a <b>Limbs Safety Activation Switch for Launch and Forget Cycle Machines and Devices (<a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>)</b>. The switches implemented through the proper use of the tools provided in this library lets the developer generate <b>ISO 13849-1 (2023)</b> compliant secure machine required activation controls (please read the corresponding normative documentation at the <a href="https://www.iso.org/obp/ui/#iso:std:iso:13849:-1:ed-4:v1:en">ISO Online Browsing Platform</a>).</p>
+<p>The provided API gives access to enough tools included to extend this control into the center of a real-time productivity control, data logger, data analysis and IoT node.</p>
 <p>The definition above imposes the need to detail the requirements and limitations both to the logic development and to the range of machines it might be connected to. <br  />
 </p>
 <h1>Requirements:</h1>
@@ -169,13 +170,113 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </li>
 </ul>
 <h3>Configuration and parameters for the <em><b>LimbsSafetySw</b></em> library class objects:</h3>
-<p>Modeling such devices that demand strict compliance to certain rules to ensure the security of the operator and being flexible enough to apply it to a diverse universe of machines demands it to be configurable to adapt to large range of possible scenarios. <br  />
+<p>Modeling such devices that demand strict compliance to certain rules to ensure the security of the operator and being flexible enough to apply them to a diverse universe of machines demands it to be configurable to adapt to large range of possible scenarios. <br  />
  So the configuration of the <b>LimbsSafetySw</b> library objects must be understood as separated by areas or <b>categories</b>, strongly related to:</p><ol type="1">
 <li><b>Hardware</b> implementation of the <em>LimbsSafetySw</em> switch.</li>
 <li><b>Logic</b> implementation of the <em>LimbsSafetySw</em>, as composed by several <b>DbncdMPBttn</b> subclasses' objects.</li>
 <li><b>Hardware</b> implementation of the <em>LimbsSafetySw</em>-machine interface.</li>
-<li><b>Logic</b> parametrization for different production related use cases. </li>
+<li><b>Logic</b> parametrization for different production related use cases.</li>
 </ol>
+<p>The parameters for each category will have to be provided by different sources and be available for use at different points of execution of the control firmware using the <em><b><a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a></b></em>. Also considering the security provided by the final instantiated model will depend on the right configuration of it, and as specifically required by the <b>ISO 13849-1 (2023)</b>, the access to some parameters configuration must be granted to be protected and limited to administration clearance level operators.</p>
+<p>So to make a general description of the parameters required by each category, it's source and execution stage at which they are required:</p>
+<h3>1. Hardware implementation related parameters:</h3>
+<p>Must be provided by the hardware implementation documentation, ahead of the solution implementation. If the hardware design gives some grade of liberty, a hardware implementation source of information must be given in the form of dip switches, non-volatile memory registers or other, information set and granted by the hardware design team, including the switch selected and connection to the MCU characteristics. So this category must include the following information configuration parameters: For the hands switches:</p><ul>
+<li>Required:<ul>
+<li>Input connection pin</li>
+<li>Type of switch: NO|NC</li>
+<li>Connection logic: PullUp|PullDown</li>
+<li>Debounce time</li>
+</ul>
+</li>
+<li>Optional:<ul>
+<li>isOn attribute flag state<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+<li>isDisabled attribute flag state<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+<li>isVoided attribute flag state<ul>
+<li>Output pin</li>
+<li>Activation level For the foot switch</li>
+</ul>
+</li>
+<li>Required:<ul>
+<li>Input connection pin</li>
+<li>Type of switch: NO|NC</li>
+<li>Connection logic: PullUp|PullDown</li>
+<li>Debounce time</li>
+</ul>
+</li>
+<li>Optional:<ul>
+<li>Foot switch enabled state<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>For the latch release mechanism<ul>
+<li>Required:<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Other optional hardware related parameters</li>
+<li>Production cycle timer active.<ul>
+<li>Output pin</li>
+<li>Activation level</li>
+</ul>
+</li>
+</ul>
+<h3>2. Logic implementation of the class related parameters</h3>
+<p>For the class to present the behavior described in the requirements the DbncdMPBttn subclasses components' attributes must be configured ideally at LimbsSftySnglShtSw object constructor. If not possible it must be done before the <em><b><a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a></b></em> <code>.begin()</code> method is invoked by the use of the corresponding "setters" methods. It's important to note that default values are provided in the corresponding constructors to enable the instantiation of the required objects adjusted to standard values that guarantees the security, but are not optimized for productivity performance per se. <br  />
+ The information must be provided by the security policy administrator, depending on his evaluation of the controlled machine characteristics, the standard operator expected behavior and productivity policies. The parameters might be changed by <b>Security Administrator</b> level user.</p><ul>
+<li>For the TmVdblMPBttn hands switches<ul>
+<li>Missing parameters at the hands switches constructor<ul>
+<li>VoidTime</li>
+<li>StartDelayTime</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>For the SnglSrvcMPBttn foot switch<ul>
+<li>Missing parameters at the foot switch constructor<ul>
+<li>StartDelayTime</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>3. Hardware LimbsSftySnglShtSw - machine interface.</h3>
+<p>Being the <em><b><a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a></b></em> class objects designed for machines with the characteristics already described, the following parameters must be set depending on the controlled machine's individual characteristics. The parameters might be changed by a <b>Security Administrator</b> or a <b>Production Administrator</b> level user. The "Release Latch time" parameter is related to the time needed by the release mechanism to effectively start the production cycle. A too short time will leave the machine locked, a too long time will risk the possibility of letting the machine start a new production cycle without any security policies enforced, and without any warning. The "Production Cycle time" is expected to be set to the total time a complete production cycle takes to complete. As the machine has no sensors to indicate the cycle end, a time based parameter is included to replace it. The time set must be enough to cover the real time the production cycle takes since the moment the Release latch starts to be activated, and until the cycle is completed. Giving a shortest time parameter risks security, giving a longer time parameter compromises the productivity. So setting a longer time than needed is a safe bet. The time might be adjusted by a setter execution, according to the development implemented mechanisms.</p><ul>
+<li>Release Latch time (rlsLtchTm)</li>
+<li>Production Cycle time (prdCyclTm)</li>
+</ul>
+<h3>4. Logic parametrization for production related use cases</h3>
+<ul>
+<li>Left hand switch<ul>
+<li>isEnabled</li>
+</ul>
+</li>
+<li>Right hand switch <h1>- isEnabled </h1>
+</li>
+</ul>
+<p>Users Levels:</p><ul>
+<li>Developer level users</li>
+<li>Technical maintenance level users</li>
+<li>Security supervisor level users</li>
+<li>Administrative level users</li>
+<li>Production supervisor level users</li>
+<li>Operator level users </li>
+</ul>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->

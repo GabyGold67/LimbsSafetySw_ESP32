@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Limbs Safety Switch Library for ESP32 (Arduino): swtchInptHwCfg_t Struct Reference</title>
+<title>Limbs Safety Switch Library for ESP32 (Arduino): swtchBhvrCfg_t Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,7 +71,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('structswtch_inpt_hw_cfg__t.html',''); initResizable(true); });
+$(function(){initNavTree('structswtch_bhvr_cfg__t.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -98,38 +98,33 @@ $(function(){initNavTree('structswtch_inpt_hw_cfg__t.html',''); initResizable(tr
 
 <div class="header">
   <div class="summary">
-<a href="structswtch_inpt_hw_cfg__t-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">swtchInptHwCfg_t Struct Reference</div></div>
+<a href="structswtch_bhvr_cfg__t-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">swtchBhvrCfg_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Switch Input Hardware Configuration parameters.  
+<p>Limbs safety underlying switches behavior configuration parameters.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_limbs_safety_sw___e_s_p32_8h_source.html">LimbsSafetySw_ESP32.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Switch Input Hardware Configuration parameters. </p>
-<p>Holds the hardware characteristics of each of the underlying composing switches used, data needed for those switches constructors. As the attributes held in the structure are all hardware related they must be set or modified only when hardware construction or modification happens. The actual parameters must be saved in non volatile memory or by physical means (jumpers, dip switches, etc.). Only <b>Technical maintenance level users</b> and up might modify them.</p>
+<div class="textblock"><p>Limbs safety underlying switches behavior configuration parameters. </p>
+<p>Holds the required set of parameters needed for the configuration of each of the three DbncdMPBttn subclass switches needed for input (left hand's TmVdblMPBttn, right hand's TmVdblMPBttn, foot's SnglSrvcVdblMPBttn). Each parameter has default values assigned for a standard <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> configuration.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">inptPin</td><td>GPIO pin number connected to the MPBttn </td></tr>
-    <tr><td class="paramname">typeNO</td><td>Type of switch, Normal Open (NO=true) or Normal Closed (NO=false). Default value: true </td></tr>
-    <tr><td class="paramname">pulledUp</td><td>Internal pull-up circuit configuration, default value true </td></tr>
-    <tr><td class="paramname">dbncdTime</td><td>Debounce process time required to receive a stable signal, default value 20 milliseconds</td></tr>
+    <tr><td class="paramname">swtchStrtDlyTm</td><td>Corresponds to the DbncdMPBttn subclasses strtDelay class attribute. </td></tr>
+    <tr><td class="paramname">swtchIsEnbld</td><td>Corresponds to the DbncdMPBttn subclasses isEnabled attribute flag </td></tr>
+    <tr><td class="paramname">swtchVdTm</td><td>Corresponds to the TmVdblMPBttn class voidTime attribute, will be used as an activation time limit for the hands controlled TmVdblMPBttn</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>inptPin = GPIO_NUM_NC (-1) is used to indicate the pin is Not Connected (N/C). </dd>
-<dd>
-GPIO_NUM_MAX is used to indicate the maximum valid number for a GPIO pin (GPIO_NUM_x &lt; GPIO_NUM_MAX)</dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>Hardware construction related!! The information must be provided by the hardware developers </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Not all the GPIO input pins of every MCU has input mode operation, nor all have a pull-up internal circuit available! </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The provided default values are expected to be only used if no explicit values are provided by the object instantiating software. In a standard use case these values are expected to be saved from previous configured values, and be part of the configuration being set by <b>Production supervisor level users</b> and up. </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a></li>
+    <li class="navelem"><a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>

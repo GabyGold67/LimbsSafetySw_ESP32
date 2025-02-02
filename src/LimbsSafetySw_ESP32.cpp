@@ -3,13 +3,12 @@
   * @file	: LimbSafetySw_ESP32.cpp
   * @brief	: Source file for the LimbSafetySw_ESP32 library classes
   *
-  * @details The library implements classes that models Limbs Safety Switch for
-  * industrial production machines.
+  * @details The library implements classes that models Limbs Safety Switch for industrial production machines.
   *
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   30/01/2025 14:00 (GMT+0200)
+  *       Last update:   02/02/2025 17:50 (GMT+0200)
   * @copyright GPL-3.0 license
   *
   ******************************************************************************

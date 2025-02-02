@@ -113,9 +113,11 @@ Collaboration diagram for LimbsSftyLnFSwtch:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_limbs_sfty_ln_f_swtch__coll__graph.png" border="0" usemap="#a_limbs_sfty_ln_f_swtch_coll__map" alt="Collaboration graph"/></div>
 <map name="a_limbs_sfty_ln_f_swtch_coll__map" id="a_limbs_sfty_ln_f_swtch_coll__map">
-<area shape="rect" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a..." alt="" coords="5,128,145,155"/>
-<area shape="rect" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure." alt="" coords="10,5,140,32"/>
-<area shape="poly" title=" " alt="" coords="78,48,78,127,72,127,72,48"/>
+<area shape="rect" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a..." alt="" coords="74,128,214,155"/>
+<area shape="rect" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration parameters." alt="" coords="5,5,136,32"/>
+<area shape="poly" title=" " alt="" coords="77,47,84,75,98,102,123,125,119,129,94,106,79,77,72,48"/>
+<area shape="rect" href="structswtch_bhvr_cfg__t.html" title="Limbs safety underlying switches behavior configuration parameters." alt="" coords="160,5,275,32"/>
+<area shape="poly" title=" " alt="" coords="214,48,205,77,190,106,165,129,162,126,186,102,200,75,209,46"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -125,7 +127,7 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>LimbsSftyLnFSwtch</b> ()</td></tr>
 <tr class="memdesc:a50b7bd5648e20fc60ce18c00450ea586"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class default constructor. <br /></td></tr>
 <tr class="separator:a50b7bd5648e20fc60ce18c00450ea586"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae96f9d978e33d45d0271aa5bf2a64b53" id="r_ae96f9d978e33d45d0271aa5bf2a64b53"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae96f9d978e33d45d0271aa5bf2a64b53">LimbsSftyLnFSwtch</a> (<a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> lftHndInpCfg, swtchBhvrCfg_t lftHndBhvrCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> rghtHndInpCfg, swtchBhvrCfg_t rghtHndBhvrCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> ftInpCfg, swtchBhvrCfg_t ftBhvrCfg, <a class="el" href="structls_swtch_sw_cfg__t.html">lsSwtchSwCfg_t</a> lsSwtchWrkngCnfg)</td></tr>
+<tr class="memitem:ae96f9d978e33d45d0271aa5bf2a64b53" id="r_ae96f9d978e33d45d0271aa5bf2a64b53"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae96f9d978e33d45d0271aa5bf2a64b53">LimbsSftyLnFSwtch</a> (<a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> lftHndInpCfg, <a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a> lftHndBhvrCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> rghtHndInpCfg, <a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a> rghtHndBhvrCfg, <a class="el" href="structswtch_inpt_hw_cfg__t.html">swtchInptHwCfg_t</a> ftInpCfg, <a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a> ftBhvrCfg, <a class="el" href="structls_swtch_sw_cfg__t.html">lsSwtchSwCfg_t</a> lsSwtchWrkngCnfg)</td></tr>
 <tr class="memdesc:ae96f9d978e33d45d0271aa5bf2a64b53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class constructor.  <br /></td></tr>
 <tr class="separator:ae96f9d978e33d45d0271aa5bf2a64b53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a0bb6035d4997d8163c0de0e9df51ce" id="r_a1a0bb6035d4997d8163c0de0e9df51ce"><td class="memItemLeft" align="right" valign="top"><a id="a1a0bb6035d4997d8163c0de0e9df51ce" name="a1a0bb6035d4997d8163c0de0e9df51ce"></a>
@@ -138,13 +140,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa0a4b4beefe31a5b91c9ca289024503a" id="r_aa0a4b4beefe31a5b91c9ca289024503a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0a4b4beefe31a5b91c9ca289024503a">clrStatus</a> ()</td></tr>
 <tr class="memdesc:aa0a4b4beefe31a5b91c9ca289024503a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears and resets flags, timers and counters modified through the object's signals processing.  <br /></td></tr>
 <tr class="separator:aa0a4b4beefe31a5b91c9ca289024503a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab01504bf137c1a7f8f52e7c1242eb516" id="r_ab01504bf137c1a7f8f52e7c1242eb516"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab01504bf137c1a7f8f52e7c1242eb516">cnfgFtSwtch</a> (const swtchBhvrCfg_t &amp;newCfg)</td></tr>
+<tr class="memitem:ab01504bf137c1a7f8f52e7c1242eb516" id="r_ab01504bf137c1a7f8f52e7c1242eb516"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab01504bf137c1a7f8f52e7c1242eb516">cnfgFtSwtch</a> (const <a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a> &amp;newCfg)</td></tr>
 <tr class="memdesc:ab01504bf137c1a7f8f52e7c1242eb516"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the SnglSrvcVdblMPBttn class object used as <b>Foot Switch</b>  <br /></td></tr>
 <tr class="separator:ab01504bf137c1a7f8f52e7c1242eb516"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a800a4d76f8973e8086cc63f12f4ef03c" id="r_a800a4d76f8973e8086cc63f12f4ef03c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a800a4d76f8973e8086cc63f12f4ef03c">cnfgLftHndSwtch</a> (const swtchBhvrCfg_t &amp;newCfg)</td></tr>
+<tr class="memitem:a800a4d76f8973e8086cc63f12f4ef03c" id="r_a800a4d76f8973e8086cc63f12f4ef03c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a800a4d76f8973e8086cc63f12f4ef03c">cnfgLftHndSwtch</a> (const <a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a> &amp;newCfg)</td></tr>
 <tr class="memdesc:a800a4d76f8973e8086cc63f12f4ef03c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the TmVdblMPBttn class object used as <b>Left Hand Switch</b>  <br /></td></tr>
 <tr class="separator:a800a4d76f8973e8086cc63f12f4ef03c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a990f155788e583c9a6860ef5603cdd27" id="r_a990f155788e583c9a6860ef5603cdd27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a990f155788e583c9a6860ef5603cdd27">cnfgRghtHndSwtch</a> (const swtchBhvrCfg_t &amp;newCfg)</td></tr>
+<tr class="memitem:a990f155788e583c9a6860ef5603cdd27" id="r_a990f155788e583c9a6860ef5603cdd27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a990f155788e583c9a6860ef5603cdd27">cnfgRghtHndSwtch</a> (const <a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a> &amp;newCfg)</td></tr>
 <tr class="memdesc:a990f155788e583c9a6860ef5603cdd27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the TmVdblMPBttn class object used as <b>Right Hand Switch</b>  <br /></td></tr>
 <tr class="separator:a990f155788e583c9a6860ef5603cdd27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39b2c1b8f39fb7bf8117698c21178817" id="r_a39b2c1b8f39fb7bf8117698c21178817"><td class="memItemLeft" align="right" valign="top">fncVdPtrPrmPtrType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39b2c1b8f39fb7bf8117698c21178817">getFnWhnTrnOffLtchRlsPtr</a> ()</td></tr>
@@ -169,25 +171,25 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a2697d6bd86c2db7fd950bdf23d9e79b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the <b>lsSwtchOtptsChng</b> attribute flag.  <br /></td></tr>
 <tr class="separator:a2697d6bd86c2db7fd950bdf23d9e79b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3019f4e62269943b22834abf13585d1e" id="r_a3019f4e62269943b22834abf13585d1e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3019f4e62269943b22834abf13585d1e">getLsSwtchOtptsSttsPkgd</a> ()</td></tr>
-<tr class="memdesc:a3019f4e62269943b22834abf13585d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the relevant attribute flags values for the object state encoded as a 32 bits value, required to pass current state of the object to another thread/task managing the outputs.  <br /></td></tr>
+<tr class="memdesc:a3019f4e62269943b22834abf13585d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the relevant attribute flags values for the object state encoded as a 32 bits value, required to pass current state of the object to another thread/task managing the outputs changes.  <br /></td></tr>
 <tr class="separator:a3019f4e62269943b22834abf13585d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a748e9feb751af1c2f429ca6201bc3a09" id="r_a748e9feb751af1c2f429ca6201bc3a09"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a748e9feb751af1c2f429ca6201bc3a09">getLtchRlsIsOn</a> () const</td></tr>
 <tr class="memdesc:a748e9feb751af1c2f429ca6201bc3a09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ltchRlsIsOn attribute flag value.  <br /></td></tr>
 <tr class="separator:a748e9feb751af1c2f429ca6201bc3a09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a486ae2ec0181427fac2a7f96d580bfec" id="r_a486ae2ec0181427fac2a7f96d580bfec"><td class="memItemLeft" align="right" valign="top">unsigned long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a486ae2ec0181427fac2a7f96d580bfec">getLtchRlsTtlTm</a> ()</td></tr>
-<tr class="memdesc:a486ae2ec0181427fac2a7f96d580bfec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time configured to keep the latch at the released state.  <br /></td></tr>
+<tr class="memdesc:a486ae2ec0181427fac2a7f96d580bfec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time configured to keep the <b>Latch Released state On</b>  <br /></td></tr>
 <tr class="separator:a486ae2ec0181427fac2a7f96d580bfec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4996e99105816b1dc7e8f604bab2ed25" id="r_a4996e99105816b1dc7e8f604bab2ed25"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4996e99105816b1dc7e8f604bab2ed25">getPrdCyclIsOn</a> () const</td></tr>
-<tr class="memdesc:a4996e99105816b1dc7e8f604bab2ed25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the prdCyclIsOn object'sattribute flag value.  <br /></td></tr>
+<tr class="memdesc:a4996e99105816b1dc7e8f604bab2ed25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the prdCyclIsOn attribute flag value.  <br /></td></tr>
 <tr class="separator:a4996e99105816b1dc7e8f604bab2ed25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0ee00e15b1a27b33757681c57760fb6" id="r_ad0ee00e15b1a27b33757681c57760fb6"><td class="memItemLeft" align="right" valign="top">unsigned long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0ee00e15b1a27b33757681c57760fb6">getPrdCyclTtlTm</a> ()</td></tr>
 <tr class="memdesc:ad0ee00e15b1a27b33757681c57760fb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time configured for the production cycle to be completed.  <br /></td></tr>
 <tr class="separator:ad0ee00e15b1a27b33757681c57760fb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1ca177c1d59acbab862db8720a60c10" id="r_ad1ca177c1d59acbab862db8720a60c10"><td class="memItemLeft" align="right" valign="top">TmVdblMPBttn *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1ca177c1d59acbab862db8720a60c10">getRghtHndSwtchPtr</a> ()</td></tr>
-<tr class="memdesc:ad1ca177c1d59acbab862db8720a60c10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the rghtHndSwcthPtr attribute value.  <br /></td></tr>
+<tr class="memdesc:ad1ca177c1d59acbab862db8720a60c10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the rghtHndSwcthPtr attribute value.  <br /></td></tr>
 <tr class="separator:ad1ca177c1d59acbab862db8720a60c10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a942ce44568b1a24932eaf8d460698cea" id="r_a942ce44568b1a24932eaf8d460698cea"><td class="memItemLeft" align="right" valign="top">const TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a942ce44568b1a24932eaf8d460698cea">getTskToNtfyBthHndsOnMssd</a> () const</td></tr>
-<tr class="memdesc:a942ce44568b1a24932eaf8d460698cea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the TaskHandle for the task to be unblocked when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.  <br /></td></tr>
+<tr class="memdesc:a942ce44568b1a24932eaf8d460698cea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the TaskHandle for the task to be unblocked when the object's state changes from the "foot switch enabled" state to the "foot switch disabled" state, instead of the "Production cycle activated" state.  <br /></td></tr>
 <tr class="separator:a942ce44568b1a24932eaf8d460698cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affc3d73ea4cc9fd48ea45363e3c76724" id="r_affc3d73ea4cc9fd48ea45363e3c76724"><td class="memItemLeft" align="right" valign="top">const TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affc3d73ea4cc9fd48ea45363e3c76724">getTskToNtfyLsSwtchOtptsChng</a> () const</td></tr>
 <tr class="memdesc:affc3d73ea4cc9fd48ea45363e3c76724"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the TaskHandle for the task to be unblocked when the object's lsSwtchOtptsChng attribute flags is set to true.  <br /></td></tr>
@@ -267,7 +269,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Models a Limbs Safety Launch and Forget Switch (<a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>) for safely activation of <b>"launch and forget" cycle machines</b> and devices. </p>
-<p>This industry grade machinery oriented switch enforces conditioned activation of several switches to ensure limbs security. This enforced conditions include sequenced pressing order and timings as main parameters. The most basic configuration requires each hand pressing simultaneously two switches to enable a foot switch. The enabled foot switch activates the machine action. <br  />
+<p>This industry grade machinery oriented switch enforces conditioned activation of several switches to ensure limbs security, enabled for ISO 13849-1 standard compliance. This enforced conditions include sequenced pressing order and timings as main parameters. The most basic configuration requires each hand pressing simultaneously two switches to enable a foot switch. The enabled foot switch activates the machine action. <br  />
  Operators' or production managers' needs and criteria often end with regular security switches tampered, played down, rigged or other actions that degrade the security provided by regular switches, far below the real needs and the standards. The switches modeled by this class ensures the required enforced security practices, while letting some aspects to be configured for specific production tasks on the machine, or to adapt the switch to machines with different security needs.</p>
 <p>This class relies on ButtonToSwitch_ESP32 class objects:</p><ul>
 <li>A TmVdblMPBttn object for each hand switch</li>
@@ -288,7 +290,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">swtchBhvrCfg_t</td>          <td class="paramname"><span class="paramname"><em>lftHndBhvrCfg</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>lftHndBhvrCfg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -298,7 +300,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">swtchBhvrCfg_t</td>          <td class="paramname"><span class="paramname"><em>rghtHndBhvrCfg</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>rghtHndBhvrCfg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -308,7 +310,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">swtchBhvrCfg_t</td>          <td class="paramname"><span class="paramname"><em>ftBhvrCfg</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a></td>          <td class="paramname"><span class="paramname"><em>ftBhvrCfg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -322,13 +324,13 @@ Public Member Functions</h2></td></tr>
 <p>The class models a Limbs Safety switch, a switch that gives an activation signal to a machine or device when some independent switches, activated in a designated pattern, ensures no risk for the operator limbs is completed. The constructor instantiates the DbncdMPBttn subclasses objects that compose the Limbs Safety switch, i.e. the left hand TmVdblMPBttn, the right hand TmVdblMPBttn and the foot SnglSrvcVdblMPBttn</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lftHndInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn </td></tr>
-    <tr><td class="paramname">lftHndBhvrCfg</td><td>A swtchBhvrCfg_t structure containing the behavior characteristics for the left hand controlled TmVdblMPBttn </td></tr>
-    <tr><td class="paramname">rghtHndInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn </td></tr>
-    <tr><td class="paramname">rghtHndBhvrCfg</td><td>A swtchBhvrCfg_t structure containing the behavior characteristics for the right hand controlled TmVdblMPBttn </td></tr>
-    <tr><td class="paramname">ftInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration data structure.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn </td></tr>
-    <tr><td class="paramname">ftBhvrCfg</td><td>A swtchBhvrCfg_t structure containing the behavior characteristics for the foot controlled SnglSrvcVdblMPBttn </td></tr>
-    <tr><td class="paramname">lsSwtchWrkngCnfg</td><td>A <a class="el" href="structls_swtch_sw_cfg__t.html" title="Machine activation related attributes data structure.">lsSwtchSwCfg_t</a> structure containing the basic parameters needed for the instantiated object to work. The parameters provided for instantiation might be changed by dedicated setters </td></tr>
+    <tr><td class="paramname">lftHndInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration parameters.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the left hand controlled TmVdblMPBttn </td></tr>
+    <tr><td class="paramname">lftHndBhvrCfg</td><td>A <a class="el" href="structswtch_bhvr_cfg__t.html" title="Limbs safety underlying switches behavior configuration parameters.">swtchBhvrCfg_t</a> structure containing the behavior characteristics for the left hand controlled TmVdblMPBttn </td></tr>
+    <tr><td class="paramname">rghtHndInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration parameters.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the right hand controlled TmVdblMPBttn </td></tr>
+    <tr><td class="paramname">rghtHndBhvrCfg</td><td>A <a class="el" href="structswtch_bhvr_cfg__t.html" title="Limbs safety underlying switches behavior configuration parameters.">swtchBhvrCfg_t</a> structure containing the behavior characteristics for the right hand controlled TmVdblMPBttn </td></tr>
+    <tr><td class="paramname">ftInpCfg</td><td>A <a class="el" href="structswtch_inpt_hw_cfg__t.html" title="Switch Input Hardware Configuration parameters.">swtchInptHwCfg_t</a> structure containing the hardware implemented characteristics for the foot controlled SnglSrvcVdblMPBttn </td></tr>
+    <tr><td class="paramname">ftBhvrCfg</td><td>A <a class="el" href="structswtch_bhvr_cfg__t.html" title="Limbs safety underlying switches behavior configuration parameters.">swtchBhvrCfg_t</a> structure containing the behavior characteristics for the foot controlled SnglSrvcVdblMPBttn </td></tr>
+    <tr><td class="paramname">lsSwtchWrkngCnfg</td><td>A <a class="el" href="structls_swtch_sw_cfg__t.html" title="Machine activation related attributes data structure.">lsSwtchSwCfg_t</a> structure containing the basic parameters needed for the instantiated object interface with the machine. The parameters provided for instantiation might be changed by dedicated setters </td></tr>
   </table>
   </dd>
 </dl>
@@ -409,7 +411,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void LimbsSftyLnFSwtch::cnfgFtSwtch </td>
           <td>(</td>
-          <td class="paramtype">const swtchBhvrCfg_t &amp;</td>          <td class="paramname"><span class="paramname"><em>newCfg</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>newCfg</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -419,7 +421,7 @@ Here is the caller graph for this function:</div>
 <p>Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>. In the case of the SnglSrvcVdblMPBttn used as <b>Foot Switch</b> the only attribute available for adjustment is the <b>start delay</b> value, used to adjust the time the foot switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newCfg</td><td>A swtchBhvrCfg_t type structure, from which only the .swtchStrtDlyTm value will be used. </td></tr>
+    <tr><td class="paramname">newCfg</td><td>A <a class="el" href="structswtch_bhvr_cfg__t.html" title="Limbs safety underlying switches behavior configuration parameters.">swtchBhvrCfg_t</a> type structure, from which only the .swtchStrtDlyTm value will be used. </td></tr>
   </table>
   </dd>
 </dl>
@@ -435,7 +437,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool LimbsSftyLnFSwtch::cnfgLftHndSwtch </td>
           <td>(</td>
-          <td class="paramtype">const swtchBhvrCfg_t &amp;</td>          <td class="paramname"><span class="paramname"><em>newCfg</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>newCfg</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -444,16 +446,16 @@ Here is the caller graph for this function:</div>
 <p>Configures the TmVdblMPBttn class object used as <b>Left Hand Switch</b> </p>
 <p>Some behavior attributes of the DbncdMPBttn subclasses objects components can be configured to adjust the behavior of the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a>. In the case of the TmVdblMPBttn used as <b>Left Hand Switch</b> the attributes available for adjustment are:</p><ul>
 <li><b>Start Delay</b> (.swtchStrtDlyTm) value, used to adjust the time the hand switch must be kept pressed after the debounce period, before the switch accepts the input signal. This parameter is used to adjust the "sensibility" of the switch to mistaken, accidental or conditioned reflex presses.</li>
-<li><b>Is Enabled</b> (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> state calculation -having to be pressed at the exprected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> state calculation.</li>
+<li><b>Is Enabled</b> (.swtchIsEnbld) value, defines if the hand switch will be enabled, in which case it will be considered for the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> state calculation -having to be pressed at the expected moment, for the expected time and be released when expected to restart the cycle- or disabled, in which case it being pressed or not makes no difference to the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> state calculation.</li>
 <li><b>Switch Voiding Time</b> (.swtchVdTm) defines the time period the hand switch might be kept pressed before signaling it as voided, having to proceed to release it and press it back to return to the valid pressed (non-voided) state.</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newCfg</td><td>A swtchBhvrCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object.</td></tr>
+    <tr><td class="paramname">newCfg</td><td>A <a class="el" href="structswtch_bhvr_cfg__t.html" title="Limbs safety underlying switches behavior configuration parameters.">swtchBhvrCfg_t</a> type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed! </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The <a class="el" href="structswtch_bhvr_cfg__t.html" title="Limbs safety underlying switches behavior configuration parameters.">swtchBhvrCfg_t</a> type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current values to ensure only the intended fields are to be changed! For that purpose keep the current configuration values always updated in variables. </dd></dl>
 
 </div>
 </div>
@@ -466,7 +468,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool LimbsSftyLnFSwtch::cnfgRghtHndSwtch </td>
           <td>(</td>
-          <td class="paramtype">const swtchBhvrCfg_t &amp;</td>          <td class="paramname"><span class="paramname"><em>newCfg</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structswtch_bhvr_cfg__t.html">swtchBhvrCfg_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>newCfg</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -480,11 +482,11 @@ Here is the caller graph for this function:</div>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newCfg</td><td>A swtchBhvrCfg_t type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object.</td></tr>
+    <tr><td class="paramname">newCfg</td><td>A <a class="el" href="structswtch_bhvr_cfg__t.html" title="Limbs safety underlying switches behavior configuration parameters.">swtchBhvrCfg_t</a> type structure, containing the parameters values that will be used to modify the configuration of the TmVdblMPBttn class object.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>The swtchBhvrCfg_t type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed! </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The <a class="el" href="structswtch_bhvr_cfg__t.html" title="Limbs safety underlying switches behavior configuration parameters.">swtchBhvrCfg_t</a> type structure has designated default field values, as a consequence any field not expressly filled with a valid value will be set to be filled with the default value. If not all the fields are to be changed, be sure to fill the non changing fields with the current value to ensure only the intended fields are to be changed! For that purpose keep the current configuration values always updated in variables. </dd></dl>
 
 </div>
 </div>
@@ -618,7 +620,7 @@ Here is the caller graph for this function:</div>
 <p>Get the ftSwcthPtr attribute value. </p>
 <p>The ftSwcthPtr is the pointer to the SnglSrvcVdblMPBttn class object instantiated to be the "Foot Safety Switch", so to have direct access to it's public members without going through a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> interface.</p>
 <dl class="section return"><dt>Returns</dt><dd>The SnglSrvcVdblMPBttn class pointer to the foot switch</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer modify some attributes of the underlying object in unexpected ways. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying SnglSrvcVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways, not compatible with the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> object construction. Limit the use of the TmVdblMPBttn set of public members to the getters as much as possible! </dd></dl>
 
 </div>
 </div>
@@ -640,7 +642,7 @@ Here is the caller graph for this function:</div>
 <p>Get the lftHndSwcthPtr attribute value. </p>
 <p>The lftHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Left Hand Safety Switch", so to have direct access to it's public members without going through a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> interface.</p>
 <dl class="section return"><dt>Returns</dt><dd>The TmVdblMPBttn class pointer to the left hand switch</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways, not compatible with the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> object construction. Limit the use of the TmVdblMPBttn set of public members to the getters as much as possible! </dd></dl>
 
 </div>
 </div>
@@ -660,11 +662,11 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Returns the value of the <b>lsSwtchOtptsChng</b> attribute flag. </p>
-<p>The instantiated objects include attributes linked to their evaluated states, -Attribute Flags- some of them for internal use, some of them for <b>output related purposes</b>. When any of those latter attributes values change, the <b>outputsChange</b> flag is set. The flag only signals changes have happened -not which flags, nor how many times changes have taken place- since the last <b>outputsChange</b> flag reset, although an internal counter is kept to grant no multithread race conditions affect the correct execution of the outputs updates. The <b>outputsChange</b> flag must be reset (or set if desired) through the setOutputsChange() method.</p>
+<p>The instantiated objects includes attributes linked to their evaluated states, -Attribute Flags- some of them for internal use, some of them for <b>output related purposes</b>. When any of those latter attributes values change, the <b>outputsChange</b> flag is set. The flag only signals that <b>changes have happened</b> -not which flags, nor how many times changes have taken place- since the last <b>outputsChange</b> flag reset, although an internal counter is kept to grant no multithread race conditions affect the correct execution of the outputs updates. The <b>outputsChange</b> flag must be reset (or set if desired) through the setOutputsChange() method.</p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">true</td><td>Any of the object's output related behavior flags have changed value since last time <b>outputsChange</b> flag was reset. </td></tr>
-    <tr><td class="paramname">false</td><td>no object's output related behavior flags have changed value since last time <b>outputsChange</b> flag was reset. </td></tr>
+    <tr><td class="paramname">true</td><td>Any of the object's output related behavior attribute flags have changed value since last time <b>outputsChange</b> flag was reset. </td></tr>
+    <tr><td class="paramname">false</td><td>no object's output related behavior attribute flags have changed value since last time <b>outputsChange</b> flag was reset. </td></tr>
   </table>
   </dd>
 </dl>
@@ -686,10 +688,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the relevant attribute flags values for the object state encoded as a 32 bits value, required to pass current state of the object to another thread/task managing the outputs. </p>
-<p>The inter-tasks communication mechanisms implemented on the class includes a xTaskNotify() that works as a light-weigh mailbox, unblocking the receiving tasks and sending to it a 32_bit value notification. This function returns the relevant attribute flags values encoded in a 32 bit value, according the provided encoding documented.</p>
+<p>Returns the relevant attribute flags values for the object state encoded as a 32 bits value, required to pass current state of the object to another thread/task managing the outputs changes. </p>
+<p>The inter-tasks communication mechanisms implemented on the class includes a xTaskNotify() that works as a light-weigh mailbox, unblocking the receiving tasks and sending to it a 32_bit value notification. This function returns the relevant attribute flags values encoded in a 32 bit value, according to the provided encoding documented. <br  />
+</p>
 <dl class="section return"><dt>Returns</dt><dd>A 32-bit unsigned value representing the attribute flags current values.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>For ease of use and resources optimization the encoded 32 bits value includes state information referenced to the underlying DbncdMPBttn subclasses objects isEnabled and isOn for each one of them. Also the bits positions used for relevant information are not used by the underlying objects analog mechanisms, even if no interaction or interference is possible. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For ease of use and resources optimization the encoded 32 bits value includes state information referenced to the underlying DbncdMPBttn subclasses objects isEnabled and isOn for each one of them. </dd>
+<dd>
+For a complete description of the 32-bit value encoded logic see lssOtptsSttsUnpkg(uint32_t) </dd></dl>
 
 </div>
 </div>
@@ -709,7 +714,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Returns the ltchRlsIsOn attribute flag value. </p>
-<p>The ltchRlsIsOn attribute flag indicates if the object is in the latch released state.</p>
+<p>The ltchRlsIsOn attribute flag indicates if the object is in the <b>Latch Released</b> state.</p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">true</td><td>The object is in the latch released state </td></tr>
@@ -735,7 +740,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the time configured to keep the latch at the released state. </p>
+<p>Returns the time configured to keep the <b>Latch Released state On</b> </p>
 <dl class="section return"><dt>Returns</dt><dd>The time in milliseconds the latch will be kept released </dd></dl>
 
 </div>
@@ -755,12 +760,12 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Get the prdCyclIsOn object'sattribute flag value. </p>
-<p>The prdCyclIsOn attribute flag indicates if the object is in the production cycle state.</p>
+<p>Returns the prdCyclIsOn attribute flag value. </p>
+<p>The prdCyclIsOn attribute flag indicates if the object is in the <b>Production Cycle</b> state.</p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">true</td><td>The object is in the production cycle state </td></tr>
-    <tr><td class="paramname">false</td><td>The object is not in the production cycle state </td></tr>
+    <tr><td class="paramname">true</td><td>The object is in the production cycle on state </td></tr>
+    <tr><td class="paramname">false</td><td>The object is not in the production cycle on state </td></tr>
   </table>
   </dd>
 </dl>
@@ -803,10 +808,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Get the rghtHndSwcthPtr attribute value. </p>
-<p>The rghtHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Right Hand Safety Switch", so to have direct access to it's setters and getters without going through a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> interface.</p>
+<p>Returns the rghtHndSwcthPtr attribute value. </p>
+<p>The rghtHndSwcthPtr is the pointer to the TmVdblMPBttn class object instantiated to be the "Right Hand Safety Switch", so to have direct access to it's public members (including setters and getters) without going through a <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> interface.</p>
 <dl class="section return"><dt>Returns</dt><dd>The TmVdblMPBttn class pointer to the right hand switch</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways. The only way to avoid such risks is by blocking this method and replacing the needed objects setters and getters through an in-class interface. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The open access to the underlying TmVdblMPBttn complete set of public members may imply risks by letting the developer to modify some attributes of the underlying object in unexpected ways, not compatible with the <a class="el" href="class_limbs_sfty_ln_f_swtch.html" title="Models a Limbs Safety Launch and Forget Switch (LimbsSftyLnFSwtch) for safely activation of &quot;launch a...">LimbsSftyLnFSwtch</a> object construction. Limit the use of the TmVdblMPBttn set of public members to the getters as much as possible! </dd></dl>
 
 </div>
 </div>
@@ -825,9 +830,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the TaskHandle for the task to be unblocked when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state. </p>
-<p>When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, wich is the main purpose of the use of the machine, was wasted. The opportunity of unblocking of a task blocked by a xTaskNotifyWait() as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time. This method returns the TaskHandle for the task to unblock.</p>
-<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the <a class="el" href="#a34d99f5e0f3eb756d8d161d3c043618b" title="Sets the task to be unblocked -by a xTaskNotify()- when the object&#39;s state changes from the &quot;foot swi...">setTskToNtfyBthHndsOnMssd(const TaskHandle_t &amp;newTaskHandle)</a> method. </dd></dl>
+<p>Returns the TaskHandle for the task to be unblocked when the object's state changes from the "foot switch enabled" state to the "foot switch disabled" state, instead of the "Production cycle activated" state. </p>
+<p>When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, which is the main purpose of the use of the machine, was wasted. The opportunity of unblocking a blocked task as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures, machine operator related problems and other cases that harm present productivity and might end in a undesired situation. This method returns the TaskHandle for the task to unblock.</p>
+<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyBthHndsOnMssd(const TaskHandle_t) method.</dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>The task refered to by this handle is one of the fundamental pieces for the integration of a "Productivity control and improvement system". </dd></dl>
 
 </div>
 </div>
@@ -847,8 +853,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Returns the TaskHandle for the task to be unblocked when the object's lsSwtchOtptsChng attribute flags is set to true. </p>
-<p>One of the optional mechanisms activated when any attribute flag that includes the mechanism to modify an output pin is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.</p>
-<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the <a class="el" href="#a78343682545897e6df0cbfc3ff7c16cb" title="Sets the task to be unblocked -by a xTaskNotify()- when ANY of the object&#39;s attribute flags changes i...">setTskToNtfyLsSwtchOtptsChng(const TaskHandle_t &amp;newTaskHandle)</a> method. </dd></dl>
+<p>One of the optional mechanisms activated when any attribute flag that includes the mechanism to modify an output pin is the unblocking of a task. This method returns the TaskHandle for the task to unblock.</p>
+<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyLsSwtchOtptsChng(const TaskHandle_t) method. </dd></dl>
 
 </div>
 </div>
@@ -868,8 +874,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Returns the TaskHandle for the task to be unblocked when the object's ltchRlsIsOn attribute flag is set to false. </p>
-<p>One of the optional mechanisms activated by entering the <b>Latch Release is Off</b> (ltchRlsIsOn = false) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.</p>
-<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the <a class="el" href="#a54f4a2262c3d4f65242498b23ec2cbdc" title="Sets the task to be unblocked -by a xTaskNotify()- when the object&#39;s ltchRlsIsOn attribute flag is se...">setTskToNtfyTrnOffLtchRls(const TaskHandle_t &amp;newTaskHandle)</a> method. </dd></dl>
+<p>One of the optional mechanisms activated by entering the <b>Latch Release is Off</b> (ltchRlsIsOn = false) state is the unblocking of a task. This method returns the TaskHandle for the task to unblock.</p>
+<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyTrnOffLtchRls(const TaskHandle_t) method. </dd></dl>
 
 </div>
 </div>
@@ -889,7 +895,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Returns the TaskHandle for the task to be unblocked when the object's prdCyclIsOn attribute flag is set to false. </p>
-<p>One of the optional mechanisms activated by entering the <b>Production cycle is Off</b> (prdCyclIsOn = false) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.</p>
+<p>One of the optional mechanisms activated by entering the <b>Production cycle is Off</b> (prdCyclIsOn = false) state is the unblocking of a task. This method returns the TaskHandle for the task to unblock.</p>
 <dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the <a class="el" href="#a1c0a1357a71ad0769870267b4753ef29" title="Sets the task to be unblocked -by a xTaskNotify()- when the object&#39;s prdCyclIsOn attribute flag is se...">setTskToNtfyTrnOffPrdCycl(const TaskHandle_t &amp;newTaskHandle)</a> method. </dd></dl>
 
 </div>
@@ -910,8 +916,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Returns the TaskHandle for the task to be unblocked when the object's prdCyclIsOn attribute flag is set to true. </p>
-<p>One of the optional mechanisms activated by entering the <b>Latch Release is On</b> (ltchRlsIsOn = true) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.</p>
-<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the <a class="el" href="#a4b960670b0ef3a200928f2f23a476386" title="Sets the task to be unblocked -by a xTaskNotify()- when the object&#39;s ltchRlsIsOn attribute flag is se...">setTskToNtfyTrnOnLtchRls(const TaskHandle_t &amp;newTaskHandle)</a> method. </dd></dl>
+<p>One of the optional mechanisms activated by entering the <b>Latch Release is On</b> (ltchRlsIsOn = true) state is the unblocking of a task. This method returns the TaskHandle for the task to unblock.</p>
+<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyTrnOnLtchRls(const TaskHandle_t) method. </dd></dl>
 
 </div>
 </div>
@@ -931,8 +937,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Returns the TaskHandle for the task to be unblocked when the object's prdCyclIsOn attribute flag is set to true. </p>
-<p>One of the optional mechanisms activated by entering the <b>Production cycle is On</b> (prdCyclIsOn = true) state is the unblocking of a task blocked by a xTaskNotifyWait(). This method returns the TaskHandle for the task to unblock.</p>
-<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the <a class="el" href="#a01529d7a2cfe73e8e5ee189b66c563a3" title="Sets the task to be unblocked -by a xTaskNotify()- when the object&#39;s prdCyclIsOn attribute flag is se...">setTskToNtfyTrnOnPrdCycl(const TaskHandle_t &amp;newTaskHandle)</a> method. </dd></dl>
+<p>One of the optional mechanisms activated by entering the <b>Production cycle is On</b> (prdCyclIsOn = true) state is the unblocking of a task. This method returns the TaskHandle for the task to unblock.</p>
+<dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyTrnOnPrdCycl(const TaskHandle_t) method. </dd></dl>
 
 </div>
 </div>
@@ -982,7 +988,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Sets the function to be executed when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state. </p>
-<p>When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, wich is the main purpose of the use of the machine, was wasted. The opportunity to execute a function as part of that state transition gives a tool to register this situation, as the proportion of these failures compared to the expected behavior may indicate an anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time.</p>
+<p>When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, which is the main purpose of the use of the machine, was wasted. The opportunity to execute a function as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures, machine operator related problems and other cases that harm present productivity and might end in a undesired situation. This method sets the pointer to the function to call.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newFnWhnBthHndsOnMssd</td><td>Function pointer to the function to be executed when the object makes the transition from "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.</td></tr>
@@ -1066,7 +1072,7 @@ Here is the call graph for this function:</div>
 <p>One of the optional mechanisms activated by entering the <b>Latch Release is On</b> (ltchRlsIsOn = true) state is the execution of a fncVdPtrPrmPtrType function, i.e. void (<em>FnWhnTrnOn)(void</em>). This method sets the pointer to the function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newFnWhnTrnOn</td><td>Function pointer to the function to be executed when the object enters the "Latch Release is On" state. </td></tr>
+    <tr><td class="paramname">newFnWhnTrnOn</td><td>Function pointer to the function to be executed when the object enters the "Latch Release is On" state.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1093,7 +1099,7 @@ Here is the call graph for this function:</div>
 <p>One of the optional mechanisms activated by entering the <b>Production Cycle is On</b> (_prdCyclIsOn = true) state is the execution of a fncVdPtrPrmPtrType function, i.e. void (<em>FnWhnTrnOff)(void</em>). This method sets the pointer to the function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newFnWhnTrnOff</td><td>Function pointer to the function to be executed when the object enters the "Production Cycle is Off" state. </td></tr>
+    <tr><td class="paramname">newFnWhnTrnOff</td><td>Function pointer to the function to be executed when the object enters the "Production Cycle is On" state. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1146,7 +1152,7 @@ Here is the call graph for this function:</div>
 <p>The ltchRlsTtlTm attribute holds the time the latching mechanism of the cycle machine will be freed to start the production cycle. Due to the primitive mechanical characteristics of these machines, the mechanical latching mechanism might take different times to be effectively released, so the time must be enough to ensure the correct and full unlatch, but not long enough to keep the machine unlatched when the production cycle is completed, as this might generate the next production cycle to start again, now with no limbs protection provided.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newVal</td><td>Time in milliseconds to keep the unlatch mechanism activated, must be a value greater than 0, and less or equal to the "Production cycle time" (see setPrdCyclTtlTm(const unsigned long int)) </td></tr>
+    <tr><td class="paramname">newVal</td><td>Time in milliseconds to keep the unlatch mechanism activated, must be a value greater than 0, and less than or equal to the "Production cycle time" (see setPrdCyclTtlTm(const unsigned long int)) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1172,10 +1178,11 @@ false The parameter value was not in the valid range, attribute value was not up
 </div><div class="memdoc">
 
 <p>Set the Production Cycle Total Time (prdCyclTtlTm) attribute value. </p>
-<p>The prdCyclTtlTm attribute holds the total time for the production cycle, starting from the moment the latching mechanism of the cycle machine will be freed to start the production cycle and until the hands and foot security switches are kept disabled. After the production cycle timer set time is consumed, the limbs security switch enters the Cycle closure state, ending with the hands and foot security switches re-enabled to their respective configuration states. Setting a short value to the attribute will produce the switch to be re-enabled before the production cycle ends, generating undesired security risks, setting an extremely long value to the attribute will produce the switch to be unavailable to start a new production cycle, slowing the production in an unneeded manner.</p>
+<p>The prdCyclTtlTm attribute holds the total time for the production cycle, starting from the moment the latching mechanism of the cycle machine will be freed to start the production cycle and the hands and foot security switches are disabled. After the production cycle timer set time is consumed, the limbs security switch enters the Cycle closure state, ending with the hands and foot security switches re-enabled to their respective configuration states. Setting a short value to the attribute will produce the switch to be re-enabled before the production cycle ends, generating undesired security risks, setting an extremely long value to the attribute will produce the switch to be unavailable to start a new production cycle, slowing the production, affecting the productivity. <br  />
+</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">newVal</td><td>Time in milliseconds for the production cycle to be active, must be a value greater than 0, and greater or equal to the "Latch Release Total Time" (see setLtchRlsTtlTm(const unsigned long int)) </td></tr>
+    <tr><td class="paramname">newVal</td><td>Time in milliseconds for the production cycle to be active, must be a value greater or equal to the "Latch Release Total Time" (see setLtchRlsTtlTm(const unsigned long int)) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1201,7 +1208,7 @@ false The parameter value was not in the valid range, attribute value was not up
 </div><div class="memdoc">
 
 <p>Sets the pointer to the arguments for the function to be executed when the object's ltchRlsIsOn attribute flag is set to false. </p>
-<p>The function to be executed is the one set by the setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType) method, that expects a void* argument.</p>
+<p>The function to be executed is the one set by the setFnWhnTrnOffLtchRlsPtr(fncVdPtrPrmPtrType) method, function that expects a void* argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newVal</td><td>A void* to the argument to be passed to the mentioned function</td></tr>
@@ -1228,7 +1235,7 @@ false The parameter value was not in the valid range, attribute value was not up
 </div><div class="memdoc">
 
 <p>Sets the pointer to the arguments for the function to be executed when the object's prdCyclIsOn attribute flag is set to false. </p>
-<p>The function to be executed is the one set by the setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType) method, that expects a void* argument.</p>
+<p>The function to be executed is the one set by the setFnWhnTrnOffPrdCyclPtr(fncVdPtrPrmPtrType) method, function that expects a void* argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newVal</td><td>A void* to the argument to be passed to the mentioned function</td></tr>
@@ -1255,7 +1262,7 @@ false The parameter value was not in the valid range, attribute value was not up
 </div><div class="memdoc">
 
 <p>Sets the pointer to the arguments for the function to be executed when the object's ltchRlsIsOn attribute flag is set to true. </p>
-<p>The function to be executed is the one set by the setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType) method, that expects a void* argument.</p>
+<p>The function to be executed is the one set by the setFnWhnTrnOnLtchRlsPtr(fncVdPtrPrmPtrType) method, function that expects a void* argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newVal</td><td>A void* to the argument to be passed to the mentioned function</td></tr>
@@ -1282,7 +1289,7 @@ false The parameter value was not in the valid range, attribute value was not up
 </div><div class="memdoc">
 
 <p>Sets the pointer to the arguments for the function to be executed when the object's prdCyclIsOn attribute flag is set to true. </p>
-<p>The function to be executed is the one set by the setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType) method, that expects a void* argument.</p>
+<p>The function to be executed is the one set by the setFnWhnTrnOnPrdCyclPtr(fncVdPtrPrmPtrType) method, function that expects a void* argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newVal</td><td>A void* to the argument to be passed to the mentioned function</td></tr>
@@ -1309,7 +1316,7 @@ false The parameter value was not in the valid range, attribute value was not up
 </div><div class="memdoc">
 
 <p>Sets the task to be unblocked -by a xTaskNotify()- when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state. </p>
-<p>One of the optional mechanisms activated when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock. When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, wich is the main purpose of the use of the machine, was wasted. The opportunity of unblocking of a task blocked by a xTaskNotifyWait() as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures and other cases that harm present productivity and might end in a future machine down time. This method sets the TaskHandle for the task to unblock.</p>
+<p>One of the optional mechanisms activated when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state is the unblocking of a task. This method sets the TaskHandle to the task to unblock. When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, which is the main purpose of the use of the machine, was wasted. The opportunity of unblocking of a task as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures and/or other cases that harm present productivity and might end in a future machine down time. This method sets the TaskHandle for the task to unblock.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newTaskHandle</td><td>The task handle of the task to be unblocked when the object's state changes from the "foot switch enabled" to the "foot switch disabled" instead of the "Production cycle activated" state.</td></tr>
@@ -1317,10 +1324,10 @@ false The parameter value was not in the valid range, attribute value was not up
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.</dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer. <br  />
+<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing -not suspended, not in delete process- task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer. <br  />
 </dd>
 <dd>
-Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision. </dd></dl>
+Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task and -if it wasn't in a state of pending deletion- proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision. </dd></dl>
 
 </div>
 </div>
@@ -1340,7 +1347,7 @@ Setting a task handle by using this method to replace an already set TaskHandle_
 </div><div class="memdoc">
 
 <p>Sets the task to be unblocked -by a xTaskNotify()- when <b>ANY</b> of the object's attribute flags changes it's value. </p>
-<p>One of the optional mechanisms activated when any of the relevant attribute flags changes it's state is the unblocking of a task blocked by a xTaskNotifyWait(). This method sets the TaskHandle to the task to unblock. This tool is of great importance for the integration between the electronic logic control and the mechanical device it is intended to control. While the "Latch Release status" (ltchRlsIsOn AF) and the "Production Cycle status" (prdCyclIsOn AF) have their own dedicated tasks assignation capabilities, this generic task handle provides for all the relevant AFs, including both aforementioned.</p>
+<p>One of the optional mechanisms activated when any of the relevant attribute flags changes it's state is the unblocking of a task blocked. This method sets the TaskHandle to the task to unblock. This tool is of great importance for the integration between the electronic logic control and the mechanical device it is intended to control. While the "Latch Release status" (ltchRlsIsOn AF) and the "Production Cycle status" (prdCyclIsOn AF) have their own dedicated tasks assignation capabilities, this generic task handle provides for all the relevant AFs, including both aforementioned.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newTaskHandle</td><td>The task handle of the task to be unblocked when one or more of the object's relevant AF changes it's value.</td></tr>
@@ -1348,10 +1355,10 @@ Setting a task handle by using this method to replace an already set TaskHandle_
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.</dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer. <br  />
+<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing -not suspended, not in delete process- task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer. <br  />
 </dd>
 <dd>
-Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision. </dd></dl>
+Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task and -if it wasn't in a state of pending deletion- proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision. </dd></dl>
 
 </div>
 </div>
@@ -1379,10 +1386,10 @@ Setting a task handle by using this method to replace an already set TaskHandle_
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.</dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer. <br  />
+<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing -not suspended, not in delete process- task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer. <br  />
 </dd>
 <dd>
-Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision. </dd></dl>
+Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task and -if it wasn't in a state of pending deletion- proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision. </dd></dl>
 
 </div>
 </div>
@@ -1410,10 +1417,10 @@ Setting a task handle by using this method to replace an already set TaskHandle_
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.</dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer. <br  />
+<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing -not suspended, not in delete process- task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer. <br  />
 </dd>
 <dd>
-Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision. </dd></dl>
+Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task and -if it wasn't in a state of pending deletion- proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision. </dd></dl>
 
 </div>
 </div>
@@ -1441,10 +1448,10 @@ Setting a task handle by using this method to replace an already set TaskHandle_
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.</dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer. <br  />
+<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing -not suspended, not in delete process- task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer. <br  />
 </dd>
 <dd>
-Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision. </dd></dl>
+Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task and -if it wasn't in a state of pending deletion- proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision. </dd></dl>
 
 </div>
 </div>
@@ -1472,10 +1479,10 @@ Setting a task handle by using this method to replace an already set TaskHandle_
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>When the object is instantiated the task handle is set to NULL, value that disables the mechanism. Once a TaskHandle to a task is provided the mechanism will become available. The mechanism can be disabled by setting the TaskHandle value back to NULL.</dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing, not suspended, not in delete process task. The task setting and valid state to be used by the correspondig method -by executing a xTaskNotify()- is under responsability of the developer. <br  />
+<dl class="section attention"><dt>Attention</dt><dd>Setting a task handle by using this method does not verify if the task handle value set corresponds to an existing -not suspended, not in delete process- task. The task setting and valid state to be used by the corresponding method -by executing a xTaskNotify()- is under responsibility of the developer. <br  />
 </dd>
 <dd>
-Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task, and if it wasn't in a state of pending deletion proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsability and design decision. </dd></dl>
+Setting a task handle by using this method to replace an already set TaskHandle_t value will check the status of the previous set task and -if it wasn't in a state of pending deletion- proceed to suspend it and set the TaskHandle_t value to the new one. The suspended task will be left to be dealt by the developer, and the resources lost by no deleting that task might be considered under the developer responsibility and design decision. </dd></dl>
 
 </div>
 </div>
@@ -1506,7 +1513,7 @@ Setting a task handle by using this method to replace an already set TaskHandle_
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">true</td><td>The value was in the accepted range and successfully changed </td></tr>
-    <tr><td class="paramname">false</td><td>The value was not in the accepted range and successfully changed </td></tr>
+    <tr><td class="paramname">false</td><td>The value was not in the accepted range and was not successfully changed</td></tr>
   </table>
   </dd>
 </dl>

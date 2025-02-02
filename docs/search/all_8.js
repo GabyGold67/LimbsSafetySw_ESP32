@@ -21,6 +21,7 @@ var searchData=
   ['settsktontfytrnonprdcycl_18',['setTskToNtfyTrnOnPrdCycl',['../class_limbs_sfty_ln_f_swtch.html#a01529d7a2cfe73e8e5ee189b66c563a3',1,'LimbsSftyLnFSwtch']]],
   ['setundrlswtchspolldelay_19',['setUndrlSwtchsPollDelay',['../class_limbs_sfty_ln_f_swtch.html#a00c4b0dcf6382766b8e7779dcff14e1a',1,'LimbsSftyLnFSwtch']]],
   ['switch_20library_20for_20esp32_20limbsafetysw_5fesp32_20',['Limbs Safe Activation Switch Library for ESP32 (LimbSafetySw_ESP32)',['../index.html',1,'']]],
-  ['swtchinpthwcfg_5ft_21',['swtchInptHwCfg_t',['../structswtch_inpt_hw_cfg__t.html',1,'']]],
-  ['swtchotpthwcfg_5ft_22',['swtchOtptHwCfg_t',['../structswtch_otpt_hw_cfg__t.html',1,'']]]
+  ['swtchbhvrcfg_5ft_21',['swtchBhvrCfg_t',['../structswtch_bhvr_cfg__t.html',1,'']]],
+  ['swtchinpthwcfg_5ft_22',['swtchInptHwCfg_t',['../structswtch_inpt_hw_cfg__t.html',1,'']]],
+  ['swtchotpthwcfg_5ft_23',['swtchOtptHwCfg_t',['../structswtch_otpt_hw_cfg__t.html',1,'']]]
 ];
