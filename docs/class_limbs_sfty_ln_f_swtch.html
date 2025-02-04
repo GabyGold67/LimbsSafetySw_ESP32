@@ -27,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Limbs Safety Switch Library for ESP32 (Arduino)<span id="projectnumber">&#160;v1.0.0</span>
+   <div id="projectname">Limbs Safety Switch Library for ESP32 (Arduino)<span id="projectnumber">&#160;v1.0.1</span>
    </div>
    <div id="projectbrief">A library that provides a class that models a Limbs Safety Switch for physical dangerous devices or industrial production machines.</div>
   </td>
@@ -833,7 +833,7 @@ For a complete description of the 32-bit value encoded logic see lssOtptsSttsUnp
 <p>Returns the TaskHandle for the task to be unblocked when the object's state changes from the "foot switch enabled" state to the "foot switch disabled" state, instead of the "Production cycle activated" state. </p>
 <p>When the object changes it's state as mentioned, it means an opportunity to activate the production cycle, which is the main purpose of the use of the machine, was wasted. The opportunity of unblocking a blocked task as part of that state transition gives a tool to deal with this situations. Either to react immediately, either to register this situations, as the proportion of these failures compared to the expected behavior may indicate a potential anomaly either in the parameters configuration, command switches failures, machine operator related problems and other cases that harm present productivity and might end in a undesired situation. This method returns the TaskHandle for the task to unblock.</p>
 <dl class="section note"><dt>Note</dt><dd>When the value returned is NULL, the task notification mechanism is disabled. The mechanism can be enabled by setting a valid TaskHandle value by using the setTskToNtfyBthHndsOnMssd(const TaskHandle_t) method.</dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>The task refered to by this handle is one of the fundamental pieces for the integration of a "Productivity control and improvement system". </dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>The task referred to by this handle is one of the fundamental pieces for the integration of a "Productivity control and improvement system". </dd></dl>
 
 </div>
 </div>

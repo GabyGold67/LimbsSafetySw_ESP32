@@ -29,7 +29,7 @@
   ******************************************************************************
   * @attention	This library gives no guarantees whatsoever about it's compliance
   * to any expectations but as those from it's own designers. Use under your own 
-  * responsability and risk.
+  * responsibility and risk.
   * 
   * Released into the public domain in accordance with "GPL-3.0-or-later" license terms.
   ******************************************************************************
@@ -38,7 +38,7 @@
 #include <LimbsSafetySw_ESP32.h>
 
 //==============================================>> General use definitions BEGIN
-//* This definitios are placed here for easier testing of important implementation parameters, checking the change of behavior when playing around with different values, etc.
+//* This definitions are placed here for easier testing of important implementation parameters, checking the change of behavior when playing around with different values, etc.
 #define LoopDlyTtlTm 25
 #define MainCtrlTskPrrtyLvl 5
 #define UndrlyngMPBttnPollTm 25
@@ -272,7 +272,7 @@ void mainCtrlTsk(void *pvParameters){
    stampSftySwtch.begin(LsSwtchPollTm);
 
    for(;;){
-      *loopTmrStrtTmPtr = xTaskGetTickCount() / portTICK_RATE_MS; //! Altough this is just a test execution, this is implemented to save resources by not executing this loop constantly
+      *loopTmrStrtTmPtr = xTaskGetTickCount() / portTICK_RATE_MS; //! Although this is just a test execution, this is implemented to save resources by not executing this loop constantly
 
       // Keep the _undrlLftHndMPB object outputs updated.		
       if(stampSftySwtch.getLftHndSwtchPtr()->getOutputsChange()){

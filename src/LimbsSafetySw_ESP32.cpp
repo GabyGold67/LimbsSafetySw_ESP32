@@ -8,7 +8,7 @@
   * @author	: Gabriel D. Goldman
   * @version v1.0.0
   * @date First release: 11/11/2024 
-  *       Last update:   02/02/2025 17:50 (GMT+0200)
+  *       Last update:   04/02/2025 10:50 (GMT+0200)
   * @copyright GPL-3.0 license
   *
   ******************************************************************************
@@ -81,9 +81,8 @@ void LimbsSftyLnFSwtch::_ackBthHndsOnMssd(){
             errorFlag = pdTRUE;
       }
 		//---------------->> Functions related actions
-		if(_fnWhnBthHndsOnMssd != nullptr){
+		if(_fnWhnBthHndsOnMssd != nullptr)
 			_fnWhnBthHndsOnMssd(_fnWhnBthHndsOnMssdArg);
-		}
 	   //---------------->> Flags related actions
 
    return;
@@ -128,22 +127,16 @@ void LimbsSftyLnFSwtch::clrStatus(){
    _prdCyclTmrStrt = 0;
    _undrlFtMPBPtr->disable(); // Disable FtSwitch
 
-   //todo Check why this must be forced!! BEGIN -----------------> Not right, go directly to the _isEnabled flag value!!!
    _undrlLftHndMPBPtr->setIsOnDisabled(true);
-   if(_lftHndBhvrCfg.swtchIsEnbld){
+   if(_lftHndBhvrCfg.swtchIsEnbld)
       _undrlLftHndMPBPtr->enable();
-   }
-   else{
+   else
       _undrlLftHndMPBPtr->disable();
-   }
    _undrlRghtHndMPBPtr->setIsOnDisabled(true);
-   if(_rghtHndBhvrCfg.swtchIsEnbld){
+   if(_rghtHndBhvrCfg.swtchIsEnbld)
       _undrlRghtHndMPBPtr->enable();
-   }
-   else{
+   else
       _undrlRghtHndMPBPtr->disable();
-   }
-   //todo Check why this must be forced!! END
 
    return;
 }
@@ -303,21 +296,24 @@ void LimbsSftyLnFSwtch::_getUndrlSwtchStts(){
 
 uint32_t LimbsSftyLnFSwtch::_lsSwtchOtptsSttsPkgd(uint32_t prevVal){
 /*
-+--+--+--+--+--+--+--+--++--+--+--+--+--+--+--+--++--+--+--+--+--+--+--+--++--+--+--+--+--+--+--+--+
-|31|30|29|28|27|26|25|24||23|22|21|20|19|18|17|16||15|14|13|12|11|10|09|08||07|06|05|04|03|02|01|00|
-                                                                     -- --  -- -- -- -- -- -- -- --
-                                                                      |  |   |  |  |  |  |  |  |  |
-                                                                      |  |   |  |  |  |  |  |  |  lftHndSwtchIsEnbld
-                                                                      |  |   |  |  |  |  |  |  lftHndSwtchIsOn
-                                                                      |  |   |  |  |  |  |  lftHndSwtchIsVdd
-                                                                      |  |   |  |  |  |  rghtHndSwtchIsEnbld
-                                                                      |  |   |  |  |  rghtHndSwtchIsOn
-                                                                      |  |   |  |  rghtHndSwtchIsVdd
-                                                                      |  |   |  ftSwtchIsEnbld
-                                                                      |  |   ftSwtchIsOn
-                                                                      |  LsSwtchLtchRlsIsOn
-                                                                      LsSwtchPrdCyclIsOn
++--+-+--+--+--++--+--+--+--+--+--+--+--+
+|31|~|10|09|08||07|06|05|04|03|02|01|00|
+ ------- -- --  -- -- -- -- -- -- -- --
+       |  |  |   |  |  |  |  |  |  |  |
+       |  |  |   |  |  |  |  |  |  |  lftHndSwtchIsEnbld
+       |  |  |   |  |  |  |  |  |  lftHndSwtchIsOn
+       |  |  |   |  |  |  |  |  lftHndSwtchIsVdd
+       |  |  |   |  |  |  |  rghtHndSwtchIsEnbld
+       |  |  |   |  |  |  rghtHndSwtchIsOn
+       |  |  |   |  |  rghtHndSwtchIsVdd
+       |  |  |   |  ftSwtchIsEnbld
+       |  |  |   ftSwtchIsOn
+       |  |  LsSwtchLtchRlsIsOn
+       |  LsSwtchPrdCyclIsOn
+       N/C
+
 */   
+   //Underlying DbncdMPBttns' attribute flags state
 	if(_lftHndSwtchStts.isEnabled)
 		prevVal |= ((uint32_t)1) << lftHndSwtchIsEnbldBP;
 	else
@@ -353,6 +349,7 @@ uint32_t LimbsSftyLnFSwtch::_lsSwtchOtptsSttsPkgd(uint32_t prevVal){
 	else
 		prevVal &= ~(((uint32_t)1) << ftSwtchIsOnBP);
 
+   //LimbsSftyLnFSwtch's attribute flags state
 	if(_ltchRlsIsOn)
 		prevVal |= ((uint32_t)1) << LsSwtchLtchRlsIsOnBP;
 	else
@@ -693,9 +690,8 @@ void LimbsSftyLnFSwtch::_turnOffLtchRls(){
             errorFlag = pdTRUE;
       }
 		//---------------->> Functions related actions
-		if(_fnWhnTrnOffLtchRls != nullptr){
+		if(_fnWhnTrnOffLtchRls != nullptr)
 			_fnWhnTrnOffLtchRls(_fnWhnTrnOffLtchRlsArg);
-		}
 	   //---------------->> Flags related actions
 		taskENTER_CRITICAL(&mux);
       _ltchRlsIsOn = false;
@@ -722,9 +718,8 @@ void LimbsSftyLnFSwtch::_turnOffPrdCycl(){
             errorFlag = pdTRUE;
       }
 		//---------------->> Functions related actions
-		if(_fnWhnTrnOffPrdCycl != nullptr){
+		if(_fnWhnTrnOffPrdCycl != nullptr)
 			_fnWhnTrnOffPrdCycl(_fnWhnTrnOffPrdCyclArg);
-		}
 	   //---------------->> Flags related actions
 		taskENTER_CRITICAL(&mux);
       _prdCyclIsOn = false;
@@ -751,9 +746,8 @@ void LimbsSftyLnFSwtch::_turnOnLtchRls(){
             errorFlag = pdTRUE;
       }
 		//---------------->> Functions related actions
-		if(_fnWhnTrnOnLtchRls != nullptr){
+		if(_fnWhnTrnOnLtchRls != nullptr)
 			_fnWhnTrnOnLtchRls(_fnWhnTrnOnLtchRlsArg);
-		}
 	   //---------------->> Flags related actions
 		taskENTER_CRITICAL(&mux);
       _ltchRlsIsOn = true;
@@ -780,9 +774,8 @@ void LimbsSftyLnFSwtch::_turnOnPrdCycl(){
             errorFlag = pdTRUE;
       }
 		//---------------->> Functions related actions
-		if(_fnWhnTrnOnPrdCycl != nullptr){
+		if(_fnWhnTrnOnPrdCycl != nullptr)
 			_fnWhnTrnOnPrdCycl(_fnWhnTrnOnPrdCyclArg);
-		}
 	   //---------------->> Flags related actions
 		taskENTER_CRITICAL(&mux);
       _prdCyclIsOn = true;
@@ -928,7 +921,7 @@ void LimbsSftyLnFSwtch::_setLtchRlsPndng(){
 lsSwtchOtpts_t lssOtptsSttsUnpkg(uint32_t pkgOtpts){
 	lsSwtchOtpts_t lssCurSttsDcdd {0};
 
-	// Attribute flags from the underlying DbncdMPBttn elements and it's status might be obtained from them by using the respective pointers and getters
+   //Underlying DbncdMPBttns' attribute flags state
 	if(pkgOtpts & (((uint32_t)1) << lftHndSwtchIsEnbldBP))
 		lssCurSttsDcdd.lftHndIsEnbld = true;
 	else
@@ -966,6 +959,7 @@ lsSwtchOtpts_t lssOtptsSttsUnpkg(uint32_t pkgOtpts){
 	else
 		lssCurSttsDcdd.ftSwIsOn = false;
 
+   //LimbsSftyLnFSwtch's attribute flags state
 	if(pkgOtpts & (((uint32_t)1) << LsSwtchLtchRlsIsOnBP))
 		lssCurSttsDcdd.ltchRlsIsOn = true;
 	else
