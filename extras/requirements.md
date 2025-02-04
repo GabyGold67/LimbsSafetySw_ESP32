@@ -1,13 +1,20 @@
-# Limbs Safety Switch library
+# Limbs Safety Switch library Requirements
 
 ---  
 
-## Analisys
-At this time in history, start of the 21st century, as new and soon to be released industrial production machinery models equiped with electronic smart interconnected controls make their way into the market, most of the machines currently in use in small and medium sized industries (and more in "third world countries") are still fully electro-mechanical devices, with simple (mostly non-existent) personal security enforcement and production information or control of any kind. The idea of providing them an appropriate security mechanisms for the operators is relevant as great part of their active production mechanisms are not that different from last generation's machines, so extending their productive life while setting them to the required security levels expected in nowadays machines -and the addition of information generation, gathering and transmition- is an economic, practical, achivable solution to extend their service time life, lowering operating costs and improving their productivity level.  
-That benefit is economically and technologically achievable by the use of electronic controls to guarantee that minimum target security level for starters.  
-Once the physical security of the operator is ensured, having a programmable device installed and connected to the actionable mechanisms of the machine opens the door to the multiple benefits the modern controlled machines offer: machine failure detection, production control and improvement, time and energy use optimization and generated data analisys, localy or remotely done by the use of IoT technologies... as was stated: **once the programmable device is properly installed and connected**.  
-Being the diversity and construction variety of the machines involved so extense, not all of them will have the same possibilities to incorporate the required devices to achieve all the functionalities with the same ease.  
+## Environment Analysis
+At this point in history, start of the 21st century, as new and soon to be released industrial production machinery models equipped with electronic smart interconnected controls make their way into the market, most of the machines currently in use in small and medium sized industries (more in "third world countries") are still fully electro-mechanical devices with simple  -mostly non-existent- personal security enforcement and production information or control of any kind. The idea of providing those machines with an appropriate security mechanisms for the operators is relevant as great part of their active production mechanisms are not that different from last generation's machines, so extending their productive life while setting them to the required security levels expected in nowadays machines is a cost effective, investment wise alternative to changing every machine to new models.  
+
+That benefit is economically and technologically achievable by the use of electronic smart controls to guarantee that target security level. 
+
+But that's just the starting point for a deeper path into production modernization.  
+
+Once the physical security of the operator is ensured, having a programmable device installed and connected to the actionable mechanisms of the machine opens the door to the multiple benefits the modern controlled machines offer: production control and improvement, time and energy use optimization, machine failure prediction and detection, data generation for analysis, locally, remotely, in real-time or deferred mode, done by the use of IoT technologies... as was stated: **once the programmable device is properly installed and connected**.  
+
+Being the diversity and construction variety of the machines involved so extensive, not all of them will have the same possibilities to incorporate the required devices to achieve all the functionalities with the same ease.  
 With those factors considered, the requirements for the solution will take a minimalistic basic approach, and then will be modified, adapted and extended as technically and physically possible.  
+
+The addition of smart electronic solutions for the of information generation, gathering and transmission is an economic, practical, achievable solution for lowering operating costs, by extending the machine service lifetime life, improving their productivity levels, and then shortening the return of investment time.  
 
 ---
 
@@ -16,12 +23,16 @@ With those factors considered, the requirements for the solution will take a min
 ### Industrial mechanical cycle machines and devices:
 Are machines that perform a series of mechanical operations in a repeating sequence: the **production cycle**. The machine's mechanical power source (usually electric motor) is activated in advance and a release mechanism -trigger- starts a sequence of actions for the production that ends with the machine in the same state and position it started from. Many of these machines have no way of stopping it's production cycle before reaching the end/restart point.
 
+### Limbs Safety Switch
+
+
+
 ### Emergency signal:
 The emergency signal is an internal or external generated notification of a malfunction, anomaly or exception state of the machine. Depending on the characteristics of the machine, as previously stated, the production cycle might be -or not- interrupted in the event of an **Emergency signal**.  
 - Internal Emergency Signal: Is generated by the machine by the detection of an anomaly in de production cycle by sensors included or added to it's mechanisms.
 - External Emergency Signal: Is generated by the operator, another person or an independent device.  
 
-In the case of uninterruptible cycle machines the only granted "Emergency signal response" posible action sequence would be:
+In the case of uninterruptible cycle machines the only granted "Emergency signal response" possible action sequence would be:
 - Signal de Emergency and enter the Emergency state of the machine
 - Block the future execution of new production cycles
 - Keep the Emergency state including the production cycle blockage until a higher level -Supervisor- clears the Emergency state unblocking the machine use.  
@@ -29,12 +40,12 @@ In the case of uninterruptible cycle machines the only granted "Emergency signal
 For other kind of cycle machines different 
 
 ### Limbs Safety Switch library
-The **Limbs Safety Switch library** contains the definition for one or more classes and support code -structures, tasks, timers, etc.- for modeling limbs safety switches for cycle machines. Each class will model a different switch with it's own activation execution and control capabilities depending of the existence or possibilities of adition of sensors and actuators capable of providing information through the cycle execution.
+The **Limbs Safety Switch library** contains the definition for one or more classes and support code -structures, tasks, timers, etc.- for modeling limbs safety switches for cycle machines. Each class will model a different switch with it's own activation execution and control capabilities depending of the existence or possibilities of addition of sensors and actuators capable of providing information through the cycle execution.
 
 ---
 
 # Limbs Safety for Launch and Forget Switch class (LimbsSftyLnFSwtch)   
-The ***LimbsSftyLnFSwtch*** class models a switch for safely activate **"launch and forget" cycle machines** and devices, which originally provides no other mechanism than a latch release mechanical trigger. This means that once activated the machine will complete a production cycle, return to the starting point and wait for a new **Start**|**Release** signal. As such, the minimum security primitive is to ensure no limbs are placed inside any dangerous machine zone before releasing the cycle trigger. The software development will consider then that the physical action needed to release the latch or trigger is replaced with a device such as a electromagnetic pull, an electrovalve commanded pneumatic actuator or similar device with the hability to be temporarily activated by an electric signal. Once the production cycle is started the limbs security will be the same as the one provided by the machine before the electronic upgrade.
+The ***LimbsSftyLnFSwtch*** class models a switch for safely activate **"launch and forget" cycle machines** and devices, which originally provides no other mechanism than a latch release mechanical trigger. This means that once activated the machine will complete a production cycle, return to the starting point and wait for a new **Start**|**Release** signal. As such, the minimum security primitive is to ensure no limbs are placed inside any dangerous machine zone before releasing the cycle trigger. The software development will consider then that the physical action needed to release the latch or trigger is replaced with a device such as a electromagnetic pull, an electrovalve commanded pneumatic actuator or similar device with the ability to be temporarily activated by an electric signal. Once the production cycle is started the limbs security will be the same as the one provided by the machine before the electronic upgrade.
 
 ---
 
@@ -50,9 +61,9 @@ The library must model a switch that ensures the hands positioned in a secure pl
       - They must ensure a debounced stable signal for a pressing event to be considered valid.  
       - They must ensure a configurable minimum press time before a pressing event is to be considered valid.
       - They must ensure they are not kept pressed down by artificial meanings -tampering, blocking, mocking- bypassing the security purpose of the switch. For fulfilling that end at least two policies must be enforced:
-         - The pressing signal will be voided if kept for longer than a configured time lapse, the unvoiding procedure must include the efective releasing of the switch.
-         - The switch must be **disabled** after the device activation and for an established period of time, or until a signal is received. The **enabling** procedure must include the efective releasing of the switch.
-      - If some kind of device or production demands a hand or both to be freed from the pressing action (based on the physical operation ensuring a hand or both are necesarilly kept outside the dangerous areas of the machine), the input must be set to be ignored, or considering the continuous press of the switch as a validating situation.
+         - The pressing signal will be voided if kept for longer than a configured time lapse, the unvoiding procedure must include the effective releasing of the switch.
+         - The switch must be **disabled** after the device activation and for an established period of time, or until a signal is received. The **enabling** procedure must include the effective releasing of the switch.
+      - If some kind of device or production demands a hand or both to be freed from the pressing action (based on the physical operation ensuring a hand or both are necessarily kept outside the dangerous areas of the machine), the input must be set to be ignored, or considering the continuous press of the switch as a validating situation.
 
    - The **foot switch** must comply with the following required characteristics
       - It must ensure a debounced stable signal for a pressing event to be considered valid.  
@@ -63,7 +74,7 @@ The library must model a switch that ensures the hands positioned in a secure pl
       
 
 #### Inputs/Outputs requirements conclusion:
-According to the abovementioned requirements the design of the ***LimbsSftySnglShtSw*** should include the **ButtonToSwitch library** defined classes as inputs.
+According to the aforementioned requirements the design of the ***LimbsSftySnglShtSw*** should include the **ButtonToSwitch library** defined classes as inputs.
    - A **TmVdblMPBttn** class object for the left hand input.
    - A **TmVdblMPBttn** class object for the right hand input.
    - A **SnglSrvcMPBttn** class object for the foot input.  

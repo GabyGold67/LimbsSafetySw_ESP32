@@ -6,7 +6,7 @@
   * @details The library implements classes that models Limbs Safety Switch for industrial production machines.
   *
   * @author	: Gabriel D. Goldman
-  * @version v1.0.0
+  * @version v1.0.1
   * @date First release: 11/11/2024 
   *       Last update:   04/02/2025 10:50 (GMT+0200)
   * @copyright GPL-3.0 license
