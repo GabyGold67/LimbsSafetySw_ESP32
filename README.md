@@ -1,6 +1,7 @@
 # Limbs Safe Activation Switch Library for ESP32 (LimbSafetySw_ESP32)
-## [See the working simulation at WOKWI Site](https://wokwi.com/projects/415018098762515457)
-## [See complete manual at Github Pages](https://gabygold67.github.io/LimbsSafetySw_ESP32/)
+## [See the working simulation at WOKWI Site](https://wokwi.com/projects/415018098762515457)  
+## [See complete manual at Github Pages](https://gabygold67.github.io/LimbsSafetySw_ESP32/)  
+### STM32 versions available by request.
 
 This is an ESP32-Arduino library that includes the class, data structures and functions required to model a **Limbs Safety Activation Switch for Launch and Forget Cycle Machines and Devices (LimbsSftyLnFSwtch)**. The switches implemented through the proper use of the tools provided in this library lets the developer generate **ISO 13849-1 (2023)** compliant secure machine required activation controls (please read the corresponding normative documentation at the [ISO Online Browsing Platform](https://www.iso.org/obp/ui/#iso:std:iso:13849:-1:ed-4:v1:en)).
 
