@@ -3,28 +3,30 @@
 ---  
 
 ## Environment Analysis
-At this point in history, start of the 21st century, as new and soon to be released industrial production machinery models equipped with electronic smart interconnected controls make their way into the market, most of the machines currently in use in small and medium sized industries (more in "third world countries") are still fully electro-mechanical devices with simple  -mostly non-existent- personal security enforcement and production information or control of any kind. The idea of providing those machines with an appropriate security mechanisms for the operators is relevant as great part of their active production mechanisms are not that different from last generation's machines, so extending their productive life while setting them to the required security levels expected in nowadays machines is a cost effective, investment wise alternative to changing every machine to new models.  
+At this point in history, start of the 21st century, as new and soon to be released industrial production machinery models equipped with electronic smart interconnected controls make their way into the market, a big proportion of the machines currently in use in small and medium sized industries (even more in "third world countries") are still fully electro-mechanical devices with simple  -mostly non-existent- personal security enforcement and production information or control of any kind. The idea of providing those machines with an appropriate security mechanisms for the operators is relevant as great part of their active production mechanisms are not that different from last generation's machines, so extending their productive life while setting them to the required security levels expected in nowadays machines is a cost effective, investment wise alternative to changing every machine to new models.  
 
-That benefit is economically and technologically achievable by the use of electronic smart controls to guarantee that target security level. 
+That benefit is technologically achievable at a reasonable low by the use of electronic smart controls to guarantee that target security level. 
 
 But that's just the starting point for a deeper path into production modernization.  
 
-Once the physical security of the operator is ensured, having a programmable device installed and connected to the actionable mechanisms of the machine opens the door to the multiple benefits the modern controlled machines offer: production control and improvement, time and energy use optimization, machine failure prediction and detection, data generation for analysis, locally, remotely, in real-time or deferred mode, done by the use of IoT technologies... as was stated: **once the programmable device is properly installed and connected**.  
+Once the physical security of the operator is ensured, having a programmable device installed and connected to the actionable mechanisms of the machine opens the door to the multiple benefits the modern controlled machines offer: production control and improvement, time and energy use optimization, machine failure prediction and detection, data generation for analysis, locally, remotely, in real-time or deferred mode, done by the use of IoT technologies. As was stated: **once the programmable device is properly installed and connected**.  
 
-Being the diversity and construction variety of the machines involved so extensive, not all of them will have the same possibilities to incorporate the required devices to achieve all the functionalities with the same ease.  
+Being the technical diversity and mechanical construction variety of the machines involved so extensive, not all of them will have the same possibilities to incorporate the required devices to achieve all the functionalities with the same ease.  
 With those factors considered, the requirements for the solution will take a minimalistic basic approach, and then will be modified, adapted and extended as technically and physically possible.  
 
-The addition of smart electronic solutions for the of information generation, gathering and transmission is an economic, practical, achievable solution for lowering operating costs, by extending the machine service lifetime life, improving their productivity levels, and then shortening the return of investment time.  
+The addition of smart electronic solutions for the information generation, gathering and transmission is an economic, practical, achievable solution for lowering operating costs, by extending the machine service lifetime, improving their productivity levels, and then shortening the return of investment time.  
 
 ---
 
 ## Definitions:
 
-### Industrial mechanical cycle machines and devices:
-Are machines that perform a series of mechanical operations in a repeating sequence: the **production cycle**. The machine's mechanical power source (usually electric motor) is activated in advance and a release mechanism -trigger- starts a sequence of actions for the production that ends with the machine in the same state and position it started from. Many of these machines have no way of stopping it's production cycle before reaching the end/restart point.
+### Industrial mechanical production cycle machines and devices:
+Are machines that perform a series of mechanical operations in a repeating sequence: the **production cycle**. The machine's mechanical power source (usually electric motor) is activated in advance and a coupling mechanism release -trigger- starts a sequence of actions for the production that ends with the machine in the same state and position it started from, usually involving a mechanical detaching mechanism. Many of these machines have no way of stopping it's production cycle before reaching the end/restart point.
+
+---
 
 ### Limbs Safety Switch
-
+A limbs safety switch is a device that ensures that the machine operator's hands and feet are away from the dangerous zones of the operated machine. While that condition is not satisfied the machine production cycle can not be started. As described in the **Environment Analysis**, the diverse characteristics of these machines imply that some of them are dangerous for several combinations of limbs, and the **flexible production machine** characteristic of some of them make them a risk source for different limbs depending on the configuration being used for certain operations, and for other limbs when the configuration is changed.
 
 
 ### Emergency signal:
