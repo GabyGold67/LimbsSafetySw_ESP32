@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "Limbs Safety Switch Library for ESP32 (Arduino)", "index.html", [
-    [ "Limbs Safe Activation Switch Library for ESP32 (LimbSafetySw_ESP32)", "index.html", null ],
+    [ "Limbs Safety Switch Library for ESP32-Arduino (LimbSafetySw_ESP32)", "index.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],

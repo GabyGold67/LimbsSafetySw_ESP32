@@ -1,8 +1,8 @@
 {
     "name": "LimbsSafetySw_ESP32",
-    "version": "1.0.1",
+    "version": "1.0.2",
     
-    "description": "This Esp32-Arduino library includes the class, data structures and functions required to model a Limbs Safety Activation Switch for Launch and  Forget Cycle Machines and Devices (LimbsSftyLnFSwtch).",
+    "description": "This Esp32-Arduino library includes the class, data structures and functions required to model a Limbs Safety Activation Switch for Launch and Forget Production Cycle Machines and Devices (LimbsSftyLnFSwtch).",
     "keywords": "switch, security, ISO, safety, limbs",
     
     "repository":
