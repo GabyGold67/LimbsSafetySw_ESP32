@@ -1,12 +1,12 @@
 # Limbs Safety Switches Technical Solution Implementation  
 
 ### Limbs Safety Switch library
-The **Limbs Safety Switch library** contains the definition for one or more classes and support code -structures, tasks, timers, etc.- for modeling limbs safety switches for cycle machines. Each class will model a different switch with it's own activation execution and control capabilities depending of the existence or possibilities of addition of sensors and actuators capable of providing information through the cycle execution.
+The **Limbs Safety Switch library** contains the definition for one (or more if need arises) classes and support code -structures, tasks, timers, etc.- for modeling limbs safety switches for cycle machines. Each class will model a different switch with it's own activation execution and control capabilities depending of the existence or possibilities of addition of sensors and actuators capable of providing information through the cycle execution.
 
 ---
 
 # Limbs Safety for Launch and Forget Switch class (LimbsSftyLnFSwtch)   
-The ***LimbsSftyLnFSwtch*** class models a switch for safely activate **"launch and forget" cycle machines** and devices, which originally provides no other mechanism than a latch release mechanical trigger. This means that once activated the machine will complete a production cycle, return to the starting point and wait for a new **Start**|**Release** signal. As such, the minimum security primitive is to ensure no limbs are placed inside any dangerous machine zone before releasing the cycle trigger. The software development will consider then that the physical action needed to release the latch or trigger is replaced with a device such as a electromagnetic pull, an electrovalve commanded pneumatic actuator or similar device with the ability to be temporarily activated by an electric signal. Once the production cycle is started the limbs security will be the same as the one provided by the machine before the electronic upgrade.
+The ***LimbsSftyLnFSwtch*** class models a switch for safely activation of **"launch and forget" cycle machines** and devices, which originally provides no other mechanism than a latch release mechanical trigger. This means that once activated the machine will complete a production cycle, return to the starting point, relatch and wait for a new **Start**|**Release** signal. As such, the minimum security primitive is to ensure no limbs are placed inside any dangerous machine zone before releasing the cycle trigger. The software development will consider then that the physical action needed to release the latch or trigger is replaced with a device such as a electromagnetic pull, an electrovalve commanded pneumatic actuator or similar device with the ability to be temporarily activated by an electric signal. Once the production cycle is started the limbs security will be the same as the one provided by the machine before the electronic upgrade.
 
 ---
 
@@ -15,7 +15,7 @@ The library must model a switch that ensures the hands positioned in a secure pl
 - The first input is a signal ensuring the left hand is placed away from the dangerous mechanisms of the machine.
 - The second input is a signal ensuring the right hand is placed away from the dangerous mechanisms of the machine.
 - The third input is a signal intended to be originated in a foot press button, to generate the **Start**|**Release** of the production mechanism if the first two inputs signals comply to the configuration established for the object.
-- The output generated includes the value setting of an attribute flag, the option of a function execution and the option of a task unblocking to provide a flexible means of activating the release mechanism.
+- The output generated includes the value setting of an attribute flag, the option of a function execution and the option of a task unblocking to provide a flexible means of activating the release mechanism, and any other service asociated with the release event.
 
 - Inputs/Outputs requirements
    - The **hands switches** must comply with the following required characteristics:  
